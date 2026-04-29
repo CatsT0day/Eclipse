@@ -15,7 +15,6 @@ import me.catst0day.Eclipse.Utils.ResourceDownloader;
 import me.catst0day.Eclipse.Utils.Util;
 import me.catst0day.Eclipse.Utils.VersionChecker;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Entity.Listeners.OnEntityHitEventListener;
 import me.catst0day.Eclipse.Entity.Player.GuiListener;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
@@ -70,7 +69,7 @@ public class Eclipse extends JavaPlugin {
         this.homeManager = new EclipseHomeManager(this);
         this.warpManager = new EclipseWarpManager(this);
 
-        registerAllCommandsFromPackage("me.catst0day.capi.Commands.list");
+        registerAllCommandsFromPackage("me.catst0day.Eclipse.Commands.list");
         setupMainCommand();
         registerEvents();
         getVersionCheckManager().checkForUpdates();
@@ -94,7 +93,6 @@ public class Eclipse extends JavaPlugin {
         if (getConfig().getBoolean("DisableAchievements")) {
             pm.registerEvents((Listener) new CAPIHideAchievements(), this);
         }
-        pm.registerEvents(new OnEntityHitEventListener(this), this);
         pm.registerEvents(new GuiListener(), this);
         pm.registerEvents(new CAPIOnEntityDamageEvent(this), this);
         pm.registerEvents(new CAPIOnItemPickupEvent(this), this);
@@ -170,7 +168,7 @@ public class Eclipse extends JavaPlugin {
                 }
             }
             long endTime = System.currentTimeMillis() - startTime;
-            Util.loadWithMessage(count, "commands", endTime);
+            Util.loadWithMessage(count, "commands ", endTime);
 
         } catch (Exception e) {
             log("&cCritical error scanning package: " + e.getMessage());
@@ -217,10 +215,10 @@ public class Eclipse extends JavaPlugin {
 
         main.setExecutor((sender, command, label, args) -> {
             if (args.length == 0) {
-                sender.sendMessage("=== CAPI Commands ===");
+                sender.sendMessage("=== Commands ===");
                 CommandTemplate.getRegisteredCommands().forEach((name, exec) -> {
                     if (exec instanceof CommandTemplate cmd)
-                        sender.sendMessage("/capi " + name + " - " + cmd.getDescription());
+                        sender.sendMessage("/eclipse " + name + " - " + cmd.getDescription());
                 });
                 return true;
             }
@@ -258,7 +256,7 @@ public class Eclipse extends JavaPlugin {
 
         int delaySeconds = player.getEffectivePermissions().stream()
                 .map(PermissionAttachmentInfo::getPermission)
-                .filter(p -> p.startsWith("catapi.teleport.delay."))
+                .filter(p -> p.startsWith("eclipse.teleport.delay."))
                 .map(p -> p.substring(22))
                 .filter(s -> s.matches("\\d+"))
                 .mapToInt(Integer::parseInt)

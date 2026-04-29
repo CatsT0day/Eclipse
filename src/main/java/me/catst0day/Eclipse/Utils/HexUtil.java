@@ -139,19 +139,20 @@ public class HexUtil {
         if (text == null || text.isEmpty()) return text;
 
         Matcher quirkyMatcher = cleanQuirkyHexColorRegexPattern.matcher(text);
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb1 = new StringBuilder();
         while (quirkyMatcher.find()) {
-            quirkyMatcher.appendReplacement(sb, toBukkit(expandHex(quirkyMatcher.group(1))));
+            quirkyMatcher.appendReplacement(sb1, toBukkit(expandHex(quirkyMatcher.group(1))));
         }
-        quirkyMatcher.appendTail(sb);
-        text = sb.toString();
+        quirkyMatcher.appendTail(sb1);
+        text = sb1.toString();
 
         Matcher officialMatcher = cleanOfficialColorRegexPattern.matcher(text);
-        sb = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
         while (officialMatcher.find()) {
-            officialMatcher.appendReplacement(sb, toBukkit(expandHex(officialMatcher.group(1))));
+            officialMatcher.appendReplacement(sb2, toBukkit(expandHex(officialMatcher.group(1))));
         }
-        officialMatcher.appendTail(sb);
+        officialMatcher.appendTail(sb2);
+        text = sb2.toString();
 
         char[] chars = text.toCharArray();
         for (int i = 0; i < chars.length - 1; i++) {

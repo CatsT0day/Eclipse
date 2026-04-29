@@ -6,7 +6,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Util {
-    private static final String PREFIX = HexUtil.YELLOW + "[CAPI] ";
+    private static final String PREFIX = HexUtil.YELLOW + "[EclipseAPI] ";
     private static final String PURPLE = "#3B1757";
 
     public static void printStartupBanner(JavaPlugin plugin) {
@@ -17,13 +17,13 @@ public class Util {
                 "",
               "░██████████            ░██ ░██",
               "░██                    ░██",
-              "░██          ░███████  ░██ ░██░████████   ░███████   ░███████",
+              "░██          ░███████  ░██ ░██░████████   ░███████   ░███████ ",
               "░█████████  ░██    ░██ ░██ ░██░██    ░██ ░██        ░██    ░██",
               "░██         ░██        ░██ ░██░██    ░██  ░███████  ░█████████",
-               "██         ░██    ░██ ░██ ░██░███   ░██        ░██ ░██",
-              "░██████████  ░███████  ░██ ░██░██░█████   ░███████   ░███████",
-                                            "░██",
-                                            "░██",
+              " ██         ░██    ░██ ░██ ░██░███   ░██        ░██ ░██       ",
+              "░██████████  ░███████  ░██ ░██░██░█████   ░███████   ░███████ ",
+              "                              ░██                             ",
+              "                              ░██                             ",
         "",
                 "&b╔══════════════════════════════════════╗",
                 "&b║                                      ║",
@@ -32,7 +32,7 @@ public class Util {
                 "&b╚══════════════════════════════════════╝",
                 "",
                 "&bVersion: &f" + version,
-                "&bAuthor: &fCatsT0day (aka WhiteCat)",
+                "&bAuthor: &fCatsT0day (aka DreamersTygydykk)",
                 ""
         };
 
@@ -48,12 +48,12 @@ public class Util {
         if (monochrome) {
             console.sendMessage(PREFIX + HexUtil.stripColor(HexUtil.translateHexAndAlternateColorCodes(text)));
         } else {
-            console.sendMessage(PREFIX + HexUtil.translateHexAndAlternateColorCodes(PURPLE + text));
+            console.sendMessage(PREFIX + HexUtil.translateHexAndAlternateColorCodes("#3B1757" + text));
         }
     }
 
     public static void loadWithMessage(Object count, String msg, long time) {
-        log("Loaded (&f" + count + "&" + PURPLE + ") &7" + msg + " " + PURPLE + "into cache. &6Took &e" + time + "&6ms");
+        log("Loaded (&f" + count + "#3B1757" + ") &7" + msg + "#3B1757into cache. &6Took &e" + time + "&6ms");
     }
 
     public static String color(String message) {
