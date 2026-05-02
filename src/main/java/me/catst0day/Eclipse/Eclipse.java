@@ -4,13 +4,12 @@ import me.catst0day.Eclipse.Bossbar.EclipseBarColor;
 import me.catst0day.Eclipse.Bossbar.EclipseBarStyle;
 import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
 import me.catst0day.Eclipse.EventListeners.*;
-import me.catst0day.Eclipse.Managers.EclipseHologramManager;
 import me.catst0day.Eclipse.Managers.EclipseAliasManager;
 import me.catst0day.Eclipse.Managers.EclipseHomeManager;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
 import me.catst0day.Eclipse.Managers.EclipseWarpManager;
-import me.catst0day.Eclipse.Utils.TextUtil;
 import me.catst0day.Eclipse.Utils.ResourceDownloader;
+import me.catst0day.Eclipse.Utils.TextUtil;
 import me.catst0day.Eclipse.Utils.Util;
 import me.catst0day.Eclipse.Utils.VersionChecker;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
@@ -56,7 +55,6 @@ public class Eclipse extends JavaPlugin {
     private EclipsePermissionManager permManager;
     private EclipseAliasManager aliasManager;
     private VersionChecker versionCheckManager;
-    private EclipseHologramManager hologramManager;
     private EclipseSQLiteManager SQLiteManager;
     private ResourceDownloader fileDownloader;
 
@@ -125,14 +123,14 @@ public class Eclipse extends JavaPlugin {
             getLogger().warning("Missing translation key: " + key);
             return "Msg '" + key + "' missing";
         }
-        return TextUtil.translateHexAndAlternateColorCodes(raw);
+        return me.catst0day.Eclipse.Utils.TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
     public String getGameModeMessage(String key) {
         if (langConfig == null) return "§cLang not loaded";
         String raw = langConfig.getString("messages.gamemodes." + key);
         if (raw == null) return getMessage(key);
-        return TextUtil.translateHexAndAlternateColorCodes(raw);
+        return me.catst0day.Eclipse.Utils.TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
     public String sendCFGmessage(CommandSender sender, String key) {
@@ -309,7 +307,6 @@ public class Eclipse extends JavaPlugin {
     public EclipseWarpManager getWarpManager() { return warpManager == null ? (warpManager = new EclipseWarpManager(this)) : warpManager; }
     public EclipseAliasManager getAliasManager() { return aliasManager == null ? (aliasManager = new EclipseAliasManager(this)) : aliasManager; }
     public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "CAPI")) : versionCheckManager; }
-    public EclipseHologramManager getHologramManager() {return hologramManager == null ? (hologramManager = new EclipseHologramManager(this)) : hologramManager;}
 
     public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
