@@ -19,7 +19,7 @@ public class EclipseSQLiteManager implements EclipseSQL {
         initTable();
     }
 
-    private Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
     }
 
