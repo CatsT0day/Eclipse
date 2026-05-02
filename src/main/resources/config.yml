@@ -1,4 +1,4 @@
-# Content application programming interface (CAPI)
+# Eclipse
 lang: EN
 monochromeMode: false
 
@@ -9,3 +9,16 @@ spawn:
   z: 0
   yaw: 0
   pitch: 0
+
+  join:
+    title: "&6&k|||&r &6Server &k|||"
+    subtitle: "&fHave a nice game!"
+    fadeIn: 25
+    stay: 50
+    fadeOut: 25
+  respawn:
+    title: "You died!"
+    subtitle: "&aRevived!"
+    fadeIn: 25
+    stay: 25
+    fadeOut: 25

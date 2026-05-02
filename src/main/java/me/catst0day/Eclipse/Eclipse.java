@@ -1,16 +1,15 @@
 package me.catst0day.Eclipse;
 
-import me.catst0day.Eclipse.Bossbar.CAPIBarColor;
-import me.catst0day.Eclipse.Bossbar.CAPIBarStyle;
-import me.catst0day.Eclipse.Bossbar.CAPIBossBar;
-import me.catst0day.Eclipse.EventListeners.CAPIHideAchievements;
-import me.catst0day.Eclipse.EventListeners.CAPIOnEntityDamageEvent;
-import me.catst0day.Eclipse.EventListeners.CAPIOnItemPickupEvent;
+import me.catst0day.Eclipse.Bossbar.EclipseBarColor;
+import me.catst0day.Eclipse.Bossbar.EclipseBarStyle;
+import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
+import me.catst0day.Eclipse.EventListeners.*;
+import me.catst0day.Eclipse.Managers.EclipseHologramManager;
 import me.catst0day.Eclipse.Managers.EclipseAliasManager;
 import me.catst0day.Eclipse.Managers.EclipseHomeManager;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
 import me.catst0day.Eclipse.Managers.EclipseWarpManager;
-import me.catst0day.Eclipse.Utils.HexUtil;
+import me.catst0day.Eclipse.Utils.TextUtil;
 import me.catst0day.Eclipse.Utils.ResourceDownloader;
 import me.catst0day.Eclipse.Utils.Util;
 import me.catst0day.Eclipse.Utils.VersionChecker;
@@ -18,6 +17,7 @@ import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Entity.Player.GuiListener;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Managers.Database.EclipseSQLiteManager;
 import org.bukkit.Location;
 import org.bukkit.*;
 import org.bukkit.boss.BossBar;
@@ -56,7 +56,10 @@ public class Eclipse extends JavaPlugin {
     private EclipsePermissionManager permManager;
     private EclipseAliasManager aliasManager;
     private VersionChecker versionCheckManager;
+    private EclipseHologramManager hologramManager;
+    private EclipseSQLiteManager SQLiteManager;
     private ResourceDownloader fileDownloader;
+
 
     @Override
     public void onEnable() {
@@ -91,11 +94,14 @@ public class Eclipse extends JavaPlugin {
     private void registerEvents() {
         PluginManager pm = getServer().getPluginManager();
         if (getConfig().getBoolean("DisableAchievements")) {
-            pm.registerEvents((Listener) new CAPIHideAchievements(), this);
+            pm.registerEvents((Listener) new EclipseHideAchievements(), this);
         }
+        pm.registerEvents(new EclipseOnPlayerJoinEvent(), this);
+        pm.registerEvents(new EclipseOnEntityDamageByEntityEvent(), this);
+        pm.registerEvents(new EclipseOnPlayerRespawnEvent(), this);
         pm.registerEvents(new GuiListener(), this);
-        pm.registerEvents(new CAPIOnEntityDamageEvent(this), this);
-        pm.registerEvents(new CAPIOnItemPickupEvent(this), this);
+        pm.registerEvents(new EclipseOnEntityDamageEvent(this), this);
+        pm.registerEvents(new EclipseOnItemPickupEvent(this), this);
     }
 
     // --- Msg System ---
@@ -119,14 +125,14 @@ public class Eclipse extends JavaPlugin {
             getLogger().warning("Missing translation key: " + key);
             return "Msg '" + key + "' missing";
         }
-        return HexUtil.translateHexAndAlternateColorCodes(raw);
+        return TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
     public String getGameModeMessage(String key) {
         if (langConfig == null) return "§cLang not loaded";
         String raw = langConfig.getString("messages.gamemodes." + key);
         if (raw == null) return getMessage(key);
-        return HexUtil.translateHexAndAlternateColorCodes(raw);
+        return TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
     public String sendCFGmessage(CommandSender sender, String key) {
@@ -210,7 +216,7 @@ public class Eclipse extends JavaPlugin {
     }
 
     private void setupMainCommand() {
-        PluginCommand main = getCommand("capi");
+        PluginCommand main = getCommand("eclipse");
         if (main == null) return;
 
         main.setExecutor((sender, command, label, args) -> {
@@ -269,9 +275,9 @@ public class Eclipse extends JavaPlugin {
             return;
         }
 
-        CAPIBossBar barInfo = new CAPIBossBar(this, player, "teleport_delay");
-        barInfo.setColor(CAPIBarColor.BLUE);
-        barInfo.setStyle(CAPIBarStyle.SOLID);
+        EclipseBossBar barInfo = new EclipseBossBar(this, player, "teleport_delay");
+        barInfo.setColor(EclipseBarColor.BLUE);
+        barInfo.setStyle(EclipseBarStyle.SOLID);
         barInfo.setSeconds(delaySeconds);
         bossBars.put(player.getUniqueId(), barInfo.getBar());
 
@@ -303,7 +309,9 @@ public class Eclipse extends JavaPlugin {
     public EclipseWarpManager getWarpManager() { return warpManager == null ? (warpManager = new EclipseWarpManager(this)) : warpManager; }
     public EclipseAliasManager getAliasManager() { return aliasManager == null ? (aliasManager = new EclipseAliasManager(this)) : aliasManager; }
     public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "CAPI")) : versionCheckManager; }
+    public EclipseHologramManager getHologramManager() {return hologramManager == null ? (hologramManager = new EclipseHologramManager(this)) : hologramManager;}
 
+    public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
     public boolean isFlyMode(UUID uuid) { return flyMode.getOrDefault(uuid, false); }
     public void setFlyMode(UUID uuid, boolean enabled) { flyMode.put(uuid, enabled); }

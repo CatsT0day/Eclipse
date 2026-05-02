@@ -1,7 +1,7 @@
 package me.catst0day.Eclipse.Commands.commandAPI;
 
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.EventListeners.CAPIOnCommandEvent;
+import me.catst0day.Eclipse.EventListeners.EclipseOnCommandEvent;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -56,7 +56,7 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
     private boolean onCommand(CommandSender sender, String[] args) {
         if (sender == null) return false;
 
-        CAPIOnCommandEvent event = new CAPIOnCommandEvent(sender, this.name, args);
+        EclipseOnCommandEvent event = new EclipseOnCommandEvent(sender, this.name, args);
         plugin.getServer().getPluginManager().callEvent(event);
 
         if (event.isCancelled()) {

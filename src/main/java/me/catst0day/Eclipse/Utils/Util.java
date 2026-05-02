@@ -6,7 +6,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Util {
-    private static final String PREFIX = HexUtil.YELLOW + "[EclipseAPI] ";
+    private static final String PREFIX = TextUtil.YELLOW + "[EclipseAPI] ";
     private static final String PURPLE = "#3B1757";
 
     public static void printStartupBanner(JavaPlugin plugin) {
@@ -37,7 +37,7 @@ public class Util {
         };
 
         for (String line : banner) {
-            console.sendMessage(PREFIX + HexUtil.translateHexAndAlternateColorCodes(line));
+            console.sendMessage(PREFIX + TextUtil.translateHexAndAlternateColorCodes(line));
         }
     }
 
@@ -46,9 +46,9 @@ public class Util {
         boolean monochrome = Eclipse.getI().getConfig().getBoolean("monochromeMode", false);
 
         if (monochrome) {
-            console.sendMessage(PREFIX + HexUtil.stripColor(HexUtil.translateHexAndAlternateColorCodes(text)));
+            console.sendMessage(PREFIX + TextUtil.stripColor(TextUtil.translateHexAndAlternateColorCodes(text)));
         } else {
-            console.sendMessage(PREFIX + HexUtil.translateHexAndAlternateColorCodes("#3B1757" + text));
+            console.sendMessage(PREFIX + TextUtil.translateHexAndAlternateColorCodes("#3B1757" + text));
         }
     }
 
@@ -57,6 +57,6 @@ public class Util {
     }
 
     public static String color(String message) {
-        return HexUtil.translateHexAndAlternateColorCodes(message);
+        return TextUtil.translateHexAndAlternateColorCodes(message);
     }
 }

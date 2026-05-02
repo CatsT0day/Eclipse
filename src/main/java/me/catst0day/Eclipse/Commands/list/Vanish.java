@@ -1,11 +1,11 @@
 package me.catst0day.Eclipse.Commands.list;
 
-import me.catst0day.Eclipse.Bossbar.CAPIBarStyle;
+import me.catst0day.Eclipse.Bossbar.EclipseBarStyle;
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.Bossbar.CAPIBossBar;
+import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
-import me.catst0day.Eclipse.Bossbar.CAPIBarColor;
+import me.catst0day.Eclipse.Bossbar.EclipseBarColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,7 @@ import java.util.*;
 public class Vanish extends CommandTemplate {
 
     private final HashSet<UUID> vanishedPlayers = new HashSet<>();
-    private final HashMap<UUID, CAPIBossBar> bossBars = new HashMap<>();
+    private final HashMap<UUID, EclipseBossBar> bossBars = new HashMap<>();
 
     public Vanish(Eclipse plugin) {
         super(plugin, "vanish", List.of("v"), CAPIPermissions.VANISH, false, 0, "Toggle invisibility");
@@ -67,10 +67,10 @@ public class Vanish extends CommandTemplate {
         if (vanishedPlayers.add(player.getUniqueId())) {
             Bukkit.getOnlinePlayers().forEach(p -> p.hidePlayer(plugin, player));
 
-            CAPIBossBar bar = new CAPIBossBar(plugin, player, "vanish_" + player.getUniqueId());
+            EclipseBossBar bar = new EclipseBossBar(plugin, player, "vanish_" + player.getUniqueId());
             bar.setTitleOfBar("&cVanish Active");
-            bar.setColor(CAPIBarColor.WHITE);
-            bar.setStyle(CAPIBarStyle.SEGMENTED_20);
+            bar.setColor(EclipseBarColor.WHITE);
+            bar.setStyle(EclipseBarStyle.SEGMENTED_20);
             bar.setMakeVisible(true);
             bossBars.put(player.getUniqueId(), bar);
 

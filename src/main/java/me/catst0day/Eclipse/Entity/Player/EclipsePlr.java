@@ -1,7 +1,7 @@
 package me.catst0day.Eclipse.Entity.Player;
 
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.Utils.HexUtil;
+import me.catst0day.Eclipse.Utils.TextUtil;
 import me.catst0day.Eclipse.Entity.EclipseEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,9 +10,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.GameMode;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static me.catst0day.Eclipse.Schedulers.EclipseScheduler.runTask;
 
 public class EclipsePlr {
     private final UUID uuid;
@@ -103,7 +106,7 @@ public class EclipsePlr {
         Player p = getPlayer();
         if (p == null) return message;
 
-        p.sendMessage(HexUtil.translateHexAndAlternateColorCodes(message));
+        p.sendMessage(TextUtil.translateHexAndAlternateColorCodes(message));
         return message;
     }
 
@@ -133,6 +136,25 @@ public class EclipsePlr {
             return null;
         });
     }
+
+
+    public void sendTitleAsynchronously(Eclipse plugin, org.bukkit.entity.Player player, @Nullable String title, @Nullable String subtitle) {
+        this.sendTitleAsynchronously(plugin, title, subtitle, 10, 70, 20);
+    }
+
+
+    public void sendTitleAsynchronously(Eclipse plugin, @Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut) {
+        runTask(plugin, () -> {
+            if (this != null && this.isOnline()) {
+                this.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+            }
+        });
+    }
+
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+    }
+
     public boolean teleport(@NotNull Location loc, PlayerTeleportEvent.TeleportCause cause) {
         player.teleport(loc, cause);
         return false;
