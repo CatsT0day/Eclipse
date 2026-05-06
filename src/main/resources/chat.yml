@@ -1,0 +1,87 @@
+# Chat Configuration
+# Chat system with word filtering by languages
+
+# Enable chat system
+enabled: true
+
+# Default chat mode (GLOBAL, LOCAL)
+defaultChatMode: GLOBAL
+
+# Local chat radius in blocks
+localChatRadius: 100
+
+# Chat message formats
+chatFormats:
+  global: "&8[&aGlobal&8] &f%player%&7: &f%message%"
+  local: "&8[&bLocal&8] &f%player%&7: &f%message%"
+  staff: "&8[&cStaff&8] &f%player%&7: &f%message%"
+
+# Word filtering by languages
+languageFilters:
+  # Russian language - block Russian words
+  RU:
+    enabled: true
+    blockedWords:
+      - "идиот"
+      - "тупой"
+      - "глупый"
+    replacement: "***"
+    caseSensitive: false
+
+  # English language - block English words
+  EN:
+    enabled: true
+    blockedWords:
+      - "stupid"
+      - "idiot"
+      - "dumb"
+      - "idiot"
+    replacement: "***"
+    caseSensitive: false
+
+  # Spanish language
+  ES:
+    enabled: true
+    blockedWords:
+      - "hola"
+      - "adios"
+      - "gracias"
+      - "por favor"
+      - "si"
+      - "no"
+      - "bueno"
+      - "malo"
+      - "amor"
+      - "odio"
+      - "mamá"
+      - "papá"
+      - "estúpido"
+      - "tonto"
+    replacement: "***"
+    caseSensitive: false
+
+
+moderation:
+  autoMute: false
+  muteDuration: 300 # in seconds (5 minutes)
+  
+  # Warn for using blocked words
+  warnPlayer: true
+  warnMessage: "&cВаше сообщение содержит запрещенные слова!"
+  
+  # Log blocked messages
+  logBlockedMessages: true
+
+# Chat settings for different groups
+groupChat:
+  enabled: false
+  groups:
+    vip:
+      format: "&8[&6VIP&8] &f%player%&7: &f%message%"
+      prefix: "&6[VIP] "
+    admin:
+      format: "&8[&cAdmin&8] &f%player%&7: &f%message%"
+      prefix: "&c[Admin] "
+    mod:
+      format: "&8[&9Mod&8] &f%player%&7: &f%message%"
+      prefix: "&9[Mod] "

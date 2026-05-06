@@ -24,11 +24,17 @@ public class EclipseSQLiteManager implements EclipseSQL {
     }
 
     private void initTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS locations (" +
+        String locationsSql = "CREATE TABLE IF NOT EXISTS locations (" +
                 "name TEXT PRIMARY KEY, " +
                 "world TEXT, x REAL, y REAL, z REAL, yaw REAL, pitch REAL);";
+        
+        String economySql = "CREATE TABLE IF NOT EXISTS economy (" +
+                "player_id TEXT PRIMARY KEY, " +
+                "balance REAL DEFAULT 0.0);";
+        
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(locationsSql);
+            stmt.execute(economySql);
         } catch (SQLException e) {
             throw new EclipseSQLException("Table init catched and exception exception", e);
         }
@@ -96,5 +102,34 @@ public class EclipseSQLiteManager implements EclipseSQL {
             throw new EclipseSQLException("Location getting catched and exception", e);
         }
         return names;
+    }
+
+    public double loadDouble(String key, String field) {
+        String sql = "SELECT " + field + " FROM economy WHERE player_id = ?";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, key);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(field);
+                }
+            }
+        } catch (SQLException e) {
+            throw new EclipseSQLException("Economy load catched and exception: " + key, e);
+        }
+        return -1;
+    }
+
+    public void saveDouble(String key, String field, double value) {
+        String sql = "REPLACE INTO economy(player_id, " + field + ") VALUES(?,?)";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, key);
+            pstmt.setDouble(2, value);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new EclipseSQLException("Economy save catched and exception: " + key, e);
+        }
+    }
+
+    public void close() {
     }
 }

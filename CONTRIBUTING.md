@@ -1,15 +1,15 @@
-# Contributing to CAPI
+# Contributing to Eclipse
 
-Thank you for your interest in contributing to the CAPI project! I welcome contributions of all kinds — from fixing random bugs to implementing new features. Please read these guidelines carefully before submitting your work.
+Thank you for your interest in contributing to the project! I welcome contributions of all kinds — from fixing random bugs to implementing new features. Please read these guidelines carefully before submitting your work.
 
 
 ## Getting Started
 
-1. **Fork the repository**: Click the **Fork** button in the top‑right corner of the [CAPI repository page](https://github.com/CatsT0day/CAPI) to create your own copy.
+1. **Fork the repository**: Click the **Fork** button in the top‑right corner of the [Eclipse repository page](https://github.com/CatsT0day/CAPI) to create your own copy.
 2. **Clone your fork** to your local machine:
 ```bash
-   git clone https://github.com/CatsT0day/CAPI
-   cd CAPI
+   git clone https://github.com/CatsT0day/Eclipse
+   cd Eclipse
 ```
 3. **Set up the upstream remote to keep your fork in sync with the original repository:**
 ```bash
@@ -26,16 +26,16 @@ git checkout -b feature/add-new-command
 ## or
 ```bash
 git checkout -b bugfix/fix-null-pointer
-Keep branches focused: one branch = one task.
 ```
+## Keep branches focused: one branch = one task.
 Before starting new work, update your main branch:
 
-bash
+```bash
 git fetch upstream
 git merge upstream/main
-
+```
 ## Code Style & Guidelines
- **Please, Follow the existing code style of the project.
+ **Please, Follow the existing code style of the project. (wanna add command? For any bukkit feeatures, create Eclipse ones, so it will be a lot easier to update them)
   Before contributing look at the code, when you understand it you can contribute, if you won't follow I will not accept your request**
  
 

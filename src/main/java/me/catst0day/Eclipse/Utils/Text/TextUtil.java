@@ -1,4 +1,4 @@
-package me.catst0day.Eclipse.Utils;
+package me.catst0day.Eclipse.Utils.Text;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;

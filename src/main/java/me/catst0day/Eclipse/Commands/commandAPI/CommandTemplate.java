@@ -60,8 +60,7 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
         plugin.getServer().getPluginManager().callEvent(event);
 
         if (event.isCancelled()) {
-            Boolean result = event.getCommandResult();
-            return result != null && result;
+            return event.getCommandResult();
         }
 
         if (!hasPermission(sender, args)) {
@@ -94,8 +93,13 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
     }
 
     private boolean isOnCooldown(Player player) {
-        long lastUse = cooldowns.getOrDefault(player.getUniqueId(), 0L);
-        long timeLeft = (lastUse + (cooldownSeconds * 1000)) - System.currentTimeMillis();
+        UUID playerId = player.getUniqueId();
+        long currentTime = System.currentTimeMillis();
+        Long lastUse = cooldowns.get(playerId);
+        
+        if (lastUse == null) return false;
+        
+        long timeLeft = (lastUse + (cooldownSeconds * 1000)) - currentTime;
 
         if (timeLeft > 0) {
             long secondsLeft = (timeLeft / 1000) + 1;
@@ -103,6 +107,8 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
             if (msg != null) player.sendMessage(msg.replace("%seconds%", String.valueOf(secondsLeft)));
             return true;
         }
+        
+        cooldowns.remove(playerId);
         return false;
     }
 
@@ -121,9 +127,14 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
         if (requirePlayer && player == null) return Collections.emptyList();
 
         if (args.length == 1 && !tabCompleteArguments.isEmpty()) {
-            return tabCompleteArguments.stream()
-                    .filter(arg -> arg.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .collect(Collectors.toList());
+            String input = args[0].toLowerCase();
+            List<String> results = new ArrayList<>();
+            for (String arg : tabCompleteArguments) {
+                if (arg.toLowerCase().startsWith(input)) {
+                    results.add(arg);
+                }
+            }
+            return results;
         }
 
         return tabCompl(player, args);

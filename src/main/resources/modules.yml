@@ -1,0 +1,28 @@
+# Module Status Configuration
+# Enable/disable individual modules
+
+# Module System
+enabled: true
+
+# Individual Modules
+modules:
+  chat:
+    enabled: true
+  economy:
+    enabled: true
+  teleportation:
+    enabled: true
+  playerManagement:
+    enabled: true
+  customTNT:
+    enabled: false
+  protectionStones:
+    enabled: false
+  afk:
+    enabled: true
+  weatherTime:
+    enabled: true
+  itemSystem:
+    enabled: true
+  adminCommands:
+    enabled: true

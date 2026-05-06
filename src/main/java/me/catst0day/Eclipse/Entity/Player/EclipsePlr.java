@@ -1,7 +1,8 @@
 package me.catst0day.Eclipse.Entity.Player;
 
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.Utils.TextUtil;
+import me.catst0day.Eclipse.Utils.Text.RawJsonMessage;
+import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import me.catst0day.Eclipse.Entity.EclipseEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,7 +61,6 @@ public class EclipsePlr {
         this.flying = p.isFlying();
     }
 
-
     public boolean isOnline() {
         return refreshOnlineStatus() != null;
     }
@@ -83,7 +83,6 @@ public class EclipsePlr {
         return refreshOnlineStatus();
     }
 
-
     public EclipseEntity getEntity() {
         if (entity == null) {
             Player p = getPlayer();
@@ -91,7 +90,6 @@ public class EclipsePlr {
         }
         return entity;
     }
-
 
     public String getName() {
         if (name == null) {
@@ -110,6 +108,29 @@ public class EclipsePlr {
         return message;
     }
 
+    public RawJsonMessage getRawMessage(String key) {
+        return new RawJsonMessage().addText(Eclipse.getI().getMessage(key));
+    }
+
+    public void sendRawMessage(String key) {
+        Player p = getPlayer();
+        if (p != null) {
+            getRawMessage(key).show(p);
+        }
+    }
+
+    public void sendRawMessage(String key, String... placeholders) {
+        Player p = getPlayer();
+        if (p == null) return;
+
+        String msg = Eclipse.getI().getMessage(key);
+        for (int i = 0; i < placeholders.length; i += 2) {
+            if (i + 1 < placeholders.length) {
+                msg = msg.replace(placeholders[i], placeholders[i + 1]);
+            }
+        }
+        new RawJsonMessage().addText(msg).show(p);
+    }
 
     public Location getLocation() {
         Player p = getPlayer();
@@ -119,50 +140,55 @@ public class EclipsePlr {
     public boolean setHome(String name, Location loc) {
         return Eclipse.getI().getHomeManager().setHome(uuid, name, loc);
     }
+
     public void teleportAsynchronously(@NotNull Location loc) {
         teleportAsynchronously(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
     }
+
     public void teleportAsynchronously(@NotNull Entity entity) {
         this.teleportAsynchronously(entity.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
     }
+
     public void teleportAsynchronously(@NotNull Entity entity, PlayerTeleportEvent.TeleportCause cause) {
         this.teleportAsynchronously(entity.getLocation(), cause);
     }
 
     public void teleportAsynchronously(@NotNull Location loc, @NotNull PlayerTeleportEvent.TeleportCause cause) {
-        java.util.concurrent.CompletableFuture<Boolean> future = new java.util.concurrent.CompletableFuture<>();
-        loc.getWorld().getChunkAtAsyncUrgently(loc).thenAccept((chunk) -> future.complete(teleport(loc, cause))).exceptionally(ex -> {
-            future.completeExceptionally(ex);
-            return null;
+        loc.getWorld().getChunkAtAsyncUrgently(loc).thenAccept((chunk) -> {
+            Player p = getPlayer();
+            if (p != null) teleport(loc, cause);
         });
     }
 
-
-    public void sendTitleAsynchronously(Eclipse plugin, org.bukkit.entity.Player player, @Nullable String title, @Nullable String subtitle) {
+    public void sendTitleAsynchronously(Eclipse plugin, @Nullable String title, @Nullable String subtitle) {
         this.sendTitleAsynchronously(plugin, title, subtitle, 10, 70, 20);
     }
 
-
     public void sendTitleAsynchronously(Eclipse plugin, @Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut) {
         runTask(plugin, () -> {
-            if (this != null && this.isOnline()) {
+            if (this.isOnline()) {
                 this.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
             }
         });
     }
 
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        Player p = getPlayer();
+        if (p != null) p.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
     }
 
     public boolean teleport(@NotNull Location loc, PlayerTeleportEvent.TeleportCause cause) {
-        player.teleport(loc, cause);
+        Player p = getPlayer();
+        if (p != null) {
+            p.teleport(loc, cause);
+            return true;
+        }
         return false;
     }
 
     public void setGameMode(GameMode mode) {
-        this.player = getPlayer();
-        if (player != null) player.setGameMode(mode);
+        Player p = getPlayer();
+        if (p != null) p.setGameMode(mode);
     }
 
     public void setHealth(double health) {
@@ -176,7 +202,6 @@ public class EclipsePlr {
         Player p = getPlayer();
         if (p != null) p.setAllowFlight(allow);
     }
-
 
     public void addIgnore(UUID other) { ignores.add(other); }
     public void removeIgnore(UUID other) { ignores.remove(other); }

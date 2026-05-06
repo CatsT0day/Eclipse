@@ -6,17 +6,21 @@ import org.bukkit.Location;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EclipseHomeManager {
     private final File storageFolder;
+    private final ConcurrentHashMap<UUID, EclipseSQLiteManager> dbCache = new ConcurrentHashMap<>();
 
     public EclipseHomeManager(Eclipse plugin) {
         this.storageFolder = new File(plugin.getDataFolder(), "playerdata");
     }
 
     private EclipseSQLiteManager getPlayerDB(UUID uuid) {
-        String fileName = "Eclipse.player." + uuid.toString() + ".db";
-        return new EclipseSQLiteManager(storageFolder, fileName);
+        return dbCache.computeIfAbsent(uuid, key -> {
+            String fileName = "Eclipse.player." + key.toString() + ".db";
+            return new EclipseSQLiteManager(storageFolder, fileName);
+        });
     }
 
     public boolean setHome(UUID uuid, String name, Location loc) {

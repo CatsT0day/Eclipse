@@ -42,6 +42,25 @@ messages:
   speedSetWalk: '#ff6600✔ &fСкорость ходьбы игрока &e%player% &fустановлена на &6%s'
   speedSetFly: '#ff6600✔ &fСкорость полёта игрока &e%player% &fустановлена на &6%s'
 
+  # Экономика (/balance, /pay, /economy)
+  balanceSelf: '#ff6600Ⓘ &fВаш баланс: &e%.2f'
+  balanceOther: '#ff6600Ⓘ &fБаланс игрока &e%player%&f: &e%.2f'
+  insufficientFunds: '#ff6600✘ &fНедостаточно средств! Нужно: &e%.2f&f, у вас: &e%.2f'
+  paySent: '#ff6600✔ &fВы отправили &e%.2f&f игроку &e%player%&f. Ваш баланс: &e%.2f'
+  payReceived: '#ff6600✔ &fВы получили &e%.2f&f от игрока &e%player%&f. Ваш баланс: &e%.2f'
+  paySelf: '#ff6600✘ &fВы не можете отправить деньги себе!'
+  economyGiveSuccess: '#ff6600✔ &fВы добавили &e%.2f&f игроку &e%player%&f'
+  economyReceive: '#ff6600✔ &fВы получили &e%.2f&f. Ваш баланс: &e%.2f'
+  economyTakeSuccess: '#ff6600✔ &fВы забрали &e%.2f&f у игрока &e%player%&f'
+  economyTaken: '#ff6600✘ &fС вашего счета снято &e%.2f&f. Ваш баланс: &e%.2f'
+  economyTakeFail: '#ff6600✘ &fНе удалось снять &e%.2f&f у игрока &e%player%&f - недостаточно средств'
+  economySetSuccess: '#ff6600✔ &fВы установили баланс &e%.2f&f игроку &e%player%&f'
+  economySet: '#ff6600✔ &fВаш баланс установлен на: &e%.2f'
+  economyResetSuccess: '#ff6600✔ &fБаланс игрока &e%player%&f сброшен на &e%.2f'
+  economyReset: '#ff6600✔ &fВаш баланс сброшен на &e%.2f'
+  economyResetAll: '#ff6600✔ &fВсе балансы сброшены на стандартное значение'
+  invalidAmount: '#ff6600✘ &fНеверная сумма! Используйте положительное число.'
+
   # Личное время (/ptime)
   currentTime: '#ff6600Ⓘ &fВремя игрока &e%player%&f: &6%time%%frozen%'
   timeFrozen: '#ff6600✔ &fВремя для игрока &e%player%&f заморожено.'
@@ -95,6 +114,18 @@ messages:
   playerNotFound: '#ff6600✘ &fИгрок не найден.'
   invalidMode: '#ff6600✘ &fТакого режима &cне существует.'
   usage: '#ff6600✘ &fНеправильная команда, используйте: %s'
+  afkSuccessMsg: '#ff6600✔ &fВы перешли в AFK режим.'
+  afkSuccessSilentMsg: '#ff6600✔ &fВы перешли в AFK режим (тихо).'
+  fixSuccess: '#ff6600✔ &fПредметы в инвентаре исправлены!'
+  warpSuccess: '#ff6600✔ &fВы телепортированы на варп: &e%warpname%'
+  warpCreated: '#ff6600✔ &fВарп &e%warpname%&f создан!'
+  warpDeleted: '#ff6600✘ &fВарп &e%warpname%&f удалён!'
+  warpExists: '#ff6600✘ &fВарп &e%warpname%&f уже существует!'
+  tpaAccepted: '#ff6600✔ &fЗапрос на телепортацию принят!'
+  tpaSuccess: '#ff6600✔ &fТелепортация к игроку &e%player%&f!'
+  spawnSuccess: '#ff6600✔ &fВы телепортированы на спавн!'
+  reloadSuccess: '#ff6600✔ &fПлагин перезагружен!'
+  noPlayersNearby: '#ff6600Ⓘ &fПоблизости нет игроков.'
 
   # /warp
   warpTeleported: '#ff6600✔ &fВы телепортированы на варп: &e{warpname}'
@@ -105,12 +136,30 @@ messages:
   warpCreationFailed: '#ff6600✘ &fНе удалось создать варп. Попробуйте позже или обратитесь к администратору.'
   noWarpsAvailable: '#ff6600&fДоступные варпы: &eНет созданных варпов'
 
+  # Система чата (/chat, /global, /local)
+  chatCurrentMode: '#ff6600Ⓘ &fТекущий режим чата: &e%mode%'
+  chatModeChanged: '#ff6600✔ &fРежим чата изменён на: &e%mode%'
+  chatInvalidMode: '#ff6600✘ &fНеверный режим чата: &e%mode%'
+  chatMuted: '#ff6600✘ &fВы заглушены на &e%time%&f секунд!'
+  chatAutoMuted: '#ff6600✘ &fВы автоматически заглушены на &e%duration%&f секунд за использование запрещённых слов!'
+  banSuccess: '#ff6600✔ &fИгрок &e%player%&f забанен. Причина: &e%reason%'
+  banKickMessage: '#ff6600✘ &fВы были забанены. Причина: &e%reason%'
+
+  # Система модулей (/module)
+  moduleDisabled: '#ff6600✘ &fЭтот модуль отключён!'
+  moduleEnabled: '#ff6600✔ &fМодуль &e%module%&f включён'
+  moduleDisabledMsg: '#ff6600✘ &fМодуль &e%module%&f отключён'
+  moduleList: '#ff6600Ⓘ &fСписок модулей:'
+  moduleListItem: '  &e%module%&f: %status%'
+  moduleNotFound: '#ff6600✘ &fМодуль &e%module%&f не найден!'
+  moduleSystemDisabled: '#ff6600✘ &fСистема модулей отключена!'
+
   # /spawn
   spawnSet: '#ff6600✔ &fСпавн успешно &6установлен'
   spawnTeleportSuccess: '#ff6600✔ &fТелепортация на &6спавн...'
 
   # Перезагрузка конфигурации
-  configReloaded: '#ff6600✔ &fКонфигурация CatAPI перезагружена, спасибо что используешь мой плагин.'
+  configReloaded: '#ff6600✔ &fКонфигурация перезагружена, спасибо что используешь мой плагин.'
 
 
   # /near

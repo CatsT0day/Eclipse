@@ -1,6 +1,7 @@
 package me.catst0day.Eclipse.Utils;
 
 import me.catst0day.Eclipse.Eclipse;
+import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,7 +47,7 @@ public class Util {
         boolean monochrome = Eclipse.getI().getConfig().getBoolean("monochromeMode", false);
 
         if (monochrome) {
-            console.sendMessage(PREFIX + TextUtil.stripColor(TextUtil.translateHexAndAlternateColorCodes(text)));
+            console.sendMessage(TextUtil.deColorize(PREFIX) + TextUtil.stripColor(TextUtil.translateHexAndAlternateColorCodes(text)));
         } else {
             console.sendMessage(PREFIX + TextUtil.translateHexAndAlternateColorCodes("#3B1757" + text));
         }

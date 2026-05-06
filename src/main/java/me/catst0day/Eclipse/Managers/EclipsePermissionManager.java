@@ -204,7 +204,8 @@ public class EclipsePermissionManager {
         INVSEE("capi.seeinventory","see other player's invenory's"),
         ELYTRAFLY("capi.elytrafly", "fly with elytra"),
         EXP("capi.expierience", "edit exp"),
-        HOLOGRAMS("capi.holo","hologram api");
+        HOLOGRAMS("capi.holo","hologram api"),
+        TNTGIVE("eclipse.givetnt", "give custom tnts");
 
         private final String permission;
         private final String description;

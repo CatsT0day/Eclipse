@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.CatsT0day"
-version = "1.0.0.7"
+version = "1.0.0.8"
 
 java {
     toolchain {

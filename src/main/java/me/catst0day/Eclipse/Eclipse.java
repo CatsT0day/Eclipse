@@ -5,11 +5,14 @@ import me.catst0day.Eclipse.Bossbar.EclipseBarStyle;
 import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
 import me.catst0day.Eclipse.EventListeners.*;
 import me.catst0day.Eclipse.Managers.EclipseAliasManager;
+import me.catst0day.Eclipse.Managers.EclipseChatManager;
+import me.catst0day.Eclipse.Managers.EclipseEconomyManager;
 import me.catst0day.Eclipse.Managers.EclipseHomeManager;
+import me.catst0day.Eclipse.Managers.EclipseModuleManager;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
 import me.catst0day.Eclipse.Managers.EclipseWarpManager;
 import me.catst0day.Eclipse.Utils.ResourceDownloader;
-import me.catst0day.Eclipse.Utils.TextUtil;
+import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import me.catst0day.Eclipse.Utils.Util;
 import me.catst0day.Eclipse.Utils.VersionChecker;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
@@ -54,6 +57,9 @@ public class Eclipse extends JavaPlugin {
     private EclipseWarpManager warpManager;
     private EclipsePermissionManager permManager;
     private EclipseAliasManager aliasManager;
+    private EclipseEconomyManager economyManager;
+    private EclipseChatManager chatManager;
+    private EclipseModuleManager moduleManager;
     private VersionChecker versionCheckManager;
     private EclipseSQLiteManager SQLiteManager;
     private ResourceDownloader fileDownloader;
@@ -69,6 +75,9 @@ public class Eclipse extends JavaPlugin {
         loadTranslations();
         this.homeManager = new EclipseHomeManager(this);
         this.warpManager = new EclipseWarpManager(this);
+        this.economyManager = new EclipseEconomyManager(this);
+        this.chatManager = new EclipseChatManager(this);
+        this.moduleManager = new EclipseModuleManager(this);
 
         registerAllCommandsFromPackage("me.catst0day.Eclipse.Commands.list");
         setupMainCommand();
@@ -83,6 +92,9 @@ public class Eclipse extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
         bossBars.values().forEach(BossBar::removeAll);
         bossBars.clear();
+        if (economyManager != null) {
+            economyManager.shutdown();
+        }
     }
 
     public static Eclipse getI() {
@@ -100,6 +112,7 @@ public class Eclipse extends JavaPlugin {
         pm.registerEvents(new GuiListener(), this);
         pm.registerEvents(new EclipseOnEntityDamageEvent(this), this);
         pm.registerEvents(new EclipseOnItemPickupEvent(this), this);
+        pm.registerEvents(new EclipseChatListener(this), this);
     }
 
     // --- Msg System ---
@@ -123,14 +136,14 @@ public class Eclipse extends JavaPlugin {
             getLogger().warning("Missing translation key: " + key);
             return "Msg '" + key + "' missing";
         }
-        return me.catst0day.Eclipse.Utils.TextUtil.translateHexAndAlternateColorCodes(raw);
+        return TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
     public String getGameModeMessage(String key) {
         if (langConfig == null) return "§cLang not loaded";
         String raw = langConfig.getString("messages.gamemodes." + key);
         if (raw == null) return getMessage(key);
-        return me.catst0day.Eclipse.Utils.TextUtil.translateHexAndAlternateColorCodes(raw);
+        return TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
     public String sendCFGmessage(CommandSender sender, String key) {
@@ -161,7 +174,8 @@ public class Eclipse extends JavaPlugin {
                 try (JarFile jarFile = connection.getJarFile()) {
                     Enumeration<JarEntry> entries = jarFile.entries();
                     while (entries.hasMoreElements()) {
-                        String name = entries.nextElement().getName();
+                        JarEntry entry = entries.nextElement();
+                        String name = entry.getName();
                         if (name.startsWith(path) && name.endsWith(".class") && !name.contains("$")) {
                             String className = name.substring(0, name.length() - 6).replace('/', '.');
                             if (attemptRegister(className)) {
@@ -188,7 +202,6 @@ public class Eclipse extends JavaPlugin {
                 CommandTemplate cmd = (CommandTemplate) clazz.getConstructor(Eclipse.class).newInstance(this);
 
                 SimpleCommandMap commandMap = (SimpleCommandMap) getCommandMap();
-                if (commandMap == null) return false;
                 Command bukkitCmd = createBukkitCommand(cmd.getName(), cmd);
                 commandMap.register(getName(), bukkitCmd);
                 CommandTemplate.getRegisteredCommands().put(cmd.getName(), cmd);
@@ -258,14 +271,19 @@ public class Eclipse extends JavaPlugin {
             return;
         }
 
-        int delaySeconds = player.getEffectivePermissions().stream()
-                .map(PermissionAttachmentInfo::getPermission)
-                .filter(p -> p.startsWith("eclipse.teleport.delay."))
-                .map(p -> p.substring(22))
-                .filter(s -> s.matches("\\d+"))
-                .mapToInt(Integer::parseInt)
-                .findFirst()
-                .orElse(7);
+        int delaySeconds = 7;
+        for (PermissionAttachmentInfo perm : player.getEffectivePermissions()) {
+            String permission = perm.getPermission();
+            if (permission.startsWith("eclipse.teleport.delay.")) {
+                String delayStr = permission.substring(22);
+                if (delayStr.matches("\\d+")) {
+                    try {
+                        delaySeconds = Integer.parseInt(delayStr);
+                        break;
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        }
 
         if (delaySeconds <= 0) {
             player.teleport(target);
@@ -306,8 +324,11 @@ public class Eclipse extends JavaPlugin {
     public EclipsePermissionManager getPermissionManager() { return permManager == null ? (permManager = new EclipsePermissionManager(this)) : permManager; }
     public EclipseWarpManager getWarpManager() { return warpManager == null ? (warpManager = new EclipseWarpManager(this)) : warpManager; }
     public EclipseAliasManager getAliasManager() { return aliasManager == null ? (aliasManager = new EclipseAliasManager(this)) : aliasManager; }
-    public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "CAPI")) : versionCheckManager; }
-
+    public EclipseEconomyManager getEconomyManager() { return economyManager == null ? (economyManager = new EclipseEconomyManager(this)) : economyManager; }
+    public EclipseChatManager getChatManager() { return chatManager == null ? (chatManager = new EclipseChatManager(this)) : chatManager; }
+    public EclipseModuleManager getModuleManager() { return moduleManager == null ? (moduleManager = new EclipseModuleManager(this)) : moduleManager; }
+    public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "Eclipse")) : versionCheckManager; }
+    // create getters for all managers here...
     public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
     public boolean isFlyMode(UUID uuid) { return flyMode.getOrDefault(uuid, false); }
