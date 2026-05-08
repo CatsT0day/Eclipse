@@ -57,7 +57,8 @@ public class EclipseChatListener implements Listener {
         event.setMessage(filteredMessage);
         EclipseChatManager.ChatMode chatMode = chatManager.getPlayerChatMode(player.getUniqueId());
         String format = chatManager.getChatFormat(chatMode);
-        format = format.replace("%player%", player.getName())
+        String displayName = chatManager.getDisplayName(player.getUniqueId(), player.getName());
+        format = format.replace("%player%", displayName)
                        .replace("%message%", filteredMessage);
         event.setFormat(format);
         if (chatMode == EclipseChatManager.ChatMode.LOCAL) {

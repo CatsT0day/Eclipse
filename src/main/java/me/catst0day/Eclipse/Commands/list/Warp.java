@@ -3,6 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
+import me.catst0day.Eclipse.Utils.Text.RawJsonMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -39,7 +40,7 @@ public class Warp extends CommandTemplate {
 
         for (String arg : args) {
             if (arg.equalsIgnoreCase("-s")) {
-                if (sender.hasPermission("capi.command.silent")) {
+                if (sender.hasPermission("eclipse.command.silent")) {
                     silent = true;
                 }
             } else if (warpName == null && plugin.getWarpManager().warpExists(arg)) {
@@ -80,7 +81,7 @@ public class Warp extends CommandTemplate {
             return true;
         }
 
-        if (!target.hasPermission("capi.warp." + warpName.toLowerCase()) && !target.hasPermission("capi.warp.all")) {
+        if (!target.hasPermission("eclipse.warp." + warpName.toLowerCase()) && !target.hasPermission("eclipse.warp.all")) {
             sender.sendMessage(plugin.getMessage("noPermission"));
             return true;
         }
@@ -103,7 +104,26 @@ public class Warp extends CommandTemplate {
             sender.sendMessage(plugin.getMessage("warpNotFound").replace("{warpname}", "NONE"));
             return;
         }
-        sender.sendMessage(String.join(", ", warps));
+
+        RawJsonMessage msg = new RawJsonMessage();
+        msg.addText(plugin.getMessage("warpListHeader"));
+
+        for (int i = 0; i < warps.size(); i++) {
+            String warp = warps.get(i);
+            msg.addText("§a" + warp)
+               .addHover(plugin.getMessage("warpClickHover").replace("{warpname}", warp))
+               .addCommand("warp " + warp);
+            
+            if (i < warps.size() - 1) {
+                msg.addText("§7, ");
+            }
+        }
+
+        if (sender instanceof Player player) {
+            msg.show(player);
+        } else {
+            sender.sendMessage(String.join(", ", warps));
+        }
     }
 
     @Override

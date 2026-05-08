@@ -47,7 +47,7 @@ public class InvSee extends CommandTemplate implements Listener {
         if (topInv == null) return;
         if (topInv.getHolder() instanceof Player target && !target.getUniqueId().equals(player.getUniqueId())) {
             if (event.getRawSlot() < topInv.getSize()) {
-                if (!player.hasPermission("catapi.invsee.edit")) {
+                if (!player.hasPermission("eclipse.invsee.edit")) {
                     event.setCancelled(true);
                     player.sendMessage(plugin.getMessage("noEditPerm"));
                 }

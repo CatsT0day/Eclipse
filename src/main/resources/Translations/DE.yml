@@ -17,6 +17,8 @@ messages:
     - '&6 /warp &f- zu Warps teleportieren'
     - '&6 /home &f- Homes verwalten'
     - '#ff6600╚═════════════════════════════════'
+  helpMenuHeader: '§6=== §eHilfe-Menü §6===\n'
+  helpCommandHover: '§7{description}\n§eKlicken zum Ausführen'
   helpUnavailable: '╔═════════════════════════════════\n║ #ff6600✘ &fHilfe ist derzeit nicht verfügbar.\n╚═════════════════════════════════'
 
   backNoInfo: '╔═════════════════════════════════\n║ #ff6600✘ &fKein Rückkehrort gefunden!\n╚═════════════════════════════════'
@@ -67,6 +69,8 @@ messages:
   warpTeleported: '╔═════════════════════════════════\n║ #ff6600✔ &fWarp: &e{warpname}\n╚═════════════════════════════════'
   warpCreatedSuccessfully: '╔═════════════════════════════════\n║ #ff6600✔ &fWarp &e"{warpname}" &ferstellt!\n╚═════════════════════════════════'
   warpNotFound: '╔═════════════════════════════════\n║ #ff6600✘ &fWarp &e"{warpname}" &fnicht gefunden.\n╚═════════════════════════════════'
+  warpListHeader: '§6=== §eVerfügbare Warps §6===\n'
+  warpClickHover: '§7Klicken zum Teleportieren nach §e{warpname}'
 
   spawnSet: '╔═════════════════════════════════\n║ #ff6600✔ &fSpawn erfolgreich &6gesetzt\n╚═════════════════════════════════'
   spawnTeleportSuccess: '╔═════════════════════════════════\n║ #ff6600✔ &fTeleport zum &6Spawn...\n╚═════════════════════════════════'
@@ -78,6 +82,10 @@ messages:
   tpaReceived: '╔═════════════════════════════════\n║ #ff6600Ⓘ &eSpieler &f%player% &ewill zu dir TP!\n╚═════════════════════════════════'
   tpSuccess: '╔═════════════════════════════════\n║ #ff6600✔ &fZu &e%s &fteleportiert!\n╚═════════════════════════════════'
   tpaDenied: '╔═════════════════════════════════\n║ #ff6600✘ &fSpieler &e%player% &fhat abgelehnt.\n╚═════════════════════════════════'
+  acceptButton: '[ANNEHMEN]'
+  denyButton: '[ABLEHNEN]'
+  tpaAcceptHover: '§aTeleport-Anfrage annehmen'
+  tpaDenyHover: '§cTeleport-Anfrage ablehnen'
 
   gmSuccess: '╔═════════════════════════════════\n║ #ff6600✔ &fSpielmodus auf &e%s &fgesetzt.\n╚═════════════════════════════════'
   godToggled: '╔═════════════════════════════════\n║ #ff6600✔ &fGott-Modus %s.\n╚═════════════════════════════════'

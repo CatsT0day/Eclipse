@@ -1,211 +1,313 @@
-# Eclipse - 40+ commands, API, customizable massages.
+# EclipseAPI
 
-## What is this?
-CAPI is **A+** code minecraft plugin, made by one person, 
-I created it, because wanted to create my own "CMI", 
-there's a lots of "basic" commands, like /feed (custom realization), 
-/heal (same as /feed),
-/gm - the same as cmi, just more customizable
-I even added alias editor!
-### building project:
+A comprehensive Minecraft plugin for Paper/Spigot with 40+ commands, an API, and customizable messages.
+
+## Features
+
+- **40+ Commands** - Essential server commands including teleportation, player management, economy, and more
+- **Modular System** - Enable/disable individual features via configuration
+- **Multi-language Support** - Easy translation system with included EN, DE, RU, TR languages
+- **API for Developers** - Integrate EclipseAPI features into your own plugins
+- **GUI System** - Create inventory-based menus with click handlers
+- **Customizable Messages** - All messages are configurable and translatable
+- **Home & Warp System** - Player homes and server warps
+- **Economy Integration** - Vault-compatible economy support
+- **Chat Management** - Chat formatting, colors, and mute system
+- **Player Management** - God mode, fly mode, vanish, and more
+
+## Commands
+
+### Tp's
+- `/tp <player>` - Teleport to a player
+- `/tphere <player>` - Teleport player to you
+- `/tpa <player>` - Request teleport to player
+- `/tpaaccept` - Accept teleport request
+- `/tpdeny` - Deny teleport request
+- `/home [name]` - Teleport to home
+- `/sethome [name]` - Set a home
+- `/delhome [name]` - Delete a home
+- `/warp <name>` - Teleport to warp
+- `/setwarp <name>` - Set a warp
+- `/spawn` - Teleport to spawn
+- `/setspawn` - Set spawn location
+- `/back` - Return to previous location
+
+### Plr Management
+- `/feed` - Feed yourself or others
+- `/heal` - Heal yourself or others
+- `/gm <mode>` - Change gamemode
+- `/fly` - Toggle fly mode
+- `/god` - Toggle god mode
+- `/vanish` - Toggle vanish mode
+- `/spec` - Enter spectator mode
+- `/suicide` - Kill yourself
+- `/clearinventory` - Clear inventory
+- `/invsee <player>` - View player inventory
+- `/ecsee <player>` - View ender chest
+- `/near` - Find nearby players
+- `/sudo <player> <command>` - Execute command as player
+
+### Economy & Items
+- `/balance` - Check balance
+- `/fix` - Repair held item or all items
+- `/enchant <enchantment> [level]` - Enchant held item
+- `/givetnt` - Give TNT
+
+### Time & Weather
+- `/day` - Set time to day
+- `/night` - Set time to night
+- `/ptime <time>` - Set personal time
+- `/pweather <weather>` - Set personal weather
+
+### Chat & AFK
+- `/afk` - Toggle AFK status
+- `/chat <message>` - Send chat message
+- `/afkcheck <player>` - Check AFK status
+
+### Admin
+- `/reload` - Reload plugin configuration
+- `/help` - Show command help
+
+## Configuration
+
+### config.yml
+```yaml
+lang: EN                    # Language file to use (EN, DE, RU, TR)
+monochromeMode: false       # Disable colored messages
+spawn:                      # Spawn location settings
+  world: spawn
+  x: 0
+  y: 0
+  z: 0
+  yaw: 0
+  pitch: 0
+  join:                     # Join title settings
+    title: "&6&k|||&r &6Server &k|||"
+    subtitle: "&fHave a nice game!"
+    fadeIn: 25
+    stay: 50
+    fadeOut: 25
+```
+
+### modules.yml
+Enable/disable individual features:
+```yaml
+modules:
+  chat: true
+  economy: true
+  teleportation: true
+  playerManagement: true
+  afk: true
+  weatherTime: true
+  itemSystem: true
+  adminCommands: true
+```
+
+## Building
+
 ```bash
-
-# Build the plugin (creates shadowed jar with all NMS versions)
+# Build the plugin
 ./gradlew build
 
-# Build without running tests
+# Build without tests
 ./gradlew build -x test
 
 # Clean build
 ./gradlew clean build
-
-# Run a test server (Paper 1.21.11)
-./gradlew runServer
 ```
-### Testing:
-```bash
-# Run all tests
-./gradlew test
 
-# Run tests for specific module
-./gradlew :core:test
+## Dependencies
 
-# Run PackMerger debug tool
-./gradlew :core:runPackMergerDebug --args="path/to/pack"
+- **Paper** (1.17.1-R0.1-SNAPSHOT) - Core Minecraft server API
+- **Adventure MiniMsgs** (4.14.0) - Text formatting
+- **Reflections** (0.10.2) - Reflection utilities
+- **LuckPerms api** (5.4) - Perms (compile-only)
+
+## Translations
+
+The plugin supports multiple languages. Translation files are located in `src/main/resources/Translations/`:
+
+- `EN.yml` - English (default)
+- `DE.yml` - German
+- `RU.yml` - Russian
+- `TR.yml` - Turkish
+
+To add a new language, copy an existing translation file and translate the messages, then set `lang` in `config.yml` to your language code.
+
+## Permissions
+
+All commands use the permission system. Permissions follow the pattern:
+- `eclipse.command.<commandname>` - Base command permission
+- `eclipse.command.<commandname>.others` - Execute on other players
+- `eclipse.teleport.delay.<seconds>` - Override teleport delay
+
+Example:
+```yaml
+permissions:
+  eclipse.command.god: true
+  eclipse.command.god.others: true
+  eclipse.teleport.delay.0: true  # Instant teleport
 ```
-## Add CAPI as a dependency: 
-### if you're using gradle + kotlin: (gradle.kts)
-add this to the settings.gradle.kts:
+
+## Requirements
+
+- Java 17
+- Paper/Spigot 1.17.1 or higher
+- Vault (optional, for economy features)
+- LuckPerms (optional, for advanced permissions)
+## Add EclipseAPI as a dependency
+
+### Gradle (Kotlin DSL)
+
+Add to `settings.gradle.kts`:
 ```kotlin
-	dependencyResolutionManagement {
-		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-		repositories {
-			mavenCentral()
-			maven { url = uri("https://jitpack.io") }
-        // add other repos like paper here
-		}
-	}
-```
-and add the dependency: 
-```kotlin
-dependencies {
-           implementation("com.github.CatsT0day:CAPI:Tag")
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
 }
 ```
-### if you're using basic gradle:
-Add it in your root settings.gradle at the end of repositories:
-```groovy
-	dependencyResolutionManagement {
-		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-		repositories {
-			mavenCentral()
-			maven { url 'https://jitpack.io' }
-        // same
-		}
-	}
-```
-then add The dependency
-```groovy
-	dependencies {
-	        implementation 'com.github.CatsT0day:CAPI:Tag'
-	}
-```
-### if you're using maven:
-Add to pom.xml
-```xml
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-Add the dependency
 
+Add to dependencies:
+```kotlin
+dependencies {
+    implementation("com.github.CatsT0day:EclipseAPI:Tag")
+}
+```
+
+### Gradle (Groovy)
+
+Add to `settings.gradle`:
+```groovy
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+Add to dependencies:
+```groovy
+dependencies {
+    implementation 'com.github.CatsT0day:EclipseAPI:Tag'
+}
+```
+
+### Maven
+
+Add to `pom.xml`:
 ```xml
-	<dependency>
-	    <groupId>com.github.CatsT0day</groupId>
-	    <artifactId>CAPI</artifactId>
-	    <version>Tag</version>
-	</dependency>
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.CatsT0day</groupId>
+        <artifactId>EclipseAPI</artifactId>
+        <version>Tag</version>
+    </dependency>
+</dependencies>
 ```
-Note: Replace Tag in the dependency with the actual version tag (e.g., 2.1.2.9, latest, etc.).
-## some api examples: 
- ### wanna get the player with this api and control them?
- no problem, import: 
-  ```java
-   import me.catst0day.Eclipse.User.CAPIUser;
-```
-here's some exaples to get the user, and use it: 
-#### with UUID: 
+
+Replace `Tag` with the actual version (e.g., `1.0.0.8`).
+## API Examples
+
+### Get a player
+
 ```java
-package put.yourpackage.here;
-
-import me.catst0day.Eclipse.User.CAPIUser;
+import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
+import me.catst0day.Eclipse.Eclipse;
 import org.bukkit.command.CommandSender;
 import java.util.UUID;
 
 public class Example {
     public void runExample(CommandSender sender) {
         UUID playerUUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
-        CAPIUser apiUser = CAPI.getInstance().getUser(playerUUID);
-        if (apiUser != null) {
-            sender.sendMessage("Omg, I found you, and whoever is reading this, I hope they understand how to use this API: " + apiUser.getName());
+        EclipsePlr player = Eclipse.getI().getPlayer(playerUUID);
+        if (player != null) {
+            sender.sendMessage("Found player: " + player.getName());
         } else {
-            sender.sendMessage("Bro where are you, i cant find you :(((( - java, sorry for my english, if i did smthing wrong.");
+            sender.sendMessage("Player not found");
         }
     }
 }
 ```
-#### Setting home with nickname of the plr: 
-``` java
-package reader.put.yourpackage.here;
 
-import me.catst0day.capi.User.CAPIUser;
+### Set a home
+
+```java
+import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
+import me.catst0day.Eclipse.Eclipse;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class Example {
     public boolean setPlayerHome(Player player, String homeName) {
-        CAPIUser user = CAPI.getInstance().getUser(player);
+        EclipsePlr plr = Eclipse.getI().getPlayer(player);
         Location playerLocation = player.getLocation();
 
-        boolean success = user.setHome(homeName, playerLocation);
+        boolean success = plr.setHome(homeName, playerLocation);
         if (success) {
-            player.sendMessage(
-"Seeeeeettttthhhhhooooommeeee '" + homeName + "' sssseeetttt!");
+            player.sendMessage("Home '" + homeName + "' set!");
             return true;
         } else {
-            player.sendMessage(
-"idk what happened, but the code broke, I hope you understand how to use this API.");
+            player.sendMessage("Failed to set home");
             return false;
         }
     }
 }
 ```
-#### you also can create the menus like in AbstractMenus (without animations :( )
-import:
+
+### Create a GUI
 
 ```java
 import me.catst0day.Eclipse.Entity.Player.Gui;
 import me.catst0day.Eclipse.Entity.Player.GuiButton;
-import me.catst0day.Eclipse.Entity.Player.GuiManager;
-import me.catst0day.Eclipse.Entity.Player.GuiListener;
-```
-for example, you can use it to create homes with GUI, as CMI did: 
-```java
-    private void show(Player player) {
-    List<String> homes = plugin.getInstance().getHomeManager().getPlayerHomes(player.getUniqueId());
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.Location;
 
-    CAPIGui gui = new CAPIGui(player, "§7Homes", 6);
+public class Example {
+    private void showHomesGui(Player player) {
+        Gui gui = new Gui(player, "§7Homes", 6);
 
-    fillBorders(gui);
+        int slot = 10;
+        for (String home : getHomes(player)) {
+            GuiButton homeButton = new GuiButton(Material.PLAYER_HEAD)
+                .setName("§a" + home)
+                .onLeftClick(p -> {
+                    Location homeLocation = Eclipse.getI().getHomeManager()
+                        .getHome(p.getUniqueId(), home);
+                    if (homeLocation != null) {
+                        p.teleport(homeLocation);
+                        p.closeInventory();
+                    }
+                });
+            gui.addButton(slot, homeButton);
+            slot++;
+            if (slot % 9 == 8) slot += 2;
+        }
 
-    int slot = 10;
-    for (String home : homes) {
-        CAPIGuiButton homeButton = createHomeButton(player, home);
-        gui.addButton(slot, homeButton);
-        slot++;
-        if (slot % 9 == 8) slot += 2;
+        gui.open();
     }
 
-    gui.open();
-}
-
-private void fillBorders(CAPIGui gui) {
-    CAPIGuiButton glassButton = new CAPIGuiButton(Material.WHITE_STAINED_GLASS_PANE)
-            .setName(" ");
-
-    for (int i = 0; i < 9; i++) {
-        gui.addButton(i, glassButton);
-        gui.addButton(45 + i, glassButton);
+    private List<String> getHomes(Player player) {
+        // Get homes from your data source
+        return List.of("home1", "home2");
     }
-
-    for (int row = 1; row < 5; row++) {
-        gui.addButton(row * 9, glassButton);
-        gui.addButton(row * 9 + 8, glassButton);
-    }
-}
-
-private CAPIGuiButton createButton(Player player, String homeName) {
-    CAPIGuiButton button = new CAPIGuiButton(Material.PLAYER_HEAD)
-            .setName("§a" + homeName)
-            .addLore("§fTeleport to home")
-            .addLore("")
-            .addLore("§eClick to teleport")
-            .onLeftClick(p -> {
-                Location homeLocation = plugin.getInstance().getHomeManager().getHome(p.getUniqueId(), homeName);
-                if (homeLocation != null) {
-                    p.teleport(homeLocation);
-                    p.closeInventory();
-                    p.sendMessage(plugin.getMessage("homeTeleported")
-                            .replace("{homename}", homeName));
-                }
-            });
-    return button;
 }
 ```
-> *****That's it, read license and contributing files!*****
-Thanks for reading/contributing/downloading
+
+---
+
+See [LICENSE](LICENSE) and [CONTRIBUTING.md](CONTRIBUTING.md) for more info.
 
 

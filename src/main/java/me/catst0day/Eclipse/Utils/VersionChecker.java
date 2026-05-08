@@ -160,7 +160,7 @@ public class VersionChecker {
         log("Update available: " + latestVersion + " (current: " + currentVersion + ")");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("capi.update.notify")) {
+            if (player.hasPermission("eclipse.update.notify")) {
                 player.sendMessage(message);
             }
         }

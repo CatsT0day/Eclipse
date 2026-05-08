@@ -28,6 +28,8 @@ messages:
     - '  &6  /delhome <название> - удалить точку дома'
     - ''
     - '#ff6600======================='
+  helpMenuHeader: '§6=== §eМеню помощи §6===\n'
+  helpCommandHover: '§7{description}\n§eНажмите для выполнения'
   helpUnavailable: '#ff6600✘ &fСписок команд в данный момент недоступен.'
 
   # Назад (/back)
@@ -133,6 +135,8 @@ messages:
   warpAlreadyExists: '#ff6600✘ &fВарп с названием &e"{warpname}"&f уже существует!'
   warpNotFound: '#ff6600✘ &fВарп &e"{warpname}"&f не найден!'
   warpList: '#ff6600&fДоступные варпы: &e%s'
+  warpListHeader: '§6=== §eДоступные варпы §6===\n'
+  warpClickHover: '§7Нажмите, чтобы телепортироваться на §e{warpname}'
   warpCreationFailed: '#ff6600✘ &fНе удалось создать варп. Попробуйте позже или обратитесь к администратору.'
   noWarpsAvailable: '#ff6600&fДоступные варпы: &eНет созданных варпов'
 
@@ -187,6 +191,8 @@ messages:
   tpaRejected: '&eВы отклонили запрос на телепортацию от &e%player%&f.'
   acceptButton: '[ПРИНЯТЬ]'
   denyButton: '[ОТКЛОНИТЬ]'
+  tpaAcceptHover: '§aПринять запрос на телепортацию'
+  tpaDenyHover: '§cОтклонить запрос на телепортацию'
 
 
   # Спектатор (/spec)

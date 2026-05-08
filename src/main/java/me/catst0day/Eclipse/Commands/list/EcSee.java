@@ -47,7 +47,7 @@ public class EcSee extends CommandTemplate implements Listener {
         Inventory topInv = EclipsePlayerInventory.getTopInventory(player);
         if (topInv == null || topInv.getType() != InventoryType.ENDER_CHEST) return;
         if (event.getRawSlot() < topInv.getSize()) {
-            if (!player.hasPermission("catapi.ecsee.edit")) {
+            if (!player.hasPermission("eclipse.ecsee.edit")) {
                 event.setCancelled(true);
                 player.sendMessage(plugin.getMessage("noEditPerm"));
             }

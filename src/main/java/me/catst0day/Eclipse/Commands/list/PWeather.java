@@ -23,7 +23,7 @@ public class PWeather extends CommandTemplate {
         String targetName = null;
 
         for (String arg : args) {
-            if (arg.equalsIgnoreCase("-s") && sender.hasPermission("capi.silent")) silent = true;
+            if (arg.equalsIgnoreCase("-s") && sender.hasPermission("eclipse.silent")) silent = true;
             else if (arg.equalsIgnoreCase("sun") || arg.equalsIgnoreCase("clear")) weather = WeatherType.CLEAR;
             else if (arg.equalsIgnoreCase("rain")) weather = WeatherType.DOWNFALL;
             else if (arg.equalsIgnoreCase("reset")) reset = true;

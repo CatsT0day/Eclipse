@@ -10,6 +10,7 @@ public class EclipseChatManager {
     private final Map<String, List<String>> languageFilters;
     private final Map<UUID, ChatMode> playerChatModes;
     private final Map<UUID, Long> mutedPlayers;
+    private final Map<UUID, String> nicknames;
     private final int localChatRadius;
     private final boolean enabled;
 
@@ -24,6 +25,7 @@ public class EclipseChatManager {
         this.languageFilters = new HashMap<>();
         this.playerChatModes = new ConcurrentHashMap<>();
         this.mutedPlayers = new ConcurrentHashMap<>();
+        this.nicknames = new ConcurrentHashMap<>();
         this.localChatRadius = chatConfig.getInt("chat.localChatRadius", 100);
         this.enabled = chatConfig.getBoolean("chat.enabled", true);
         
@@ -175,5 +177,27 @@ public class EclipseChatManager {
     public void removePlayer(UUID playerId) {
         playerChatModes.remove(playerId);
         mutedPlayers.remove(playerId);
+        nicknames.remove(playerId);
+    }
+
+    public void setNickname(UUID playerId, String nickname) {
+        if (nickname == null || nickname.isEmpty()) {
+            nicknames.remove(playerId);
+        } else {
+            nicknames.put(playerId, nickname);
+        }
+    }
+
+    public String getNickname(UUID playerId) {
+        return nicknames.get(playerId);
+    }
+
+    public String getDisplayName(UUID playerId, String defaultName) {
+        String nickname = nicknames.get(playerId);
+        return nickname != null ? nickname : defaultName;
+    }
+
+    public boolean hasNickname(UUID playerId) {
+        return nicknames.containsKey(playerId);
     }
 }

@@ -17,6 +17,8 @@ messages:
     - '&6 /warp &f- warplara ışınlanır'
     - '&6 /home &f- ev yönetimi'
     - '#ff6600╚═════════════════════════════════'
+  helpMenuHeader: '§6=== §eYardım Menüsü §6===\n'
+  helpCommandHover: '§7{description}\n§eTıklayarak çalıştır'
   helpUnavailable: '╔═════════════════════════════════\n║ #ff6600✘ &fKomut listesi şu an kullanılamıyor.\n╚═════════════════════════════════'
 
   backNoInfo: '╔═════════════════════════════════\n║ #ff6600✘ &fDönülecek konum bulunamadı!\n╚═════════════════════════════════'
@@ -67,6 +69,8 @@ messages:
   warpTeleported: '╔═════════════════════════════════\n║ #ff6600✔ &fWarp: &e{warpname}\n╚═════════════════════════════════'
   warpCreatedSuccessfully: '╔═════════════════════════════════\n║ #ff6600✔ &fWarp &e"{warpname}" &foluşturuldu!\n╚═════════════════════════════════'
   warpNotFound: '╔═════════════════════════════════\n║ #ff6600✘ &fWarp &e"{warpname}" &fbulunamadı.\n╚═════════════════════════════════'
+  warpListHeader: '§6=== §eKullanılabilir Warplar §6===\n'
+  warpClickHover: '§7Tıklayarak &e{warpname}&f''a ışınlan'
 
   spawnSet: '╔═════════════════════════════════\n║ #ff6600✔ &fSpawn noktası &6ayarlandı\n╚═════════════════════════════════'
   spawnTeleportSuccess: '╔═════════════════════════════════\n║ #ff6600✔ &fSpawn''a &6ışınlanılıyor...\n╚═════════════════════════════════'
@@ -78,6 +82,10 @@ messages:
   tpaReceived: '╔═════════════════════════════════\n║ #ff6600Ⓘ &eOyuncu &f%player% &esize TP istiyor!\n╚═════════════════════════════════'
   tpSuccess: '╔═════════════════════════════════\n║ #ff6600✔ &e%s &fyanına ışınlandınız!\n╚═════════════════════════════════'
   tpaDenied: '╔═════════════════════════════════\n║ #ff6600✘ &fOyuncu &e%player% &fisteği reddetti.\n╚═════════════════════════════════'
+  acceptButton: '[KABUL ET]'
+  denyButton: '[REDDET]'
+  tpaAcceptHover: '§aIşınlanma isteğini kabul et'
+  tpaDenyHover: '§cIşınlanma isteğini reddet'
 
   gmSuccess: '╔═════════════════════════════════\n║ #ff6600✔ &fOyun modu &e%s &folarak ayarlandı.\n╚═════════════════════════════════'
   godToggled: '╔═════════════════════════════════\n║ #ff6600✔ &fÖlümsüzlük modu %s.\n╚═════════════════════════════════'

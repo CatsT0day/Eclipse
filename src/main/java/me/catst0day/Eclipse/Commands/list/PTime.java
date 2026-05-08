@@ -22,7 +22,7 @@ public class PTime extends CommandTemplate {
         String targetName = null;
 
         for (String arg : args) {
-            if (arg.equalsIgnoreCase("-s") && sender.hasPermission("capi.silent")) silent = true;
+            if (arg.equalsIgnoreCase("-s") && sender.hasPermission("eclipse.silent")) silent = true;
             else if (arg.equalsIgnoreCase("-smooth")) smooth = true;
             else {
                 Action tempAction = Action.getByName(arg);

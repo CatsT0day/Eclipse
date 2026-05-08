@@ -3,6 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Utils.Text.RawJsonMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.List;
@@ -15,16 +16,19 @@ public class Help extends CommandTemplate {
 
     @Override
     protected boolean perform(Player player, String[] args) {
-        List<String> helpMessages = plugin.getConfig().getStringList("messages.help");
-
-        if (helpMessages.isEmpty()) {
-            player.sendMessage(plugin.getMessage("helpUnavailable"));
-            return true;
-        }
-
-        for (String line : helpMessages) {
-            player.sendMessage(line);
-        }
+        RawJsonMessage msg = new RawJsonMessage();
+        msg.addText(plugin.getMessage("helpMenuHeader"));
+        
+        CommandTemplate.getRegisteredCommands().forEach((name, cmd) -> {
+            if (cmd instanceof CommandTemplate command) {
+                msg.addText("§a/" + name)
+                   .addHover(plugin.getMessage("helpCommandHover").replace("{description}", command.getDescription()))
+                   .addCommand(name);
+                msg.addText(" ");
+            }
+        });
+        
+        msg.show(player);
         return true;
     }
 

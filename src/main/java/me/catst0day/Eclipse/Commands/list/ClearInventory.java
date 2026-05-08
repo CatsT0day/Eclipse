@@ -23,7 +23,7 @@ public class ClearInventory extends CommandTemplate {
         if (args.length == 0) {
             target = player;
         } else {
-            if (!player.hasPermission("catapi.clearinventory.others")) {
+            if (!player.hasPermission("eclipse.clearinventory.others")) {
                 player.sendMessage(plugin.getMessage("noPermission"));
                 return true;
             }
@@ -79,7 +79,7 @@ public class ClearInventory extends CommandTemplate {
 
     @Override
     protected List<String> tabCompl(Player player, String[] args) {
-        if (args.length == 1 && player.hasPermission("catapi.clearinventory.others")) {
+        if (args.length == 1 && player.hasPermission("eclipse.clearinventory.others")) {
             return null;
         }
         return List.of();

@@ -31,7 +31,7 @@ public class Feed extends CommandTemplate implements Listener {
             return true;
         }
 
-        if (target != player && !player.hasPermission("catapi.feed.others")) {
+        if (target != player && !player.hasPermission("eclipse.feed.others")) {
             plugin.sendCFGmessage(player, plugin.getMessage("noPermission"));
             return true;
         }

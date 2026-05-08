@@ -75,7 +75,7 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (player != null && cooldownSeconds > 0 && !player.hasPermission("catapi.cooldown.bypass")) {
+        if (player != null && cooldownSeconds > 0 && !player.hasPermission("eclipse.cooldown.bypass")) {
             if (isOnCooldown(player)) return true;
             cooldowns.put(player.getUniqueId(), System.currentTimeMillis());
         }
