@@ -4,6 +4,7 @@ import me.catst0day.Eclipse.Bossbar.EclipseBarColor;
 import me.catst0day.Eclipse.Bossbar.EclipseBarStyle;
 import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
 import me.catst0day.Eclipse.EventListeners.*;
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
 import me.catst0day.Eclipse.Managers.EclipseAliasManager;
 import me.catst0day.Eclipse.Managers.EclipseChatManager;
 import me.catst0day.Eclipse.Managers.EclipseEconomyManager;
@@ -11,7 +12,7 @@ import me.catst0day.Eclipse.Managers.EclipseHomeManager;
 import me.catst0day.Eclipse.Managers.EclipseModuleManager;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
 import me.catst0day.Eclipse.Managers.EclipseWarpManager;
-import me.catst0day.Eclipse.Utils.ResourceDownloader;
+import me.catst0day.Eclipse.Economy.VaultEconomy;
 import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import me.catst0day.Eclipse.Utils.Util;
 import me.catst0day.Eclipse.Utils.VersionChecker;
@@ -20,6 +21,8 @@ import me.catst0day.Eclipse.Entity.Player.GuiListener;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
 import me.catst0day.Eclipse.Managers.Database.EclipseSQLiteManager;
+
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
 import org.bukkit.*;
 import org.bukkit.boss.BossBar;
@@ -29,7 +32,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -60,9 +66,9 @@ public class Eclipse extends JavaPlugin {
     private EclipseEconomyManager economyManager;
     private EclipseChatManager chatManager;
     private EclipseModuleManager moduleManager;
+    private EclipseHologramManager hologramManager;
     private VersionChecker versionCheckManager;
     private EclipseSQLiteManager SQLiteManager;
-    private ResourceDownloader fileDownloader;
 
 
     @Override
@@ -71,20 +77,37 @@ public class Eclipse extends JavaPlugin {
         Util.printStartupBanner(this);
         saveDefaultConfig();
         reloadConfig();
-        this.fileDownloader = new ResourceDownloader(this);
         loadTranslations();
         this.homeManager = new EclipseHomeManager(this);
         this.warpManager = new EclipseWarpManager(this);
         this.economyManager = new EclipseEconomyManager(this);
         this.chatManager = new EclipseChatManager(this);
         this.moduleManager = new EclipseModuleManager(this);
+        this.hologramManager = new EclipseHologramManager(this);
+        
+        setupVaultEconomy();
 
-        registerAllCommandsFromPackage("me.catst0day.Eclipse.Commands.list");
+        registerAllCommandsFromPackage();
         setupMainCommand();
         registerEvents();
         getVersionCheckManager().checkForUpdates();
 
         fullyLoaded = true;
+    }
+    
+    private void setupVaultEconomy() {
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager()
+                    .getRegistration(Economy.class);
+            
+            if (rsp == null) {
+                VaultEconomy vaultEconomy = new VaultEconomy(this, this.economyManager);
+                Bukkit.getServicesManager().register(Economy.class, vaultEconomy, this, ServicePriority.Highest);
+                getLogger().info("Vault economy service registered.");
+            } else {
+                getLogger().info("Vault economy already provided by " + rsp.getPlugin().getName() + ". Using existing economy.");
+            }
+        }
     }
 
     @Override
@@ -94,6 +117,9 @@ public class Eclipse extends JavaPlugin {
         bossBars.clear();
         if (economyManager != null) {
             economyManager.shutdown();
+        }
+        if (hologramManager != null) {
+            hologramManager.shutdown();
         }
     }
 
@@ -113,6 +139,7 @@ public class Eclipse extends JavaPlugin {
         pm.registerEvents(new EclipseOnEntityDamageEvent(this), this);
         pm.registerEvents(new EclipseOnItemPickupEvent(this), this);
         pm.registerEvents(new EclipseChatListener(this), this);
+        pm.registerEvents(new EclipseHologramListener(this), this);
     }
 
     // --- Msg System ---
@@ -146,18 +173,19 @@ public class Eclipse extends JavaPlugin {
         return TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
-    public String sendCFGmessage(CommandSender sender, String key) {
+    public void sendCFGmessage(CommandSender sender, String key) {
         String msg = getMessage(key);
         if (sender instanceof Player player) {
-            return getPlayer(player).sendMsg(msg);
+            getPlayer(player).sendMsg(msg);
+            return;
         }
         sender.sendMessage(msg);
-        return msg;
     }
 
     // --- Cmd reg ---
 
-    private void registerAllCommandsFromPackage(String packageName) {
+    private void registerAllCommandsFromPackage() {
+        String packageName = "me.catst0day.Eclipse.Commands.list";
         long startTime = System.currentTimeMillis();
         String path = packageName.replace('.', '/');
         URL packageURL = getClassLoader().getResource(path);
@@ -221,8 +249,11 @@ public class Eclipse extends JavaPlugin {
 
     private Command createBukkitCommand(String name, CommandTemplate template) {
         return new Command(name) {
-            @Override public boolean execute(CommandSender s, String l, String[] a) { return template.onCommand(s, this, l, a); }
-            @Override public List<String> tabComplete(CommandSender s, String al, String[] a) { return template.onTabComplete(s, this, al, a); }
+            @Override public boolean execute(@NotNull CommandSender s, @NotNull String l, String[] a) { return template.onCommand(s, this, l, a); }
+            @Override public @NotNull List<String> tabComplete(@NotNull CommandSender s, @NotNull String al, String[] a) {
+                List<String> result = template.onTabComplete(s, this, al, a);
+                return result != null ? result : Collections.emptyList();
+            }
         };
     }
 
@@ -327,6 +358,7 @@ public class Eclipse extends JavaPlugin {
     public EclipseEconomyManager getEconomyManager() { return economyManager == null ? (economyManager = new EclipseEconomyManager(this)) : economyManager; }
     public EclipseChatManager getChatManager() { return chatManager == null ? (chatManager = new EclipseChatManager(this)) : chatManager; }
     public EclipseModuleManager getModuleManager() { return moduleManager == null ? (moduleManager = new EclipseModuleManager(this)) : moduleManager; }
+    public EclipseHologramManager getHologramManager() { return hologramManager == null ? (hologramManager = new EclipseHologramManager(this)) : hologramManager; }
     public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "Eclipse")) : versionCheckManager; }
     // create getters for all managers here...
     public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}

@@ -1,0 +1,43 @@
+# Eclipse Economy Configuration
+# This file contains all settings for the economy system
+
+# General Economy Settings
+currencyName: "Coins"
+currencySymbol: "$"
+defaultBalance: 1000.0
+logTransactions: false
+allowNegativeBalance: false
+maxBalance: 999999999.0
+decimalPlaces: 2
+
+# Tax Settings
+taxEnabled: false
+taxRate: 0.05
+taxReceiver: ""
+
+# Account Settings
+account:
+  enabled: true
+  minimumBalance: 0.0
+  maximumBalance: 999999999.0
+  interestEnabled: false
+  interestRate: 0.01
+  interestIntervalTicks: 72000  # 1 hour in ticks (20 ticks = 1 second)
+
+# Transaction Settings
+transaction:
+  logTransactions: false
+  requireConfirmation: false
+  minimumTransactionAmount: 0.01
+  maximumTransactionAmount: 999999999.0
+  taxEnabled: false
+  taxRate: 0.0
+  taxReceiver: ""
+  allowNegativeTransactions: false
+
+# Database Settings
+database:
+  enabled: true
+  filename: "Eclipse.economy.db"
+  autoSave: true
+  autoSaveIntervalTicks: 6000  # 5 minutes in ticks

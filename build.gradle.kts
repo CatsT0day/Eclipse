@@ -27,9 +27,14 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
-    implementation("net.kyori:adventure-text-minimessage:4.14.0")
-    implementation("org.reflections:reflections:0.10.2")
+    implementation("net.kyori:adventure-text-minimessage:4.17.0")
+    implementation("org.reflections:reflections:0.10.2") {
+        exclude(group = "org.javassist", module = "javassist")
+        exclude(group = "com.google.code.gson", module = "gson")
+    }
+    implementation("org.javassist:javassist:3.30.2-GA")
     compileOnly("net.luckperms:api:5.4")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 }
 
 tasks.shadowJar {
