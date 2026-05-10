@@ -11,12 +11,12 @@ author: CatsTOday
 commands:
   eclipse:
     description: Main commands of the plugin
-    permission: catapi.main
+    permission: eclipse.main
 
 permissions:
-  capi.main:
+  eclipse.main:
     description: gives perm to use main command (not all cmds)
-  capi.update.notify:
+  eclipse.update.notify:
     description: Receive update notifications for updates
     default: op
   eclipse.silent:
@@ -41,9 +41,9 @@ permissions:
   eclipse.invsee.edit:
     description: edit other players' inventory
     default: op
-  eclipse.warp.$1:
+  eclipse.warp:
     description: permission for specific warp
-  eclipse.teleport.delay.$1:
+  eclipse.teleport.delay:
     description: override teleport delay
   eclipse.damage.fly.bypass:
     description: ...

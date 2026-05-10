@@ -33,7 +33,7 @@ public class Util {
                 "&b╚══════════════════════════════════════╝",
                 "",
                 "&bVersion: &f" + version,
-                "&bAuthor: &fCatsT0day (aka DreamersTygydykk)",
+                "&bAuthor: &fCatsT0day (aka. DreamersTygydykk)",
                 ""
         };
 

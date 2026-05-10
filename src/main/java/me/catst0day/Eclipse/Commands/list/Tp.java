@@ -3,7 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import java.util.List;
 public class Tp extends CommandTemplate {
 
     public Tp(Eclipse plugin) {
-        super(plugin, "tp", List.of("teleport"), CAPIPermissions.TP, true, 0, "Teleport to a player");
+        super(plugin, "tp", List.of("teleport"), EclipsePerm.TP, true, 0, "Teleport to a player");
     }
 
     @Override

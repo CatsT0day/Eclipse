@@ -16,7 +16,7 @@ import java.util.List;
 public class Enchant extends CommandTemplate {
 
     public Enchant(Eclipse plugin) {
-        super(plugin, "enchant", List.of(), EclipsePermissionManager.CAPIPermissions.ENCHANT, true, 0, "Enchant item in your hand");
+        super(plugin, "enchant", List.of(), EclipsePermissionManager.EclipsePerm.ENCHANT, true, 0, "Enchant item in your hand");
     }
 
     @Override

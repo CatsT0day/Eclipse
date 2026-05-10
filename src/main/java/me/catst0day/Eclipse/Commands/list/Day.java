@@ -11,7 +11,7 @@ import java.util.List;
 public class Day extends CommandTemplate {
 
     public Day(Eclipse plugin) {
-        super(plugin, "day", List.of(), EclipsePermissionManager.CAPIPermissions.DAY, true, 60, "Set day time");
+        super(plugin, "day", List.of(), EclipsePermissionManager.EclipsePerm.DAY, true, 60, "Set day time");
     }
 
     @Override

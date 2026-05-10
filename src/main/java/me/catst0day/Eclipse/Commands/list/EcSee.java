@@ -18,7 +18,7 @@ import java.util.List;
 public class EcSee extends CommandTemplate implements Listener {
 
     public EcSee(Eclipse plugin) {
-        super(plugin, "ecsee", List.of("ec"), EclipsePermissionManager.CAPIPermissions.INVSEE, true, 0L, "View/Edit player enderchest");
+        super(plugin, "ecsee", List.of("ec"), EclipsePermissionManager.EclipsePerm.INVSEE, true, 0L, "View/Edit player enderchest");
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

@@ -9,7 +9,7 @@ import me.catst0day.Eclipse.Managers.Perms.LuckPermsHandler5;
 import me.catst0day.Eclipse.Managers.Perms.NoneHandler;
 import me.catst0day.Eclipse.Managers.Perms.PermissionInfo;
 import me.catst0day.Eclipse.Managers.Perms.PermissionInterface;
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -55,7 +55,7 @@ public class EclipsePermissionManager {
         this.permissionMessage("None");
     }
 
-    public boolean hasPermission(Player player, CAPIPermissions permission, String... args) {
+    public boolean hasPermission(Player player, EclipsePerm permission, String... args) {
         if (player == null) return false;
         String permNode = permission.getPermission(args);
         return isSetPermission(player, permNode);
@@ -160,7 +160,7 @@ public class EclipsePermissionManager {
         return var6;
     }
 
-    public enum CAPIPermissions {
+    public enum EclipsePerm {
         REVISE("eclipse.revise", "revise players"),
         MAIN("eclipse.main", "gives perm to use main command (not all cmds)"),
         UPDATE_NOTIFY("eclipse.update.notify", "Receive update notifications for EclipseAPI updates"),
@@ -210,7 +210,7 @@ public class EclipsePermissionManager {
         private final String permission;
         private final String description;
 
-        CAPIPermissions(String permission, String description) {
+        EclipsePerm(String permission, String description) {
             this.permission = permission;
             this.description = description;
         }

@@ -14,7 +14,7 @@ public class SetSpawn extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public SetSpawn(Eclipse plugin) {
-        super(plugin, "setspawn", List.of("ss"), EclipsePermissionManager.CAPIPermissions.SETSPAWN, true, 0L, "set a new spwn");
+        super(plugin, "setspawn", List.of("ss"), EclipsePermissionManager.EclipsePerm.SETSPAWN, true, 0L, "set a new spwn");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -22,7 +22,7 @@ public class SetSpawn extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.SETSPAWN);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.SETSPAWN);
     }
 
     @Override

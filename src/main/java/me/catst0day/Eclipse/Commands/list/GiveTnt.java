@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.list;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,7 +25,7 @@ public class GiveTnt extends CommandTemplate {
         super(plugin,
                 "givetnt",
                 List.of("gtnt"),
-                CAPIPermissions.TNTGIVE,
+                EclipsePerm.TNTGIVE,
                 false,
                 0,
                 "Give custom TNTGIVE to a player"

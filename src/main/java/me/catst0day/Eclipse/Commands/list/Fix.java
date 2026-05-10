@@ -15,7 +15,7 @@ import java.util.List;
 public class Fix extends CommandTemplate {
 
     public Fix(Eclipse plugin) {
-        super(plugin, "fix", List.of("repair"), EclipsePermissionManager.CAPIPermissions.FIX, true, 0, "Repair items in inventory");
+        super(plugin, "fix", List.of("repair"), EclipsePermissionManager.EclipsePerm.FIX, true, 0, "Repair items in inventory");
         setTabCompleteArguments(List.of("all", "hand"));
     }
 

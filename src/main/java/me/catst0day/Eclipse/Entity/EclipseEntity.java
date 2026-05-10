@@ -126,49 +126,36 @@ public class EclipseEntity {
 
 
     public static double getMaxHealth(Entity entity) {
-        if (!(entity instanceof LivingEntity)) return 0d;
-
-        LivingEntity lentity = (LivingEntity) entity;
+        if (!(entity instanceof LivingEntity lentity)) return 0d;
 
         try {
-            AttributeInstance attr = lentity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            AttributeInstance attr = lentity.getAttribute(Attribute.MAX_HEALTH);
             return attr != null ? attr.getValue() : lentity.getMaxHealth();
         } catch (NoSuchMethodError | NoSuchFieldError e) {
             return lentity.getMaxHealth();
         }
     }
 
-    /**
-     * Проверка, является ли сущность живой
-     */
+
     public boolean isLiving() {
         return ent instanceof LivingEntity;
     }
 
-    /**
-     * Проверка, является ли сущность игроком
-     */
+
     public boolean isPlayer() {
         return ent instanceof Player;
     }
 
-    /**
-     * Получение типа сущности в виде CAPIEntityType
-     */
     public EclipseEntityType getCAPIEntityType() {
         return EclipseEntityType.getByType(ent.getType());
     }
 
-    /**
-     * Получение подтипов сущности (использует CAPIEntitySubType)
-     */
+
     public List<EclipseEntitySubType> getSubTypes() {
         return EclipseEntitySubType.getSubTypes(ent);
     }
 
-    /**
-     * Форматирование информации об сущности для отображения
-     */
+
     public String formatInfo() {
         StringBuilder info = new StringBuilder();
         info.append("Type: ").append(getName());

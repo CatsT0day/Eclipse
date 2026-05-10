@@ -15,7 +15,7 @@ public class Tpdeny extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Tpdeny(Eclipse plugin) {
-        super(plugin, "tpdeny", List.of("teleportdeny"), EclipsePermissionManager.CAPIPermissions.TPA, true, 0L, "deny tp request");
+        super(plugin, "tpdeny", List.of("teleportdeny"), EclipsePermissionManager.EclipsePerm.TPA, true, 0L, "deny tp request");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -23,7 +23,7 @@ public class Tpdeny extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.TPA);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.TPA);
     }
 
     @Override

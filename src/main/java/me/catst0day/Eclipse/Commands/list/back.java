@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.list;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ public class back extends CommandTemplate implements Listener {
     private final HashMap<UUID, Location> lastLocations = new HashMap<>();
 
     public back(Eclipse plugin) {
-        super(plugin, "back", List.of("return"), CAPIPermissions.BACK, false, 0, "Teleports back to last saved location (last death loc)");
+        super(plugin, "back", List.of("return"), EclipsePerm.BACK, false, 0, "Teleports back to last saved location (last death loc)");
         setTabCompleteArguments(List.of("playername", "-s"));
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

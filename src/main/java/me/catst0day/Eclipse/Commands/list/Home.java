@@ -19,7 +19,7 @@ public class Home extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Home(Eclipse plugin) {
-        super(plugin, "home", List.of("hm"), EclipsePermissionManager.CAPIPermissions.HOME, true, 0L, "tp to your homes (with gui)");
+        super(plugin, "home", List.of("hm"), EclipsePermissionManager.EclipsePerm.HOME, true, 0L, "tp to your homes (with gui)");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -27,7 +27,7 @@ public class Home extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        if (!permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.HOME)) {
+        if (!permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.HOME)) {
             return false;
         }
 
@@ -145,7 +145,7 @@ public class Home extends CommandTemplate {
 
     private int getMaxHomes(Player player) {
         for (int i = 100; i >= 1; i--) {
-            if (permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.MAX_HOMES, String.valueOf(i))) {
+            if (permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.MAX_HOMES, String.valueOf(i))) {
                 return i;
             }
         }

@@ -4,7 +4,7 @@ import me.catst0day.Eclipse.Bossbar.EclipseBarStyle;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import me.catst0day.Eclipse.Bossbar.EclipseBarColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,7 +18,7 @@ public class Vanish extends CommandTemplate {
     private final HashMap<UUID, EclipseBossBar> bossBars = new HashMap<>();
 
     public Vanish(Eclipse plugin) {
-        super(plugin, "vanish", List.of("v"), CAPIPermissions.VANISH, false, 0, "Toggle invisibility");
+        super(plugin, "vanish", List.of("v"), EclipsePerm.VANISH, false, 0, "Toggle invisibility");
         setTabCompleteArguments(Arrays.asList("on", "off", "list"));
     }
 

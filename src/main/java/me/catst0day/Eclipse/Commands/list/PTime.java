@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.list;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class PTime extends CommandTemplate {
 
     public PTime(Eclipse plugin) {
-        super(plugin, "ptime", List.of(), CAPIPermissions.PTIME, true, 0, "Set personal player time");
+        super(plugin, "ptime", List.of(), EclipsePerm.PTIME, true, 0, "Set personal player time");
         setTabCompleteArguments(List.of("freeze", "unfreeze", "day", "night", "morning", "dusk", "realtime", "reset"));
     }
 

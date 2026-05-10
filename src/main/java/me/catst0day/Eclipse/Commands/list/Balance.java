@@ -12,7 +12,7 @@ import java.util.List;
 public class Balance extends CommandTemplate {
 
     public Balance(Eclipse plugin) {
-        super(plugin, "balance", List.of("bal", "money", "economy"), EclipsePermissionManager.CAPIPermissions.FLY, false, 0, "Check player balance");
+        super(plugin, "balance", List.of("bal", "money", "economy"), EclipsePermissionManager.EclipsePerm.FLY, false, 0, "Check player balance");
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.List;
 public class AfkCheck extends CommandTemplate {
 
     public AfkCheck(Eclipse plugin) {
-        super(plugin, "afkcheck", List.of("isafk"), EclipsePermissionManager.CAPIPermissions.AFKCHECK, false, 0, "Check afk");
+        super(plugin, "afkcheck", List.of("isafk"), EclipsePermissionManager.EclipsePerm.AFKCHECK, false, 0, "Check afk");
     }
 
     @Override

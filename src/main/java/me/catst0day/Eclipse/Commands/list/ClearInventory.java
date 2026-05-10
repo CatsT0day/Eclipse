@@ -3,7 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -13,7 +13,7 @@ import java.util.List;
 public class ClearInventory extends CommandTemplate {
 
     public ClearInventory(Eclipse plugin) {
-        super(plugin, "clearinventory", List.of("ci", "clear"), EclipsePermissionManager.CAPIPermissions.CLEAR, true, 0, "Clear items");
+        super(plugin, "clearinventory", List.of("ci", "clear"), EclipsePermissionManager.EclipsePerm.CLEAR, true, 0, "Clear items");
     }
 
     @Override

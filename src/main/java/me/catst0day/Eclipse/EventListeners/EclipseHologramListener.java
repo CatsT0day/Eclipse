@@ -1,7 +1,7 @@
 package me.catst0day.Eclipse.EventListeners;
 
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.Holograms.EclipseHoloPktHandler;
+import me.catst0day.Eclipse.Holograms.EclipseHologramPacket;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,6 +27,6 @@ public class EclipseHologramListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event) {
         plugin.getHologramManager().hideAllHologramsFromPlayer(event.getPlayer());
-        EclipseHoloPktHandler.clearPlayerData(event.getPlayer());
+        EclipseHologramPacket.clearPlayerData(event.getPlayer());
     }
 }

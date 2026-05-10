@@ -13,7 +13,7 @@ public class Night extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Night(Eclipse plugin) {
-        super(plugin, "night", List.of(), EclipsePermissionManager.CAPIPermissions.NIGHT, false, 0L, "set nithgt time");
+        super(plugin, "night", List.of(), EclipsePermissionManager.EclipsePerm.NIGHT, false, 0L, "set nithgt time");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -21,7 +21,7 @@ public class Night extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.NIGHT);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.NIGHT);
     }
 
     @Override

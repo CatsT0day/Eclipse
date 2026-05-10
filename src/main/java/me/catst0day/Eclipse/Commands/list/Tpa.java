@@ -15,7 +15,7 @@ public class Tpa extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Tpa(Eclipse plugin) {
-        super(plugin, "tpa", List.of("tpr", "teleportrequest"), EclipsePermissionManager.CAPIPermissions.TPA, true, 0L, "send tp request");
+        super(plugin, "tpa", List.of("tpr", "teleportrequest"), EclipsePermissionManager.EclipsePerm.TPA, true, 0L, "send tp request");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -23,7 +23,7 @@ public class Tpa extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.TPA);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.TPA);
     }
 
     @Override

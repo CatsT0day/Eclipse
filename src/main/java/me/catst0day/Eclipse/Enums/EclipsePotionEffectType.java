@@ -1,20 +1,19 @@
-
 package me.catst0day.Eclipse.Enums;
 
 import org.bukkit.potion.PotionEffectType;
 
 public enum EclipsePotionEffectType {
     SPEED(PotionEffectType.SPEED),
-    SLOWNESS(PotionEffectType.SLOW),
-    FAST_DIGGING(PotionEffectType.FAST_DIGGING),
-    SLOW_DIGGING(PotionEffectType.SLOW_DIGGING),
-    INCREASE_DAMAGE(PotionEffectType.INCREASE_DAMAGE),
-    HEAL(PotionEffectType.HEAL),
-    HARM(PotionEffectType.HARM),
-    JUMP(PotionEffectType.JUMP),
-    CONFUSION(PotionEffectType.CONFUSION),
+    SLOWNESS(PotionEffectType.SLOWNESS),
+    FAST_DIGGING(PotionEffectType.HASTE),
+    SLOW_DIGGING(PotionEffectType.MINING_FATIGUE),
+    INCREASE_DAMAGE(PotionEffectType.STRENGTH),
+    HEAL(PotionEffectType.INSTANT_HEALTH),
+    HARM(PotionEffectType.INSTANT_DAMAGE),
+    JUMP(PotionEffectType.JUMP_BOOST),
+    CONFUSION(PotionEffectType.NAUSEA),
     REGENERATION(PotionEffectType.REGENERATION),
-    DAMAGE_RESISTANCE(PotionEffectType.DAMAGE_RESISTANCE),
+    DAMAGE_RESISTANCE(PotionEffectType.RESISTANCE),
     FIRE_RESISTANCE(PotionEffectType.FIRE_RESISTANCE),
     WATER_BREATHING(PotionEffectType.WATER_BREATHING),
     INVISIBILITY(PotionEffectType.INVISIBILITY),

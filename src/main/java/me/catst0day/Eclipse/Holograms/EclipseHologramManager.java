@@ -104,7 +104,7 @@ public class EclipseHologramManager {
         
         // Remove from all players
         for (Player player : Bukkit.getOnlinePlayers()) {
-            EclipseHoloPktHandler.hideHologram(player, hologram);
+            EclipseHologramPacket.hideHologram(player, hologram);
         }
         
         deleteHologramFromDB(name);
@@ -162,8 +162,8 @@ public class EclipseHologramManager {
         saveHologram(hologram);
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (hologram.isVisibleTo(player)) {
-                EclipseHoloPktHandler.hideHologram(player, hologram);
-                EclipseHoloPktHandler.showHologram(player, hologram);
+                EclipseHologramPacket.hideHologram(player, hologram);
+                EclipseHologramPacket.showHologram(player, hologram);
             }
         }
     }
@@ -185,7 +185,7 @@ public class EclipseHologramManager {
                 Set<EclipseHologram> playerVisible = visibleHolograms.computeIfAbsent(player.getUniqueId(), k -> new HashSet<>());
                 
                 if (!playerVisible.contains(hologram)) {
-                    EclipseHoloPktHandler.showHologram(player, hologram);
+                    EclipseHologramPacket.showHologram(player, hologram);
                     playerVisible.add(hologram);
                 }
             }
@@ -196,7 +196,7 @@ public class EclipseHologramManager {
         if (playerVisible != null) {
             for (EclipseHologram hologram : new HashSet<>(playerVisible)) {
                 if (!currentlyVisible.contains(hologram)) {
-                    EclipseHoloPktHandler.hideHologram(player, hologram);
+                    EclipseHologramPacket.hideHologram(player, hologram);
                     playerVisible.remove(hologram);
                 }
             }
@@ -206,7 +206,7 @@ public class EclipseHologramManager {
     public void showAllHologramsToPlayer(Player player) {
         for (EclipseHologram hologram : holograms.values()) {
             if (hologram.isVisibleTo(player)) {
-                EclipseHoloPktHandler.showHologram(player, hologram);
+                EclipseHologramPacket.showHologram(player, hologram);
                 visibleHolograms.computeIfAbsent(player.getUniqueId(), k -> new HashSet<>()).add(hologram);
             }
         }
@@ -216,7 +216,7 @@ public class EclipseHologramManager {
         Set<EclipseHologram> playerVisible = visibleHolograms.remove(player.getUniqueId());
         if (playerVisible != null) {
             for (EclipseHologram hologram : playerVisible) {
-                EclipseHoloPktHandler.hideHologram(player, hologram);
+                EclipseHologramPacket.hideHologram(player, hologram);
             }
         }
     }

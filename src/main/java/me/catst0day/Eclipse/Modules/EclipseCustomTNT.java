@@ -1,7 +1,7 @@
 package me.catst0day.Eclipse.Modules;
 
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
@@ -48,7 +48,7 @@ public class EclipseCustomTNT implements Listener {
     }
 
     private void spawnCustomTNT(Location loc, String type) {
-        TNTPrimed tnt = (TNTPrimed) loc.getWorld().spawnEntity(loc.add(0.5, 0, 0.5), EntityType.PRIMED_TNT);
+        TNTPrimed tnt = loc.getWorld().spawn(loc.add(0.5, 0, 0.5), TNTPrimed.class);
         tnt.setMetadata("eclipse_tnt_type", new FixedMetadataValue(plugin, type));
         String text = config.getString("tnts." + type + ".display-hologramm");
         ArmorStand holo = loc.getWorld().spawn(loc.clone().add(0, 1, 0), ArmorStand.class, as -> {

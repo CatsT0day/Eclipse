@@ -26,7 +26,7 @@ public class exp extends CommandTemplate {
                 plugin,
                 "exp",
                 List.of("experience"),
-                EclipsePermissionManager.CAPIPermissions.EXP,
+                EclipsePermissionManager.EclipsePerm.EXP,
                 false,
                 0,
                 "edit player exp"

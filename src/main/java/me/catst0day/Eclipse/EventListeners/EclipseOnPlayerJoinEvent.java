@@ -14,7 +14,7 @@ public class EclipseOnPlayerJoinEvent implements Listener {
 
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        EclipsePlr player = (EclipsePlr) event.getPlayer();
+        EclipsePlr player = Eclipse.getI().getPlayer(event.getPlayer().getUniqueId());
 
         String title = Eclipse.getI().getConfig().getString("join.title");
         String subtitle = Eclipse.getI().getConfig().getString("join.subtitle");

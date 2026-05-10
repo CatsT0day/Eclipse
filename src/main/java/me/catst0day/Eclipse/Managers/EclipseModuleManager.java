@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static me.catst0day.Eclipse.Utils.Util.log;
+
 public class EclipseModuleManager {
     private final Eclipse plugin;
     private final File moduleFile;
@@ -18,7 +20,7 @@ public class EclipseModuleManager {
 
     public EclipseModuleManager(Eclipse plugin) {
         this.plugin = plugin;
-        this.moduleFile = new File(plugin.getDataFolder(), "module_status.yml");
+        this.moduleFile = new File(plugin.getDataFolder(), "modules.yml");
         this.modules = new HashMap<>();
         this.systemEnabled = true;
         
@@ -28,7 +30,7 @@ public class EclipseModuleManager {
 
     private void loadConfig() {
         if (!moduleFile.exists()) {
-            plugin.saveResource("module_status.yml", false);
+            plugin.saveResource("modules.yml", false);
         }
         moduleConfig = YamlConfiguration.loadConfiguration(moduleFile);
         systemEnabled = moduleConfig.getBoolean("enabled", true);
@@ -66,7 +68,7 @@ public class EclipseModuleManager {
 
             moduleConfig.save(moduleFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("Failed to save module_status.yml: " + e.getMessage());
+            log("Failed to save module.yml: " + e.getMessage());
         }
     }
 
@@ -85,7 +87,7 @@ public class EclipseModuleManager {
 
     public boolean isModuleEnabled(String moduleName) {
         if (!systemEnabled) return false;
-        return modules.getOrDefault(moduleName.toLowerCase(), true);
+        return !modules.getOrDefault(moduleName.toLowerCase(), false);
     }
 
     public void setModuleEnabled(String moduleName, boolean enabled) {

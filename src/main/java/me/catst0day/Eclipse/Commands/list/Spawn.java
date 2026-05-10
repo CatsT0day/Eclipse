@@ -15,7 +15,7 @@ public class Spawn extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Spawn(Eclipse plugin) {
-        super(plugin, "spawn", List.of(), EclipsePermissionManager.CAPIPermissions.SPAWN, true, 5L, "tp to spawn");
+        super(plugin, "spawn", List.of(), EclipsePermissionManager.EclipsePerm.SPAWN, true, 5L, "tp to spawn");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -24,7 +24,7 @@ public class Spawn extends CommandTemplate {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
 
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.SPAWN, "teleport to spawn");
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.SPAWN, "teleport to spawn");
     }
 
     @Override

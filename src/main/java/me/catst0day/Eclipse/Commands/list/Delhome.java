@@ -11,7 +11,7 @@ import java.util.List;
 public class Delhome extends CommandTemplate {
 
     public Delhome(Eclipse plugin) {
-        super(plugin, "delhome", List.of("remhome"), EclipsePermissionManager.CAPIPermissions.HOME, true, 0, "del home");
+        super(plugin, "delhome", List.of("remhome"), EclipsePermissionManager.EclipsePerm.HOME, true, 0, "del home");
     }
 
     @Override

@@ -3,7 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class Feed extends CommandTemplate implements Listener {
     private final Map<UUID, Integer> feedingTasks = new HashMap<>();
 
     public Feed(Eclipse plugin) {
-        super(plugin, "feed", List.of("eat"), EclipsePermissionManager.CAPIPermissions.FEED, true, 0, "Restore hunger over time");
+        super(plugin, "feed", List.of("eat"), EclipsePermissionManager.EclipsePerm.FEED, true, 0, "Restore hunger over time");
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

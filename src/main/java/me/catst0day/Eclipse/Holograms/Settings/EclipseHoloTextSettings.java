@@ -1,5 +1,7 @@
 package me.catst0day.Eclipse.Holograms.Settings;
 
+import me.catst0day.Eclipse.Holograms.EclipseHologram;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -142,5 +144,8 @@ public class EclipseHoloTextSettings {
             settings.fillerAmount = (int) entry.get("fillerAmount");
         }
         return settings;
+    }
+
+    public void setTextAlignment(EclipseHologram.TextAlignment textAlignment) {
     }
 }

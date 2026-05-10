@@ -20,7 +20,7 @@ public class Warp extends CommandTemplate {
                 plugin,
                 "warp",
                 List.of("warps"),
-                EclipsePermissionManager.CAPIPermissions.WARP_USE,
+                EclipsePermissionManager.EclipsePerm.WARP_USE,
                 false,
                 0L,
                 "Teleports to warp location"

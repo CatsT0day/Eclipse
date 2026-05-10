@@ -1,6 +1,6 @@
 package me.catst0day.Eclipse.Utils;
 
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -10,7 +10,7 @@ import static me.catst0day.Eclipse.Utils.Util.log;
 
 public class ResourceDownloader {
     private final Plugin plugin;
-    private static final Set<String> valid = Set.of("yml", "txt", "jar");
+    private static final Set<String> Supported = Set.of("yml", "txt", "jar");
 
     public ResourceDownloader(Plugin plugin) {
         this.plugin = plugin;
@@ -19,7 +19,7 @@ public class ResourceDownloader {
     public void downloadFromResources(String resourcePath, String targetPath, boolean inform) {
         String extension = getFileExtension(resourcePath);
 
-        if (!valid.contains(extension)) {
+        if (!Supported.contains(extension)) {
             if (inform) log("Unsupported file extension: " + extension);
             return;
         }

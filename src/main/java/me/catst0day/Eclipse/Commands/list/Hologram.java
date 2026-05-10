@@ -4,6 +4,7 @@ import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Holograms.EclipseHologram;
 import me.catst0day.Eclipse.Holograms.EclipseHoloCFGGui;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,7 +24,7 @@ public class Hologram extends CommandTemplate {
     private static final int MAX_PERMISSION_LENGTH = 128;
 
     public Hologram(Eclipse plugin) {
-        super(plugin, "hologram", List.of("holo"), null, true, 0, "Manage holograms");
+        super(plugin, "hologram", List.of("holo"), EclipsePermissionManager.EclipsePerm.HOLOGRAMS, true, 0, "Manage holograms");
         tabCompleteArguments = Arrays.asList("create", "delete", "edit", "list", "move", "info", "near", "reload", "set", "page", "toggle", "addline", "removeline", "setline", "copy");
     }
 

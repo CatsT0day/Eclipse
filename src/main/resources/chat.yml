@@ -1,5 +1,14 @@
-# Chat Configuration
-# Chat system with word filtering by languages
+#░██████████            ░██ ░██
+#░██                    ░██
+#░██          ░███████  ░██ ░██░████████   ░███████   ░███████
+#░█████████  ░██    ░██ ░██ ░██░██    ░██ ░██        ░██    ░██
+#░██         ░██        ░██ ░██░██    ░██  ░███████  ░█████████
+# ██         ░██    ░██ ░██ ░██░███   ░██        ░██ ░██
+#░██████████  ░███████  ░██ ░██░██░█████   ░███████   ░███████
+#                              ░██
+#                              ░██
+# Eclipse chat configuration
+# Thank you for downloading my plugin! - CatsT0day
 
 # Enable chat system
 enabled: true
@@ -18,17 +27,17 @@ chatFormats:
 
 # Word filtering by languages
 languageFilters:
-  # Russian language - block Russian words
+  # Russian language - block some Russian words
   RU:
     enabled: true
     blockedWords:
       - "идиот"
       - "тупой"
       - "глупый"
-    replacement: "***"
+    replacement: "#&?!"
     caseSensitive: false
 
-  # English language - block English words
+  # English language - block some English words
   EN:
     enabled: true
     blockedWords:
@@ -36,28 +45,15 @@ languageFilters:
       - "idiot"
       - "dumb"
       - "idiot"
-    replacement: "***"
+    replacement: "#&?!"
     caseSensitive: false
 
   # Spanish language
   ES:
     enabled: true
     blockedWords:
-      - "hola"
-      - "adios"
-      - "gracias"
-      - "por favor"
-      - "si"
-      - "no"
-      - "bueno"
-      - "malo"
-      - "amor"
-      - "odio"
-      - "mamá"
-      - "papá"
-      - "estúpido"
-      - "tonto"
-    replacement: "***"
+      # It will be added in other upd :)
+    replacement: "#&?!"
     caseSensitive: false
 
 
@@ -67,7 +63,7 @@ moderation:
   
   # Warn for using blocked words
   warnPlayer: true
-  warnMessage: "&cВаше сообщение содержит запрещенные слова!"
+  warnMessage: "&cYour message contains some.... words"
   
   # Log blocked messages
   logBlockedMessages: true

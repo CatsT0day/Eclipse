@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static me.catst0day.Eclipse.Schedulers.EclipseScheduler.runTask;
+import static me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler.runTask;
 
 public class EclipsePlr {
     private final UUID uuid;

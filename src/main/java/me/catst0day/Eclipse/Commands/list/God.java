@@ -10,7 +10,7 @@ import java.util.List;
 public class God extends CommandTemplate {
 
     public God(Eclipse plugin) {
-        super(plugin, "god", List.of(), EclipsePermissionManager.CAPIPermissions.GOD, true, 0, "Toggle god mode");
+        super(plugin, "god", List.of(), EclipsePermissionManager.EclipsePerm.GOD, true, 0, "Toggle god mode");
     }
 
     @Override

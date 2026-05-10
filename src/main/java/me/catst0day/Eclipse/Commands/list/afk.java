@@ -13,7 +13,7 @@ import java.util.List;
 public class afk extends CommandTemplate {
 
     public afk(Eclipse plugin) {
-        super(plugin, "afk", List.of("away"), EclipsePermissionManager.CAPIPermissions.AFK, true, 5, "enable afk");
+        super(plugin, "afk", List.of("away"), EclipsePermissionManager.EclipsePerm.AFK, true, 5, "enable afk");
         setTabCompleteArguments(List.of("-p:", "-s"));
     }
 

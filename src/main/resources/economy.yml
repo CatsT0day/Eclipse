@@ -1,5 +1,14 @@
-# Eclipse Economy Configuration
-# This file contains all settings for the economy system
+#░██████████            ░██ ░██
+#░██                    ░██
+#░██          ░███████  ░██ ░██░████████   ░███████   ░███████
+#░█████████  ░██    ░██ ░██ ░██░██    ░██ ░██        ░██    ░██
+#░██         ░██        ░██ ░██░██    ░██  ░███████  ░█████████
+# ██         ░██    ░██ ░██ ░██░███   ░██        ░██ ░██
+#░██████████  ░███████  ░██ ░██░██░█████   ░███████   ░███████
+#                              ░██
+#                              ░██
+# Eclipse economy configuration
+# Thank you for downloading my plugin! - CatsT0day
 
 # General Economy Settings
 currencyName: "Coins"
@@ -22,7 +31,7 @@ account:
   maximumBalance: 999999999.0
   interestEnabled: false
   interestRate: 0.01
-  interestIntervalTicks: 72000  # 1 hour in ticks (20 ticks = 1 second)
+  interestIntervalTicks: 72000  # 1 hour in ticks
 
 # Transaction Settings
 transaction:

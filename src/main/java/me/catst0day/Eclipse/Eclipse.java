@@ -19,7 +19,7 @@ import me.catst0day.Eclipse.Utils.VersionChecker;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Entity.Player.GuiListener;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import me.catst0day.Eclipse.Managers.Database.EclipseSQLiteManager;
 
 import net.milkbowl.vault.economy.Economy;
@@ -36,6 +36,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -87,8 +88,8 @@ public class Eclipse extends JavaPlugin {
         
         setupVaultEconomy();
 
-        registerAllCommandsFromPackage();
-        setupMainCommand();
+        register();
+        setup();
         registerEvents();
         getVersionCheckManager().checkForUpdates();
 
@@ -182,9 +183,7 @@ public class Eclipse extends JavaPlugin {
         sender.sendMessage(msg);
     }
 
-    // --- Cmd reg ---
-
-    private void registerAllCommandsFromPackage() {
+    private void register() {
         String packageName = "me.catst0day.Eclipse.Commands.list";
         long startTime = System.currentTimeMillis();
         String path = packageName.replace('.', '/');
@@ -249,15 +248,15 @@ public class Eclipse extends JavaPlugin {
 
     private Command createBukkitCommand(String name, CommandTemplate template) {
         return new Command(name) {
-            @Override public boolean execute(@NotNull CommandSender s, @NotNull String l, String[] a) { return template.onCommand(s, this, l, a); }
-            @Override public @NotNull List<String> tabComplete(@NotNull CommandSender s, @NotNull String al, String[] a) {
+            @Override public boolean execute(@NotNull CommandSender s, @NotNull String l, String @NonNull [] a) { return template.onCommand(s, this, l, a); }
+            @Override public @NotNull List<String> tabComplete(@NotNull CommandSender s, @NotNull String al, String @NonNull [] a) {
                 List<String> result = template.onTabComplete(s, this, al, a);
                 return result != null ? result : Collections.emptyList();
             }
         };
     }
 
-    private void setupMainCommand() {
+    private void setup() {
         PluginCommand main = getCommand("eclipse");
         if (main == null) return;
 
@@ -293,8 +292,6 @@ public class Eclipse extends JavaPlugin {
             return Collections.emptyList();
         });
     }
-
-    // --- Teleport System ---
 
     public void teleport(Player player, Location target) {
         if (target == null || target.getWorld() == null) {
@@ -360,11 +357,8 @@ public class Eclipse extends JavaPlugin {
     public EclipseModuleManager getModuleManager() { return moduleManager == null ? (moduleManager = new EclipseModuleManager(this)) : moduleManager; }
     public EclipseHologramManager getHologramManager() { return hologramManager == null ? (hologramManager = new EclipseHologramManager(this)) : hologramManager; }
     public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "Eclipse")) : versionCheckManager; }
-    // create getters for all managers here...
     public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
-    public boolean isFlyMode(UUID uuid) { return flyMode.getOrDefault(uuid, false); }
-    public void setFlyMode(UUID uuid, boolean enabled) { flyMode.put(uuid, enabled); }
     public Map<UUID, UUID> getTpaRequests() { return tpaRequests; }
 
     public void toggleGodMode(Player sender, String[] args) {

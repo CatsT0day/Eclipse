@@ -12,7 +12,7 @@ import java.util.List;
 public class FlySpeed extends CommandTemplate {
 
     public FlySpeed(Eclipse plugin) {
-        super(plugin, "flyspeed", List.of("fspeed"), EclipsePermissionManager.CAPIPermissions.ELYTRAFLY, true, 0, "Set fly speed");
+        super(plugin, "flyspeed", List.of("fspeed"), EclipsePermissionManager.EclipsePerm.ELYTRAFLY, true, 0, "Set fly speed");
     }
 
     @Override

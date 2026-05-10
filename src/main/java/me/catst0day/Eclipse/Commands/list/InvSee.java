@@ -17,7 +17,7 @@ import java.util.List;
 public class InvSee extends CommandTemplate implements Listener {
 
     public InvSee(Eclipse plugin) {
-        super(plugin, "invsee", List.of("inventory"), EclipsePermissionManager.CAPIPermissions.INVSEE, true, 0L, "View/Edit player inventory");
+        super(plugin, "invsee", List.of("inventory"), EclipsePermissionManager.EclipsePerm.INVSEE, true, 0L, "View/Edit player inventory");
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

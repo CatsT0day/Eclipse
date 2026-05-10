@@ -3,7 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class Heal extends CommandTemplate implements Listener {
     private final Map<UUID, Integer> healingTasks = new HashMap<>();
 
     public Heal(Eclipse plugin) {
-        super(plugin, "heal", List.of(), EclipsePermissionManager.CAPIPermissions.HEAL, true, 0, "Restore health over time");
+        super(plugin, "heal", List.of(), EclipsePermissionManager.EclipsePerm.HEAL, true, 0, "Restore health over time");
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

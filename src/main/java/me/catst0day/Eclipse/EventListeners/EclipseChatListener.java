@@ -22,7 +22,7 @@ public class EclipseChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if (!plugin.getModuleManager().isModuleEnabled("chat")) return;
+        if (plugin.getModuleManager().isModuleEnabled("chat")) return;
         if (!chatManager.isEnabled()) return;
 
         Player player = event.getPlayer();

@@ -1,17 +1,15 @@
 package me.catst0day.Eclipse.Holograms;
 
+import me.catst0day.Eclipse.Holograms.Processor.EclipseHoloProcessor;
+import me.catst0day.Eclipse.Holograms.Processor.EclipseHoloProcessorDisplay;
 import me.catst0day.Eclipse.Holograms.Processor.EclipseHoloProcessorArmorStand;
 import me.catst0day.Eclipse.Holograms.Settings.*;
-import me.catst0day.Eclipse.Holograms.Processor.HologramProcessor;
-import me.catst0day.Eclipse.Holograms.Processor.HologramProcessorDisplay;
-import me.catst0day.Eclipse.Holograms.Processor.HologramProcessorArmorStand;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -39,6 +37,10 @@ public class EclipseHologram {
     public enum FollowType {
         FIXED, VERTICAL, HORIZONTAL, CENTER
     }
+
+    public enum TextAlignment {
+        LEFT, CENTER, RIGHT
+    }
     
     public EclipseHologram(String name, Location location, List<String> lines) {
         this.name = sanitizeName(name);
@@ -50,18 +52,13 @@ public class EclipseHologram {
         this.showParticles = true;
         this.enabled = true;
         this.permission = null;
-        
-        // Initialize modular settings
         this.settings = new EclipseHoloSettings();
         this.textSettings = new EclipseHoloTextSettings();
         this.iconSettings = new EclipseHoloIconSettings();
         this.animationSettings = new EclipseHoloAnimSettings();
         this.boardSettings = new EclipseHoloBoardSettings();
         this.pageSettings = new EclipseHoloPageSettings();
-        
-        // Initialize processor based on version
         initializeProcessor();
-        
         this.playerPages = new HashMap<>();
     }
     
@@ -293,13 +290,13 @@ public class EclipseHologram {
     
     public FollowType getFollowType() {
         Billboard billboard = settings.getBillboard();
-        switch (billboard) {
-            case FIXED: return FollowType.FIXED;
-            case VERTICAL: return FollowType.VERTICAL;
-            case HORIZONTAL: return FollowType.HORIZONTAL;
-            case CENTER: return FollowType.CENTER;
-            default: return FollowType.FIXED;
-        }
+        return switch (billboard) {
+            case FIXED -> FollowType.FIXED;
+            case VERTICAL -> FollowType.VERTICAL;
+            case HORIZONTAL -> FollowType.HORIZONTAL;
+            case CENTER -> FollowType.CENTER;
+            default -> FollowType.FIXED;
+        };
     }
     
     public void setFollowType(FollowType followType) {
@@ -320,11 +317,11 @@ public class EclipseHologram {
     }
     
     public TextAlignment getTextAlignment() {
-        return textSettings.getTextAlignment();
+        return TextAlignment.valueOf(textSettings.getTextAlignment().name());
     }
     
     public void setTextAlignment(TextAlignment textAlignment) {
-        textSettings.setTextAlignment(textAlignment);
+        textSettings.setTextAlignment(me.catst0day.Eclipse.Holograms.Settings.TextAlignment.valueOf(textAlignment.name()));
     }
     
     public boolean isTextShadow() {
@@ -404,7 +401,8 @@ public class EclipseHologram {
     }
     
     public void setScale(double scale) {
-        settings.setScale(Math.max(0.1, Math.min(5.0, scale)));
+        double clampedScale = Math.max(0.1, Math.min(5.0, scale));
+        settings.setScale(clampedScale, clampedScale, clampedScale);
     }
     
     public double getYawOffset() {
@@ -526,15 +524,15 @@ public class EclipseHologram {
     public boolean isVisibleTo(Player player) {
         if (!enabled) return false;
         if (permission != null && !player.hasPermission(permission)) return false;
-        if (alwaysVisible) return true;
+        if (isAlwaysVisible()) return true;
         if (!player.getWorld().equals(location.getWorld())) return false;
-        return player.getLocation().distance(location) <= viewDistance;
+        return player.getLocation().distance(location) <= getViewDistance();
     }
     
     public boolean shouldUpdateFor(Player player) {
         if (!enabled) return false;
         if (!player.getWorld().equals(location.getWorld())) return false;
-        return player.getLocation().distance(location) <= updateRange;
+        return player.getLocation().distance(location) <= getUpdateRange();
     }
     
     public String parseLine(String line, Player player) {
@@ -543,8 +541,8 @@ public class EclipseHologram {
         String parsed = line;
         parsed = parseCText(parsed, player);
         parsed = parseIcons(parsed, player);
-        if (textFillerWidth > 0 && parsed.contains("%filler%")) {
-            parsed = parsed.replace("%filler%", generateFiller(parsed, textFillerWidth));
+        if (getTextFillerWidth() > 0 && parsed.contains("%filler%")) {
+            parsed = parsed.replace("%filler%", generateFiller(parsed, getTextFillerWidth()));
         }
         
         return parsed;
@@ -554,7 +552,7 @@ public class EclipseHologram {
         Pattern pattern = Pattern.compile("<T>(.*?)</T>(?:<C>(.*?)</C>)?(?:<H>(.*?)</H>)?");
         Matcher matcher = pattern.matcher(line);
         
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         while (matcher.find()) {
             String text = matcher.group(1) != null ? matcher.group(1) : "";
             String command = matcher.group(2) != null ? matcher.group(2) : "";
@@ -576,8 +574,6 @@ public class EclipseHologram {
         int spacesNeeded = Math.max(0, targetWidth - currentWidth);
         return " ".repeat(spacesNeeded);
     }
-    
-    // Settings getters for direct access (CMI-style)
     public EclipseHoloSettings getSettings() {
         return settings;
     }

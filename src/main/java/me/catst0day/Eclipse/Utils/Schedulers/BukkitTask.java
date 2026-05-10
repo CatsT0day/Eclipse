@@ -1,5 +1,5 @@
 
-package me.catst0day.Eclipse.Schedulers;
+package me.catst0day.Eclipse.Utils.Schedulers;
 
 import org.bukkit.plugin.Plugin;
 

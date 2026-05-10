@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.list;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import me.catst0day.Eclipse.Utils.Text.RawJsonMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import java.util.List;
 public class Help extends CommandTemplate {
 
     public Help(Eclipse plugin) {
-        super(plugin, "help", List.of("?", "h"), CAPIPermissions.HELP, true, 0, "Show help information");
+        super(plugin, "help", List.of("?", "h"), EclipsePerm.HELP, true, 0, "Show help information");
     }
 
     @Override

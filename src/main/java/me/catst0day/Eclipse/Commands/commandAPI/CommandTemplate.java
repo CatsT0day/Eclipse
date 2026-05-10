@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.commandAPI;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.EventListeners.EclipseOnCommandEvent;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,9 +10,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static me.catst0day.Eclipse.Utils.Util.log;
 
@@ -22,7 +22,7 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
     protected final Eclipse plugin;
     protected final String name;
     protected final List<String> aliases;
-    protected final CAPIPermissions perm;
+    protected final EclipsePerm perm;
     protected final boolean requirePlayer;
     protected final long cooldownSeconds;
     protected final String description;
@@ -31,7 +31,7 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
     private final Map<UUID, Long> cooldowns = new HashMap<>();
 
     protected CommandTemplate(Eclipse plugin, String name, List<String> aliases,
-                              CAPIPermissions perm, boolean requirePlayer,
+                              EclipsePerm perm, boolean requirePlayer,
                               long cooldownSeconds, String description) {
         this.plugin = plugin;
         this.name = name;
@@ -113,16 +113,17 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
     }
 
     protected boolean hasPermission(CommandSender sender, String[] args) {
+        if (perm == null) return true;
         return sender.hasPermission(perm.getPermission(args));
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NonNull [] args) {
         return onCommand(sender, args);
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String @NonNull [] args) {
         Player player = (sender instanceof Player p) ? p : null;
         if (requirePlayer && player == null) return Collections.emptyList();
 
@@ -140,12 +141,9 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
         return tabCompl(player, args);
     }
 
-    // --- Abstract Methods ---
     protected abstract boolean perform(CommandSender sender, @Nullable Player player, String[] args);
     protected abstract boolean perform(Player player, String[] args);
     protected abstract List<String> tabCompl(@Nullable Player player, String[] args);
-
-    // --- Restored All Getters & Setters ---
     public String getName() { return name; }
     public String getDescription() { return description; }
     public List<String> getAliases() { return aliases != null ? aliases : new ArrayList<>(); }

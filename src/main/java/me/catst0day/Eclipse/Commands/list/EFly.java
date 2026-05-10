@@ -3,7 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
-import me.catst0day.Eclipse.Schedulers.EclipseScheduler;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class EFly extends CommandTemplate implements Listener {
     private final Set<UUID> eflyActive = new HashSet<>();
 
     public EFly(Eclipse plugin) {
-        super(plugin, "efly", List.of(), EclipsePermissionManager.CAPIPermissions.ELYTRAFLY, true, 0, "Elytra flight mode");
+        super(plugin, "efly", List.of(), EclipsePermissionManager.EclipsePerm.ELYTRAFLY, true, 0, "Elytra flight mode");
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

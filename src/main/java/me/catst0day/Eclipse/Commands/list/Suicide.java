@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.list;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class Suicide extends CommandTemplate {
                 plugin,
                 "suicide",
                 List.of("killyourself"),
-                CAPIPermissions.SUICIDE,
+                EclipsePerm.SUICIDE,
                 true,
                 0,
                 "Commit suicide and die instantly"

@@ -1,7 +1,7 @@
 package me.catst0day.Eclipse.Utils;
 
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.Exceptions.ConfigReloadException;
+import me.catst0day.Eclipse.Utils.Exceptions.ConfigReloadException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;

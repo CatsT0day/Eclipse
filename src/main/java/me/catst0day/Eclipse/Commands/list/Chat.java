@@ -12,12 +12,12 @@ import java.util.List;
 public class Chat extends CommandTemplate {
 
     public Chat(Eclipse plugin) {
-        super(plugin, "chat", List.of("ch", "channel"), EclipsePermissionManager.CAPIPermissions.MAIN, true, 0, "Change chat mode");
+        super(plugin, "chat", List.of("ch", "channel"), EclipsePermissionManager.EclipsePerm.MAIN, true, 0, "Change chat mode");
     }
 
     @Override
     protected boolean perform(Player player, String[] args) {
-        if (!plugin.getModuleManager().isModuleEnabled("chat")) {
+        if (plugin.getModuleManager().isModuleEnabled("chat")) {
             player.sendMessage(plugin.getMessage("moduleDisabled"));
             return true;
         }
@@ -26,7 +26,7 @@ public class Chat extends CommandTemplate {
 
     @Override
     protected boolean perform(CommandSender sender, Player player, String[] args) {
-        if (!plugin.getModuleManager().isModuleEnabled("chat")) {
+        if (plugin.getModuleManager().isModuleEnabled("chat")) {
             sender.sendMessage(plugin.getMessage("moduleDisabled"));
             return true;
         }
@@ -34,12 +34,10 @@ public class Chat extends CommandTemplate {
     }
 
     private boolean execute(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(plugin.getMessage("playerOnlyCommand"));
             return true;
         }
-
-        Player player = (Player) sender;
 
         if (args.length == 0) {
             EclipseChatManager.ChatMode currentMode = plugin.getChatManager().getPlayerChatMode(player.getUniqueId());

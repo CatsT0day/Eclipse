@@ -12,7 +12,7 @@ public class SetWarp extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public SetWarp(Eclipse plugin) {
-        super(plugin, "setwarp", List.of("sw"), EclipsePermissionManager.CAPIPermissions.WARP_SET, true, 0L, "set warp");
+        super(plugin, "setwarp", List.of("sw"), EclipsePermissionManager.EclipsePerm.WARP_SET, true, 0L, "set warp");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -20,7 +20,7 @@ public class SetWarp extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.WARP_SET);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.WARP_SET);
     }
 
     @Override

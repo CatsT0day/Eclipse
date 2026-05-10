@@ -1,10 +1,20 @@
-# Module Status Configuration
-# Enable/disable individual modules
+#░██████████            ░██ ░██
+#░██                    ░██
+#░██          ░███████  ░██ ░██░████████   ░███████   ░███████
+#░█████████  ░██    ░██ ░██ ░██░██    ░██ ░██        ░██    ░██
+#░██         ░██        ░██ ░██░██    ░██  ░███████  ░█████████
+# ██         ░██    ░██ ░██ ░██░███   ░██        ░██ ░██
+#░██████████  ░███████  ░██ ░██░██░█████   ░███████   ░███████
+#                              ░██
+#                              ░██
+# Eclipse module configuration
+# Thank you for downloading my plugin! - CatsT0day
 
-# Module System
+
+# is module system enabled?
 enabled: true
 
-# Individual Modules
+# Are Individual Modules enabled?
 modules:
   chat:
     enabled: true

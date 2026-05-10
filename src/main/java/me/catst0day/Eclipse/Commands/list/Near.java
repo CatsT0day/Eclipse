@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.list;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import java.util.List;
 public class Near extends CommandTemplate {
 
     public Near(Eclipse plugin) {
-        super(plugin, "near", List.of(), CAPIPermissions.NEAR, true, 0, "Find nearby players");
+        super(plugin, "near", List.of(), EclipsePerm.NEAR, true, 0, "Find nearby players");
         setTabCompleteArguments(List.of("10", "20", "50", "100"));
     }
 
@@ -29,7 +29,7 @@ public class Near extends CommandTemplate {
                     return true;
                 }
 
-                if (!plugin.getPermissionManager().hasPermission(player, CAPIPermissions.NEAR_RADIUS, String.valueOf((int) radius))) {
+                if (!plugin.getPermissionManager().hasPermission(player, EclipsePerm.NEAR_RADIUS, String.valueOf((int) radius))) {
                     player.sendMessage(plugin.getMessage("CannotUseRadius"));
                     return true;
                 }

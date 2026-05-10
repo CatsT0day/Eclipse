@@ -2,7 +2,7 @@ package me.catst0day.Eclipse.Commands.list;
 
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -13,7 +13,7 @@ import java.util.List;
 public class Spec extends CommandTemplate {
 
     public Spec(Eclipse plugin) {
-        super(plugin, "spec", List.of("spectate"), CAPIPermissions.SPEC, true, 0, "Spectate a player");
+        super(plugin, "spec", List.of("spectate"), EclipsePerm.SPEC, true, 0, "Spectate a player");
     }
 
     @Override

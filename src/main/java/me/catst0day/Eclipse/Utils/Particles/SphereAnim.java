@@ -1,4 +1,4 @@
-package me.catst0day.Eclipse.Particles;
+package me.catst0day.Eclipse.Utils.Particles;
 
 import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import org.bukkit.Color;
@@ -7,18 +7,17 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-@Deprecated(since = "1.02.95", forRemoval = true)
+
 public class SphereAnim implements ParticleAnim {
     private BukkitTask task;
     private final double radius;
     private double angle = 0.0;
-    @Deprecated(since = "1.02.95", forRemoval = true)
+
     public SphereAnim(double radius) {
         this.radius = radius;
     }
 
     @Override
-    @Deprecated(since = "1.02.95", forRemoval = true)
     public void start(Plugin plugin, final Location center, Player owner, String structureName) {
         this.task = EclipseScheduler.scheduleSyncRepeatingTask(plugin, () -> {
             if (center.getWorld() == null) {
@@ -54,7 +53,6 @@ public class SphereAnim implements ParticleAnim {
     }
 
     @Override
-    @Deprecated(since = "1.02.95", forRemoval = true)
     public void stop() {
         if (this.task != null) {
             this.task.cancel();

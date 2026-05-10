@@ -15,7 +15,7 @@ public class Sethome extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Sethome(Eclipse plugin) {
-        super(plugin, "sethome", List.of("sh"), EclipsePermissionManager.CAPIPermissions.HOME, true, 0L, "set home");
+        super(plugin, "sethome", List.of("sh"), EclipsePermissionManager.EclipsePerm.HOME, true, 0L, "set home");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -23,7 +23,7 @@ public class Sethome extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.HOME);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.HOME);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Sethome extends CommandTemplate {
 
     private int getMaxHomes(Player player) {
         for (int i = 100; i >= 1; i--) {
-            if (permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.MAX_HOMES, String.valueOf(i))) {
+            if (permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.MAX_HOMES, String.valueOf(i))) {
                 return i;
             }
         }

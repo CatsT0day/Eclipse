@@ -7,7 +7,7 @@ public class EclipseHoloLineIcon extends EclipseHoloLine {
     private final Material material;
     private final int data;
     private final boolean isHead;
-    private final String headValue; // player name or base64
+    private final String headValue;
     
     public EclipseHoloLineIcon(Material material, int data) {
         super(EclipseHoloLineType.ICON);

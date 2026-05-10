@@ -1,7 +1,6 @@
 package me.catst0day.Eclipse.Economy;
 
 import me.catst0day.Eclipse.Eclipse;
-import me.catst0day.Eclipse.Economy.Settings.EconomySettings;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
@@ -24,9 +23,14 @@ public class VaultEconomy implements Economy {
     
     @Override
     public String getName() {
-        return "EclipseEconomy";
+        return "Eclipse-eco";
     }
-    
+
+    @Override
+    public boolean hasBankSupport() {
+        return false;
+    }
+
     @Override
     public boolean hasAccount(String playerName) {
         return hasAccount(plugin.getServer().getOfflinePlayer(playerName));
@@ -48,12 +52,12 @@ public class VaultEconomy implements Economy {
     }
     
     @Override
-    public boolean createAccount(String playerName) {
-        return createAccount(plugin.getServer().getOfflinePlayer(playerName));
+    public boolean createPlayerAccount(String playerName) {
+        return createPlayerAccount(plugin.getServer().getOfflinePlayer(playerName));
     }
     
     @Override
-    public boolean createAccount(OfflinePlayer player) {
+    public boolean createPlayerAccount(OfflinePlayer player) {
         if (hasAccount(player)) {
             return false;
         }
@@ -62,23 +66,13 @@ public class VaultEconomy implements Economy {
     }
     
     @Override
-    public boolean createAccount(String playerName, String worldName) {
-        return createAccount(playerName);
+    public boolean createPlayerAccount(String playerName, String worldName) {
+        return createPlayerAccount(playerName);
     }
     
     @Override
-    public boolean createAccount(OfflinePlayer player, String worldName) {
-        return createAccount(player);
-    }
-    
-    @Override
-    public boolean deleteAccount(String playerName) {
-        return false;
-    }
-    
-    @Override
-    public boolean deleteAccount(OfflinePlayer player) {
-        return false;
+    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
+        return createPlayerAccount(player);
     }
     
     @Override
@@ -132,9 +126,9 @@ public class VaultEconomy implements Economy {
         boolean success = economyManager.removeBalance(player.getUniqueId(), amount);
         
         if (success) {
-            return new EconomyResponse(EconomyResponse.ResponseType.SUCCESS, amount, balanceBefore, economyManager.getBalance(player.getUniqueId()));
+            return new EconomyResponse(amount, economyManager.getBalance(player.getUniqueId()), EconomyResponse.ResponseType.SUCCESS, null);
         } else {
-            return new EconomyResponse(EconomyResponse.ResponseType.FAILURE, 0, balanceBefore, balanceBefore);
+            return new EconomyResponse(0, balanceBefore, EconomyResponse.ResponseType.FAILURE, null);
         }
     }
     
@@ -159,9 +153,9 @@ public class VaultEconomy implements Economy {
         boolean success = economyManager.addBalance(player.getUniqueId(), amount);
         
         if (success) {
-            return new EconomyResponse(EconomyResponse.ResponseType.SUCCESS, amount, balanceBefore, economyManager.getBalance(player.getUniqueId()));
+            return new EconomyResponse(amount, economyManager.getBalance(player.getUniqueId()), EconomyResponse.ResponseType.SUCCESS, null);
         } else {
-            return new EconomyResponse(EconomyResponse.ResponseType.FAILURE, 0, balanceBefore, balanceBefore);
+            return new EconomyResponse(0, balanceBefore, EconomyResponse.ResponseType.FAILURE, null);
         }
     }
     
@@ -174,100 +168,65 @@ public class VaultEconomy implements Economy {
     public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
         return depositPlayer(player, amount);
     }
-    
+
     @Override
     public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(EconomyResponse.ResponseType.NOT_IMPLEMENTED, 0, 0, 0);
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
-    
+
+    @Override
+    public EconomyResponse createBank(String name, OfflinePlayer player) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
+    }
+
     @Override
     public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(EconomyResponse.ResponseType.NOT_IMPLEMENTED, 0, 0, 0);
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
     public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(EconomyResponse.ResponseType.NOT_IMPLEMENTED, 0, 0, 0);
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(EconomyResponse.ResponseType.NOT_IMPLEMENTED, 0, 0, 0);
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(EconomyResponse.ResponseType.NOT_IMPLEMENTED, 0, 0, 0);
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(EconomyResponse.ResponseType.NOT_IMPLEMENTED, 0, 0, 0);
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
-    public boolean isBankOwner(String name, String playerName) {
-        return false;
+    public EconomyResponse isBankOwner(String name, String playerName) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
-    public boolean isBankOwner(String name, OfflinePlayer player) {
-        return false;
+    public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
-    public boolean isBankMember(String name, String playerName) {
-        return false;
+    public EconomyResponse isBankMember(String name, String playerName) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
-    public boolean isBankMember(String name, OfflinePlayer player) {
-        return false;
+    public EconomyResponse isBankMember(String name, OfflinePlayer player) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, null);
     }
     
     @Override
     public List<String> getBanks() {
         return null;
-    }
-    
-    @Override
-    public boolean createPlayerBankAccount(String playerName, String bankName) {
-        return false;
-    }
-    
-    @Override
-    public boolean createPlayerBankAccount(OfflinePlayer player, String bankName) {
-        return false;
-    }
-    
-    @Override
-    public boolean deletePlayerBankAccount(String playerName, String bankName) {
-        return false;
-    }
-    
-    @Override
-    public boolean deletePlayerBankAccount(OfflinePlayer player, String bankName) {
-        return false;
-    }
-    
-    @Override
-    public boolean isPlayerBankAccountOwner(String playerName, String bankName) {
-        return false;
-    }
-    
-    @Override
-    public boolean isPlayerBankAccountOwner(OfflinePlayer player, String bankName) {
-        return false;
-    }
-    
-    @Override
-    public boolean isPlayerBankAccountMember(String playerName, String bankName) {
-        return false;
-    }
-    
-    @Override
-    public boolean isPlayerBankAccountMember(OfflinePlayer player, String bankName) {
-        return false;
     }
     
     @Override
@@ -286,12 +245,7 @@ public class VaultEconomy implements Economy {
     }
     
     @Override
-    public boolean fractionalDigits() {
-        return economyManager.getSettings().getDecimalPlaces() > 0;
-    }
-    
-    @Override
-    public int fractionalDigitsPlace() {
+    public int fractionalDigits() {
         return economyManager.getSettings().getDecimalPlaces();
     }
 }

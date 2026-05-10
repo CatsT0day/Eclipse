@@ -3,7 +3,7 @@ package me.catst0day.Eclipse.Commands.list;
 import me.catst0day.Eclipse.Eclipse;
 import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager.CAPIPermissions;
+import me.catst0day.Eclipse.Managers.EclipsePermissionManager.EclipsePerm;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Tphere extends CommandTemplate {
 
     public Tphere(Eclipse plugin) {
-        super(plugin, "tphere", List.of("s"), CAPIPermissions.TPHERE, true, 0, "Teleport a player to you");
+        super(plugin, "tphere", List.of("s"), EclipsePerm.TPHERE, true, 0, "Teleport a player to you");
     }
 
     @Override

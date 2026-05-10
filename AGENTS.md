@@ -279,7 +279,7 @@ Bossbar agents provide visual progress indicators.
 Scheduler agents manage asynchronous and timed tasks.
 
 #### EclipseScheduler
-**Location:** `me.catst0day.Eclipse.Schedulers.EclipseScheduler`  
+**Location:** `me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler`  
 **Purpose:** Custom scheduler wrapper  
 **Features:**
 - Task scheduling
@@ -287,11 +287,11 @@ Scheduler agents manage asynchronous and timed tasks.
 - Async task support
 
 #### EclipseTask
-**Location:** `me.catst0day.Eclipse.Schedulers.EclipseTask`  
+**Location:** `me.catst0day.Eclipse.Utils.Schedulers.EclipseTask`  
 **Purpose:** Task representation
 
 #### BukkitTask
-**Location:** `me.catst0day.Eclipse.Schedulers.BukkitTask`  
+**Location:** `me.catst0day.Eclipse.Utils.Schedulers.BukkitTask`  
 **Purpose:** Bukkit task wrapper
 
 ---

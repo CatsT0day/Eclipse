@@ -12,7 +12,7 @@ public class Reload extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Reload(Eclipse plugin) {
-        super(plugin, "CRelaod", List.of(), EclipsePermissionManager.CAPIPermissions.RELOAD, true, 0L, "reload CAPI");
+        super(plugin, "CRelaod", List.of(), EclipsePermissionManager.EclipsePerm.RELOAD, true, 0L, "reload CAPI");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -20,7 +20,7 @@ public class Reload extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.RELOAD);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.RELOAD);
     }
 
     @Override

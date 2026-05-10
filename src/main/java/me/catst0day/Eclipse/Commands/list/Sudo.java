@@ -15,7 +15,7 @@ public class Sudo extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Sudo(Eclipse plugin) {
-        super(plugin, "sudo", List.of(), EclipsePermissionManager.CAPIPermissions.SUDO, false, 0L, "perform a cmd as other plr");
+        super(plugin, "sudo", List.of(), EclipsePermissionManager.EclipsePerm.SUDO, false, 0L, "perform a cmd as other plr");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -23,7 +23,7 @@ public class Sudo extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.SUDO);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.SUDO);
     }
 
     @Override

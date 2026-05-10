@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Gm extends CommandTemplate {
 
     public Gm(Eclipse plugin) {
-        super(plugin, "gm", List.of("gamemode"), EclipsePermissionManager.CAPIPermissions.GM, true, 0, "Change your gamemode");
+        super(plugin, "gm", List.of("gamemode"), EclipsePermissionManager.EclipsePerm.GM, true, 0, "Change your gamemode");
         setTabCompleteArguments(List.of("0", "1", "2", "3", "survival", "creative", "adventure", "spectator"));
     }
 

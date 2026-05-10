@@ -1,6 +1,7 @@
 
 package me.catst0day.Eclipse.Utils;
 
+import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -70,7 +71,7 @@ public class VersionChecker {
             String part = versionStr.substring(start, i);
             part = part.replaceFirst("^0+(?!$)", "");
 
-            if (result.length() > 0) {
+            if (!result.isEmpty()) {
                 result.insert(0, "." + part);
             } else {
                 result.insert(0, part);
@@ -143,19 +144,19 @@ public class VersionChecker {
     }
 
     private void sendUpdateNotifications(String currentVersion, String latestVersion) {
-        String message = ChatColor.GRAY + "_________________/ " +
+        String message = TextUtil.GRAY + "_________________/ " +
                 description.getName() + " \\_________________\n" +
-                ChatColor.GRAY + "| " +
-                ChatColor.YELLOW + latestVersion + ChatColor.GRAY +
+                TextUtil.GRAY + "| " +
+                TextUtil.YELLOW + latestVersion + TextUtil.GRAY +
                 " is now available! Your version: " +
-                ChatColor.RED + currentVersion + "\n";
+                TextUtil.RED + currentVersion + "\n";
 
         if (description.getWebsite() != null) {
-            message += ChatColor.GRAY + "| Website: " +
-                    ChatColor.AQUA + description.getWebsite() + "\n";
+            message += TextUtil.GRAY + "| Website: " +
+                    TextUtil.AQUA + description.getWebsite() + "\n";
         }
 
-        message += ChatColor.GRAY + "----------------------------------------";
+        message += TextUtil.GRAY + "----------------------------------------";
 
         log("Update available: " + latestVersion + " (current: " + currentVersion + ")");
 

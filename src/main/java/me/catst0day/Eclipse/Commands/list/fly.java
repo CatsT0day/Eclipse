@@ -13,7 +13,7 @@ import java.util.List;
 public class fly extends CommandTemplate {
 
     public fly(Eclipse plugin) {
-        super(plugin, "fly", List.of("flight"), EclipsePermissionManager.CAPIPermissions.FLY, true, 0, "Set flight mode for players");
+        super(plugin, "fly", List.of("flight"), EclipsePermissionManager.EclipsePerm.FLY, true, 0, "Set flight mode for players");
     }
 
     @Override

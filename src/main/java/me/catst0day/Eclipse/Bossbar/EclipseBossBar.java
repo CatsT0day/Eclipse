@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import me.catst0day.Eclipse.Schedulers.EclipseTask;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseTask;
 
 public class EclipseBossBar {
     private Player player;

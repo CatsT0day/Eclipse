@@ -5,7 +5,6 @@ import me.catst0day.Eclipse.Commands.commandAPI.CommandTemplate;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class Tpaaccept extends CommandTemplate {
     private final EclipsePermissionManager permissionManager;
 
     public Tpaaccept(Eclipse plugin) {
-        super(plugin, "tpaccept", List.of("teleportaccept"), EclipsePermissionManager.CAPIPermissions.TPA, true, 0L, "accept tp request");
+        super(plugin, "tpaccept", List.of("teleportaccept"), EclipsePermissionManager.EclipsePerm.TPA, true, 0L, "accept tp request");
         this.permissionManager = plugin.getPermissionManager();
     }
 
@@ -25,7 +24,7 @@ public class Tpaaccept extends CommandTemplate {
     protected boolean hasPermission(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
-        return permissionManager.hasPermission(player, EclipsePermissionManager.CAPIPermissions.TPA);
+        return permissionManager.hasPermission(player, EclipsePermissionManager.EclipsePerm.TPA);
     }
 
     @Override
