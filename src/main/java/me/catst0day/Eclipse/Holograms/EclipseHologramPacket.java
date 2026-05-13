@@ -71,7 +71,7 @@ public class EclipseHologramPacket {
                 }
             }
         } catch (Exception e) {
-            Bukkit.getLogger().severe("[EclipseHolograms] Ошибка инициализации рефлексии NMS!");
+            Util.log("an error ouccured while initting holo reflect!");
             e.printStackTrace();
         }
     }
@@ -113,6 +113,20 @@ public class EclipseHologramPacket {
         } catch (Exception e) {
             return 0;
         }
+    }
+
+    /**
+     * Calculates automatic line width based on text content.
+     * Minecraft characters are approximately 6-8 pixels wide.
+     * This prevents the "one letter per line" bug when lineWidth is too small.
+     */
+    private static int calculateAutoLineWidth(String text, int configuredWidth) {
+        if (text == null || text.isEmpty()) {
+            return Math.max(configuredWidth, 1000);
+        }
+        String stripped = text.replaceAll("§[0-9a-fk-or]", "").replaceAll("&[0-9a-fk-or]", "");
+        int estimatedWidth = (int) (stripped.length() * 7 * 1.5) + 50;
+        return Math.max(Math.max(estimatedWidth, configuredWidth), 1000);
     }
 
     private static Method findMethodByParams(Class<?> clazz, Class<?> returnType, Class<?>... parameterTypes) {
@@ -292,10 +306,9 @@ public class EclipseHologramPacket {
 
             try {
                 Object settings = hologram.getClass().getMethod("getTextSettings").invoke(hologram);
-                int lineWidth = (int) settings.getClass().getMethod("getLineWidth").invoke(settings);
-                if (lineWidth <= 10) {
-                    lineWidth = 5000;
-                }
+                int configuredLineWidth = (int) settings.getClass().getMethod("getLineWidth").invoke(settings);
+                int lineWidth = calculateAutoLineWidth(name, configuredLineWidth);
+
                 String backgroundColor = (String) settings.getClass().getMethod("getBackgroundColor").invoke(settings);
                 int textAlpha = (int) settings.getClass().getMethod("getTextAlpha").invoke(settings);
                 boolean shadowed = (boolean) settings.getClass().getMethod("isShadowed").invoke(settings);
@@ -441,5 +454,15 @@ public class EclipseHologramPacket {
 
     public static void clearPlayerData(Player player) {
         hologramEntities.remove(player.getUniqueId());
+    }
+
+    public static void clearPlayerData(UUID uuid) {
+        hologramEntities.remove(uuid);
+    }
+
+    public static void clearHologramEntities(UUID hologramUuid) {
+        for (Map<Integer, UUID> playerEntities : hologramEntities.values()) {
+            playerEntities.values().remove(hologramUuid);
+        }
     }
 }

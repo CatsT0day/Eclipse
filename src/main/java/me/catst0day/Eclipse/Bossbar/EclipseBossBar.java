@@ -1,21 +1,28 @@
-
 package me.catst0day.Eclipse.Bossbar;
 
+import me.catst0day.Eclipse.Eclipse;
+import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
+import me.catst0day.Eclipse.Utils.Schedulers.EclipseTask;
+import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
-import me.catst0day.Eclipse.Utils.Schedulers.EclipseTask;
 
 public class EclipseBossBar {
+    private static final Random RANDOM = new Random();
+
     private Player player;
+    private EclipsePlr eclipsePlayer;
     private Double percentage = null;
     private Double adjustPerc = null;
     private Integer keepFor = 60;
@@ -33,22 +40,37 @@ public class EclipseBossBar {
     private boolean makeVisible = false;
     private long started = 0L;
     private boolean translateColors = true;
-    private List<ChatColor> colors = null;
+    private Queue<TextUtil> colors = null;
     private int colorChangeIntervalTicks = 20;
     private long nextColorChange = 0L;
     private final Plugin plugin;
 
     public EclipseBossBar(Plugin plugin, String nameOfBar) {
-        this(plugin, null, nameOfBar, null);
+        this(plugin, (Player) null, nameOfBar, null);
     }
 
     public EclipseBossBar(Plugin plugin, Player player, String nameOfBar) {
         this(plugin, player, nameOfBar, null);
     }
 
+    public EclipseBossBar(Plugin plugin, EclipsePlr player, String nameOfBar) {
+        this(plugin, player, nameOfBar, null);
+    }
+
     public EclipseBossBar(Plugin plugin, Player player, String nameOfBar, BossBar bar) {
         this.plugin = plugin;
         this.player = player;
+        this.eclipsePlayer = player != null ? new EclipsePlr(player.getUniqueId()) : null;
+        this.nameOfBar = nameOfBar;
+        this.bar = bar;
+        started = System.currentTimeMillis();
+        CBar();
+    }
+
+    public EclipseBossBar(Plugin plugin, EclipsePlr player, String nameOfBar, BossBar bar) {
+        this.plugin = plugin;
+        this.eclipsePlayer = player;
+        this.player = player != null ? player.getPlayer() : null;
         this.nameOfBar = nameOfBar;
         this.bar = bar;
         started = System.currentTimeMillis();
@@ -82,21 +104,46 @@ public class EclipseBossBar {
     }
 
     public EclipseBossBar clone(Player player) {
-        EclipseBossBar barInfo = new EclipseBossBar(plugin, player, nameOfBar);
+        if (plugin == null) {
+            throw new IllegalStateException("Cannot clone EclipseBossBar: plugin is null");
+        }
+
+        EclipseBossBar barInfo = new EclipseBossBar(plugin, player, nameOfBar + ":" + RANDOM.nextInt(Integer.MAX_VALUE), null);
         barInfo.percentage = percentage;
         barInfo.adjustPerc = adjustPerc;
         barInfo.keepFor = keepFor;
         barInfo.auto = auto;
-        barInfo.bar = bar;
         barInfo.startingColor = startingColor;
         barInfo.style = style;
-        barInfo.nameOfBar = nameOfBar;
         barInfo.translateColors = translateColors;
         barInfo.titleOfBar = titleOfBar;
         barInfo.withPlaceholder = containsPlaceholder(titleOfBar);
         barInfo.cmds = cmds;
         barInfo.global = global;
-        barInfo.colors = colors == null ? null : new ArrayList<>(colors);
+        barInfo.colors = colors == null ? null : new LinkedList<>(colors);
+        barInfo.colorChangeIntervalTicks = colorChangeIntervalTicks;
+        barInfo.CBar();
+        return barInfo;
+    }
+
+    public EclipseBossBar clone(EclipsePlr player) {
+        if (plugin == null) {
+            throw new IllegalStateException("Cannot clone Bo: plugin is null");
+        }
+
+        EclipseBossBar barInfo = new EclipseBossBar(plugin, player, nameOfBar + ":" + RANDOM.nextInt(Integer.MAX_VALUE), null);
+        barInfo.percentage = percentage;
+        barInfo.adjustPerc = adjustPerc;
+        barInfo.keepFor = keepFor;
+        barInfo.auto = auto;
+        barInfo.startingColor = startingColor;
+        barInfo.style = style;
+        barInfo.translateColors = translateColors;
+        barInfo.titleOfBar = titleOfBar;
+        barInfo.withPlaceholder = containsPlaceholder(titleOfBar);
+        barInfo.cmds = cmds;
+        barInfo.global = global;
+        barInfo.colors = colors == null ? null : new LinkedList<>(colors);
         barInfo.colorChangeIntervalTicks = colorChangeIntervalTicks;
         barInfo.CBar();
         return barInfo;
@@ -124,12 +171,31 @@ public class EclipseBossBar {
         cancelAutoScheduler();
         cancelHideScheduler();
         if (bar != null) {
+            bar.removeAll();
             bar.setVisible(false);
+            Bukkit.removeBossBar(NamespacedKey.minecraft(getNameOfBar()));
+            bar = null;
         }
     }
 
     public Player getPlayer() {
         return player;
+    }
+
+    public EclipsePlr getEclipsePlayer() {
+        return eclipsePlayer;
+    }
+
+    public Eclipse getEclipsePlugin() {
+        return plugin instanceof Eclipse ? (Eclipse) plugin : Eclipse.getI();
+    }
+
+    public void sendMessage(String message) {
+        if (eclipsePlayer != null) {
+            eclipsePlayer.sendMsg(message);
+        } else if (player != null) {
+            player.sendMessage(message);
+        }
     }
 
     public BossBar getBar() {
@@ -139,7 +205,7 @@ public class EclipseBossBar {
 
     public Double getPercentage() {
         if (percentage == null) percentage = 0D;
-        return Math.max(0, Math.min(1, percentage));
+        return Math.clamp(percentage, 0, 1);
     }
 
     public void setPercentage(double max, double current) {
@@ -149,7 +215,7 @@ public class EclipseBossBar {
 
     public void setPercentage(Double percentage) {
         if (percentage != null) {
-            percentage = Math.max(0, Math.min(1, percentage));
+            percentage = Math.clamp(percentage, 0, 1);
             if (Double.isNaN(percentage) || Double.isInfinite(percentage)) {
                 percentage = adjustPerc != null && adjustPerc > 0 ? 0D : 1D;
             }
@@ -164,7 +230,7 @@ public class EclipseBossBar {
 
     public String getNameOfBar() {
         if (nameOfBar == null)
-            nameOfBar = "CAPIBossbar:new(this)" + (new Random().nextInt(Integer.MAX_VALUE));
+            nameOfBar = "eclipse:bossbar:" + RANDOM.nextInt(Integer.MAX_VALUE);
         return nameOfBar;
     }
 
@@ -198,17 +264,27 @@ public class EclipseBossBar {
         if (player == null) return getTitleOfBar();
         String t = getTitleOfBar();
         if (isWithPlaceholder()) t = processPlaceholders(player, t);
-        return t == null ? "" : isTranslateColors() ? ChatColor.translateAlternateColorCodes('&', t) : t;
+        return t == null ? "" : isTranslateColors() ? TextUtil.translateHexAndAlternateColorCodes(t) : t;
     }
 
     private String getDynamicColor() {
         if (colors == null || colors.isEmpty()) return "";
-        if (nextColorChange > System.currentTimeMillis())
-            return colors.get(colors.size() - 1).toString();
+
+        if (nextColorChange > System.currentTimeMillis()) {
+            TextUtil lastColor = null;
+            for (TextUtil color : colors) {
+                lastColor = color;
+            }
+            return lastColor != null ? lastColor.toString() : "";
+        }
+
         nextColorChange = System.currentTimeMillis() + (colorChangeIntervalTicks * 50L);
-        ChatColor c = colors.remove(0);
-        colors.add(c);
-        return c.toString();
+        TextUtil c = colors.poll();
+        if (c != null) {
+            colors.offer(c);
+            return c.toString();
+        }
+        return "";
     }
 
     public long getLeftDuration() {
@@ -280,6 +356,12 @@ public class EclipseBossBar {
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.eclipsePlayer = player != null ? new EclipsePlr(player.getUniqueId()) : null;
+    }
+
+    public void setPlayer(EclipsePlr player) {
+        this.eclipsePlayer = player;
+        this.player = player != null ? player.getPlayer() : null;
     }
 
     public EclipseTask getHideScheduler() {
@@ -308,6 +390,16 @@ public class EclipseBossBar {
     }
 
     public List<String> getCommands(Player player) {
+        List<String> result = new ArrayList<>();
+        if (cmds != null) {
+            for (String cmd : cmds) {
+                result.add(processPlaceholders(player, cmd));
+            }
+        }
+        return result;
+    }
+
+    public List<String> getCommands(EclipsePlr player) {
         List<String> result = new ArrayList<>();
         if (cmds != null) {
             for (String cmd : cmds) {
@@ -356,10 +448,14 @@ public class EclipseBossBar {
 
         if (bar != null) {
             if (makeVisible) {
-                bar.addPlayer(player);
+                if (player != null && !bar.getPlayers().contains(player)) {
+                    bar.addPlayer(player);
+                }
                 bar.setVisible(true);
             } else {
-                bar.removePlayer(player);
+                if (player != null) {
+                    bar.removePlayer(player);
+                }
                 bar.setVisible(false);
             }
         } else if (makeVisible && player != null) {
@@ -398,12 +494,12 @@ public class EclipseBossBar {
     public void updateCycle() {
     }
 
-    public List<ChatColor> getColors() {
-        return colors;
+    public List<TextUtil> getColors() {
+        return colors != null ? new ArrayList<>(colors) : null;
     }
 
-    public void setColors(List<ChatColor> colors) {
-        this.colors = colors;
+    public void setColors(List<TextUtil> colors) {
+        this.colors = colors != null ? new LinkedList<>(colors) : null;
     }
 
     public int getColorChangeIntervalTicks() {
@@ -432,6 +528,13 @@ public class EclipseBossBar {
     }
 
     private String processPlaceholders(Player player, String text) {
+        if (text == null) return "";
+        String result = text;
+        result = result.replace("%player%", player.getName());
+        return result;
+    }
+
+    private String processPlaceholders(EclipsePlr player, String text) {
         if (text == null) return "";
         String result = text;
         result = result.replace("%player%", player.getName());

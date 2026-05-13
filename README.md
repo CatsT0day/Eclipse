@@ -1,8 +1,6 @@
-# EclipseAPI
+# EclipseAPI - 40+ Commands, API, GUI System, Home & Warp System, Economy Integration, Chat Management and a lot more!
 
-A comprehensive Minecraft plugin for Paper/Spigot with 40+ commands, an API, and customizable messages.
-
-## Features
+## Some features
 
 - **40+ Commands** - Essential server commands including teleportation, player management, economy, and more
 - **Modular System** - Enable/disable individual features via configuration
@@ -306,8 +304,278 @@ public class Example {
 }
 ```
 
----
+### Create a Hologram
 
-See [LICENSE](LICENSE) and [CONTRIBUTING.md](CONTRIBUTING.md) for more info.
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologram;
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import java.util.List;
+
+public class Example {
+    public void createHologram(Player player, Location location) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        
+        List<String> lines = List.of(
+            "&6&lWelcome to the Server!",
+            "&fEnjoy your stay",
+            "&eOnline players: %online%"
+        );
+        
+        boolean success = manager.createHologram("welcome", location, lines);
+        if (success) {
+            player.sendMessage("HOooooooooooooooooooooloooooo!");
+        } else {
+            player.sendMessage("Bro, we cant create holos with the same name");
+        }
+    }
+}
+```
+
+### Get and Modify a Hologram
+
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologram;
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.entity.Player;
+
+public class Example {
+    public void modifyHologram(Player player) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        EclipseHologram hologram = manager.getHologram("welcome");
+        
+        if (hologram != null) {
+            // Add a new line
+            hologram.addLine("&aNew line added!");
+            
+            // Set view distance
+            hologram.setViewDistance(64);
+            
+            // Make it clickable
+            hologram.setClickable(true);
+            hologram.setClickCommand("warp spawn");
+            
+            // Set permission requirement
+            hologram.setPermission("eclipse.hologram.see");
+            
+            // Update the hologram for all players
+            manager.updateHologram(hologram);
+            
+            player.sendMessage("Hologram modified!");
+        } else {
+            player.sendMessage("Hologram not found!");
+        }
+    }
+}
+```
+
+### Delete a Hologram
+
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.entity.Player;
+
+public class Example {
+    public void deleteHologram(Player player, String name) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        
+        boolean success = manager.deleteHologram(name);
+        if (success) {
+            player.sendMessage("Hologram '" + name + "' deleted!");
+        } else {
+            player.sendMessage("Hologram not found!");
+        }
+    }
+}
+```
+
+### List All Holograms
+
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologram;
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.entity.Player;
+
+public class Example {
+    public void listHolograms(Player player) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        
+        player.sendMessage("=== mabye, i should put something there ===");
+        for (EclipseHologram hologram : manager.getAllHolograms()) {
+            player.sendMessage("- " + hologram.getName() + 
+                " at " + hologram.getLocation().getWorld().getName() +
+                " (" + hologram.getLocation().getBlockX() + ", " +
+                hologram.getLocation().getBlockY() + ", " +
+                hologram.getLocation().getBlockZ() + ")");
+        }
+    }
+}
+```
+
+### "Advanced" Hologram Config
+
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologram;
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Holograms.EclipseHologram.FollowType;
+import me.catst0day.Eclipse.Holograms.EclipseHologram.TextAlignment;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.Material;
+import java.util.List;
+
+public class Example {
+    public void createAdvancedHologram(Player player, Location location) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        
+        List<String> lines = List.of(
+            "&6&lHOLO",
+            "&fWith custom settings",
+            "!nextpage!",
+            "&ePage 2 content"
+        );
+        
+        boolean success = manager.createHologram("advanced", location, lines);
+        
+        if (success) {
+            EclipseHologram hologram = manager.getHologram("advanced");
+            
+            // Text settings
+            hologram.setTextAlignment(TextAlignment.CENTER);
+            hologram.setTextShadow(true);
+            hologram.setTextAlpha(255);
+            hologram.setBackgroundColor("#FF0000");
+            hologram.setBackgroundAlpha(128);
+            
+            // Animation settings
+            hologram.setFadeInTicks(20);
+            hologram.setFadeOutTicks(20);
+            
+            // Display settings
+            hologram.setScale(1.5);
+            hologram.setFollowType(FollowType.CENTER);
+            hologram.setYawOffset(0);
+            hologram.setPitchOffset(0);
+            
+            // Board settings (background board)
+            hologram.setBoardEnabled(true);
+            hologram.setBoardMaterial(Material.OAK_PLANKS);
+            hologram.setBoardScale(1.0);
+            hologram.setBoardThickness(0.1);
+            
+            // Icon settings
+            hologram.setIconScale(1.0);
+            hologram.setIconYawOffset(0);
+            hologram.setIconPitchOffset(0);
+            
+            // Update interval
+            hologram.setUpdateInterval(10);
+            
+            // Line of sight check
+            hologram.setLineOfSight(true);
+            
+            // Light level
+            hologram.setLightLevel(15);
+            
+            manager.updateHologram(hologram);
+            player.sendMessage("idk what to put here");
+        }
+    }
+}
+```
+
+### Hologram Pagination
+
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologram;
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.entity.Player;
+
+public class Example {
+    public void handlePagination(Player player) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        EclipseHologram hologram = manager.getHologram("advanced");
+        
+        if (hologram != null) {
+            // Get current page for player
+            int currentPage = hologram.getPlayerPage(player);
+            
+            // Go to next page
+            hologram.nextPage(player);
+            
+            // Go to previous page
+            hologram.prevPage(player);
+            
+            // Set specific page
+            hologram.setPlayerPage(player, 2);
+            
+            // Get total page count
+            int totalPages = hologram.getPageCount();
+            
+            // Get lines for specific page
+            List<String> pageLines = hologram.getLinesForPage(0);
+            
+            player.sendMessage("Current page: " + currentPage + "/" + totalPages);
+        }
+    }
+}
+```
+
+### Show/Hide Holograms for Players
+
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.entity.Player;
+
+public class Example {
+    public void showAllHolograms(Player player) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        manager.showAllHologramsToPlayer(player);
+        player.sendMessage("All holograms shown!");
+    }
+    
+    public void hideAllHolograms(Player player) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        manager.hideAllHologramsFromPlayer(player);
+        player.sendMessage("All holograms hidden!");
+    }
+}
+```
+
+### Check Hologram Visibility
+
+```java
+import me.catst0day.Eclipse.Holograms.EclipseHologram;
+import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
+import me.catst0day.Eclipse.Eclipse;
+import org.bukkit.entity.Player;
+
+public class Example {
+    public void checkVisibility(Player player) {
+        EclipseHologramManager manager = Eclipse.getI().getHologramManager();
+        EclipseHologram hologram = manager.getHologram("welcome");
+        
+        if (hologram != null) {
+            boolean isVisible = hologram.isVisibleTo(player);
+            boolean shouldUpdate = hologram.shouldUpdateFor(player);
+            
+            player.sendMessage("Visible: " + isVisible);
+            player.sendMessage("Should update: " + shouldUpdate);
+            player.sendMessage("View distance: " + hologram.getViewDistance());
+            player.sendMessage("Always visible: " + hologram.isAlwaysVisible());
+        }
+    }
+}
+```
+
+---See [LICENSE](LICENSE) and [CONTRIBUTING.md](CONTRIBUTING.md) for more info.
 
 

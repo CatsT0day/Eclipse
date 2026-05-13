@@ -7,7 +7,22 @@ plugins {
 }
 
 group = "com.github.CatsT0day"
-version = "1.02.95-SNAPSHOT-ENTERp"
+version = "1.02.95-SNAPSHOT-ENTERp-MCVER"
+
+val paperVersion by lazy {
+    val buildToolsMaven = file("maven")
+    if (buildToolsMaven.exists()) {
+        val paperApiDir = buildToolsMaven.resolve("io/papermc/paper/paper-api")
+        if (paperApiDir.exists()) {
+            val versions = paperApiDir.listFiles()?.map { it.name }?.sortedDescending()
+            versions?.firstOrNull { it.contains("-SNAPSHOT") } ?: versions?.firstOrNull() ?: "1.21.11-R0.1-SNAPSHOT"
+        } else {
+            "1.21.11-R0.1-SNAPSHOT"
+        }
+    } else {
+        "1.21.11-R0.1-SNAPSHOT"
+    }
+}
 
 val gitCommit by lazy {
     try {
@@ -51,7 +66,7 @@ val gitBranch by lazy {
 val fullVersion = version.toString()
     .replace("-SNAPSHOT", "-indev+$gitDepth-$gitCommit").replace("-NORMAL", "-stable+$gitDepth-$gitCommit")
     .replace("-ENTERp", "-enterprise").replace("-FREE", "-regular")
-
+    .replace("-MCVER", paperVersion.replace("-SNAPSHOT", ""))
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
@@ -72,13 +87,14 @@ tasks.processResources {
 
 repositories {
     mavenCentral()
+    maven("file://${projectDir}/maven")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://jitpack.io")
     maven("https://lucko.me")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:$paperVersion")
     implementation("net.kyori:adventure-text-minimessage:4.17.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("net.kyori:adventure-text-serializer-gson:4.17.0")

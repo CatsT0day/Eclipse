@@ -1,7 +1,9 @@
 package me.catst0day.Eclipse.Managers;
 
 import me.catst0day.Eclipse.Eclipse;
+import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import org.bukkit.configuration.file.FileConfiguration;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -104,36 +106,60 @@ public class EclipseChatManager {
         playerChatModes.put(playerId, mode);
     }
 
+    public void setPlayerChatMode(EclipsePlr player, ChatMode mode) {
+        setPlayerChatMode(player.getUniqueId(), mode);
+    }
+
     public ChatMode getPlayerChatMode(UUID playerId) {
         return playerChatModes.getOrDefault(playerId, ChatMode.GLOBAL);
+    }
+
+    public ChatMode getPlayerChatMode(EclipsePlr player) {
+        return getPlayerChatMode(player.getUniqueId());
     }
 
     public void mutePlayer(UUID playerId, long durationSeconds) {
         mutedPlayers.put(playerId, System.currentTimeMillis() + (durationSeconds * 1000));
     }
 
+    public void mutePlayer(EclipsePlr player, long durationSeconds) {
+        mutePlayer(player.getUniqueId(), durationSeconds);
+    }
+
     public void unmutePlayer(UUID playerId) {
         mutedPlayers.remove(playerId);
+    }
+
+    public void unmutePlayer(EclipsePlr player) {
+        unmutePlayer(player.getUniqueId());
     }
 
     public boolean isPlayerMuted(UUID playerId) {
         Long muteEndTime = mutedPlayers.get(playerId);
         if (muteEndTime == null) return false;
-        
+
         if (System.currentTimeMillis() > muteEndTime) {
             mutedPlayers.remove(playerId);
             return false;
         }
-        
+
         return true;
+    }
+
+    public boolean isPlayerMuted(EclipsePlr player) {
+        return isPlayerMuted(player.getUniqueId());
     }
 
     public long getRemainingMuteTime(UUID playerId) {
         Long muteEndTime = mutedPlayers.get(playerId);
         if (muteEndTime == null) return 0;
-        
+
         long remaining = muteEndTime - System.currentTimeMillis();
         return Math.max(0, remaining / 1000);
+    }
+
+    public long getRemainingMuteTime(EclipsePlr player) {
+        return getRemainingMuteTime(player.getUniqueId());
     }
 
     public String getChatFormat(ChatMode mode) {
@@ -188,8 +214,16 @@ public class EclipseChatManager {
         }
     }
 
+    public void setNickname(EclipsePlr player, String nickname) {
+        setNickname(player.getUniqueId(), nickname);
+    }
+
     public String getNickname(UUID playerId) {
         return nicknames.get(playerId);
+    }
+
+    public String getNickname(EclipsePlr player) {
+        return getNickname(player.getUniqueId());
     }
 
     public String getDisplayName(UUID playerId, String defaultName) {
@@ -197,7 +231,19 @@ public class EclipseChatManager {
         return nickname != null ? nickname : defaultName;
     }
 
+    public String getDisplayName(EclipsePlr player) {
+        return getDisplayName(player.getUniqueId(), player.getName());
+    }
+
     public boolean hasNickname(UUID playerId) {
         return nicknames.containsKey(playerId);
+    }
+
+    public boolean hasNickname(EclipsePlr player) {
+        return hasNickname(player.getUniqueId());
+    }
+
+    public void removePlayer(EclipsePlr player) {
+        removePlayer(player.getUniqueId());
     }
 }

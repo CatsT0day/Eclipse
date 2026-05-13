@@ -7,6 +7,7 @@ import me.catst0day.Eclipse.Economy.EconomyTransactionType;
 import me.catst0day.Eclipse.Economy.Settings.EconomyAccountSettings;
 import me.catst0day.Eclipse.Economy.Settings.EconomySettings;
 import me.catst0day.Eclipse.Economy.Settings.EconomyTransactionSettings;
+import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import me.catst0day.Eclipse.Managers.Database.EclipseSQLiteManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -401,5 +402,37 @@ public class EclipseEconomyManager {
             saveAccountToDatabase(account);
         });
         database.close();
+    }
+
+    public double getBalance(EclipsePlr player) {
+        return getBalance(player.getUniqueId());
+    }
+
+    public boolean setBalance(EclipsePlr player, double amount) {
+        return setBalance(player.getUniqueId(), amount);
+    }
+
+    public boolean addBalance(EclipsePlr player, double amount) {
+        return addBalance(player.getUniqueId(), amount);
+    }
+
+    public boolean removeBalance(EclipsePlr player, double amount) {
+        return removeBalance(player.getUniqueId(), amount);
+    }
+
+    public boolean hasBalance(EclipsePlr player, double amount) {
+        return hasBalance(player.getUniqueId(), amount);
+    }
+
+    public boolean transferBalance(EclipsePlr fromPlayer, EclipsePlr toPlayer, double amount) {
+        return transferBalance(fromPlayer.getUniqueId(), toPlayer.getUniqueId(), amount);
+    }
+
+    public EconomyAccount getAccount(EclipsePlr player) {
+        return getAccount(player.getUniqueId());
+    }
+
+    public EconomyAccount createAccount(EclipsePlr player) {
+        return createAccount(player.getUniqueId(), player.getName());
     }
 }

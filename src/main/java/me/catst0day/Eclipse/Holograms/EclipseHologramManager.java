@@ -101,12 +101,10 @@ public class EclipseHologramManager {
         if (hologram == null) {
             return false;
         }
-        
-        // Remove from all players
         for (Player player : Bukkit.getOnlinePlayers()) {
             EclipseHologramPacket.hideHologram(player, hologram);
         }
-        
+
         deleteHologramFromDB(name);
         return true;
     }
@@ -162,8 +160,7 @@ public class EclipseHologramManager {
         saveHologram(hologram);
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (hologram.isVisibleTo(player)) {
-                EclipseHologramPacket.hideHologram(player, hologram);
-                EclipseHologramPacket.showHologram(player, hologram);
+                EclipseHologramPacket.updateHologram(player, hologram);
             }
         }
     }
@@ -190,8 +187,6 @@ public class EclipseHologramManager {
                 }
             }
         }
-        
-        // Hide holograms that are no longer visible
         Set<EclipseHologram> playerVisible = visibleHolograms.get(player.getUniqueId());
         if (playerVisible != null) {
             for (EclipseHologram hologram : new HashSet<>(playerVisible)) {
@@ -199,6 +194,9 @@ public class EclipseHologramManager {
                     EclipseHologramPacket.hideHologram(player, hologram);
                     playerVisible.remove(hologram);
                 }
+            }
+            if (playerVisible.isEmpty()) {
+                visibleHolograms.remove(player.getUniqueId());
             }
         }
     }

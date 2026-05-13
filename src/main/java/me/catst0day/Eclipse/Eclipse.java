@@ -5,13 +5,7 @@ import me.catst0day.Eclipse.Bossbar.EclipseBarStyle;
 import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
 import me.catst0day.Eclipse.EventListeners.*;
 import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
-import me.catst0day.Eclipse.Managers.EclipseAliasManager;
-import me.catst0day.Eclipse.Managers.EclipseChatManager;
-import me.catst0day.Eclipse.Managers.EclipseEconomyManager;
-import me.catst0day.Eclipse.Managers.EclipseHomeManager;
-import me.catst0day.Eclipse.Managers.EclipseModuleManager;
-import me.catst0day.Eclipse.Managers.EclipsePermissionManager;
-import me.catst0day.Eclipse.Managers.EclipseWarpManager;
+import me.catst0day.Eclipse.Managers.*;
 import me.catst0day.Eclipse.Economy.VaultEconomy;
 import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import me.catst0day.Eclipse.Utils.Util;
@@ -36,7 +30,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -68,6 +61,7 @@ public class Eclipse extends JavaPlugin {
     private EclipseChatManager chatManager;
     private EclipseModuleManager moduleManager;
     private EclipseHologramManager hologramManager;
+    private EclipseKitManager kitManager;
     private VersionChecker versionCheckManager;
     private EclipseSQLiteManager SQLiteManager;
 
@@ -121,6 +115,9 @@ public class Eclipse extends JavaPlugin {
         }
         if (hologramManager != null) {
             hologramManager.shutdown();
+        }
+        if (kitManager != null) {
+            kitManager.shutdown();
         }
     }
 
@@ -248,8 +245,8 @@ public class Eclipse extends JavaPlugin {
 
     private Command createBukkitCommand(String name, CommandTemplate template) {
         return new Command(name) {
-            @Override public boolean execute(@NotNull CommandSender s, @NotNull String l, String @NonNull [] a) { return template.onCommand(s, this, l, a); }
-            @Override public @NotNull List<String> tabComplete(@NotNull CommandSender s, @NotNull String al, String @NonNull [] a) {
+            @Override public boolean execute(@NotNull CommandSender s, @NotNull String l, @NotNull String[] a) { return template.onCommand(s, this, l, a); }
+            @Override public @NotNull List<String> tabComplete(@NotNull CommandSender s, @NotNull String al, @NotNull String[] a) {
                 List<String> result = template.onTabComplete(s, this, al, a);
                 return result != null ? result : Collections.emptyList();
             }
@@ -356,6 +353,7 @@ public class Eclipse extends JavaPlugin {
     public EclipseChatManager getChatManager() { return chatManager == null ? (chatManager = new EclipseChatManager(this)) : chatManager; }
     public EclipseModuleManager getModuleManager() { return moduleManager == null ? (moduleManager = new EclipseModuleManager(this)) : moduleManager; }
     public EclipseHologramManager getHologramManager() { return hologramManager == null ? (hologramManager = new EclipseHologramManager(this)) : hologramManager; }
+    public EclipseKitManager getKitManager() { return kitManager == null ? (kitManager = new EclipseKitManager(this)) : kitManager; }
     public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "Eclipse")) : versionCheckManager; }
     public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }

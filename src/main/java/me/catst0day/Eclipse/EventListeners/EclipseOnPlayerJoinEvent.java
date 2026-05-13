@@ -22,5 +22,6 @@ public class EclipseOnPlayerJoinEvent implements Listener {
         int stay = Eclipse.getI().getConfig().getInt("join.stay");
         int fadeOut = Eclipse.getI().getConfig().getInt("join.fadeOut");
         player.sendTitleAsynchronously(Eclipse.getI(), title, subtitle, fadeIn, stay, fadeOut);
+        Eclipse.getI().getKitManager().onPlayerJoin(player);
     }
 }

@@ -1,8 +1,7 @@
-# EclipseAPI - Architecture Documentation for Claude AI
+# Architecture Documentation for Claude code and VIBECODEEEEEERRRSS
 
-## Purpose
 
-This document describes the EclipseAPI codebase architecture to help Claude AI understand the project structure, key components, and patterns when working with this codebase.
+This file describes the EclipseAPI codebase architecture to help Claude AI understand the project structure, key components, and patterns when working with this codebase.
 
 ## Project Overview
 

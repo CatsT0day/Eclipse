@@ -1,5 +1,7 @@
 package me.catst0day.Eclipse.Holograms.Hover;
 
+import me.catst0day.Eclipse.Eclipse;
+import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import me.catst0day.Eclipse.Holograms.EclipseHologram;
 import org.bukkit.entity.Player;
 
@@ -37,11 +39,12 @@ public class EclipseHoloHoverModule {
     
     public void onHoverStart(Player player, int lineIndex, String hoverText, String clickCommand) {
         if (!enabled) return;
-        
+
+        EclipsePlr ePlr = Eclipse.getI().getPlayer(player.getUniqueId());
         EclipseHoloHoverData data = new EclipseHoloHoverData(player, lineIndex, hoverText, clickCommand);
         hoveringPlayers.put(player.getUniqueId(), data);
     }
-    
+
     public void onHoverEnd(Player player) {
         EclipseHoloHoverData data = hoveringPlayers.remove(player.getUniqueId());
         if (data != null && data.getHoverDuration() >= hoverDelayMs) {
@@ -50,12 +53,20 @@ public class EclipseHoloHoverModule {
             }
         }
     }
-    
+
     public EclipseHoloHoverData getHoverData(Player player) {
         return hoveringPlayers.get(player.getUniqueId());
     }
-    
+
+    public EclipseHoloHoverData getHoverData(EclipsePlr player) {
+        return hoveringPlayers.get(player.getUniqueId());
+    }
+
     public boolean isHovering(Player player) {
+        return hoveringPlayers.containsKey(player.getUniqueId());
+    }
+
+    public boolean isHovering(EclipsePlr player) {
         return hoveringPlayers.containsKey(player.getUniqueId());
     }
     

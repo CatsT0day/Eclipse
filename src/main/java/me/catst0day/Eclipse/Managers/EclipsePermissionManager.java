@@ -205,7 +205,12 @@ public class EclipsePermissionManager {
         ELYTRAFLY("eclipse.elytrafly", "fly with elytra"),
         EXP("eclipse.expierience", "edit exp"),
         HOLOGRAMS("eclipse.holo","hologram api"),
-        TNTGIVE("eclipse.givetnt", "give custom tnts");
+        TNTGIVE("eclipse.givetnt", "give custom tnts"),
+        KIT("eclipse.kit", "use kit command"),
+        KIT_ADMIN("eclipse.kit.admin", "admin kit management"),
+        ECONOMY("eclipse.economy", "use economy commands"),
+        ECONOMY_ADMIN("eclipse.economy.admin", "admin economy management"),
+        ADMIN("eclipse.admin", "all admin permissions");
 
         private final String permission;
         private final String description;
@@ -228,8 +233,6 @@ public class EclipsePermissionManager {
             if (player == null) return false;
 
             String permNode = this.permission;
-
-            // Если есть параметры и шаблон содержит $1, заменяем
             if (args != null && args.length > 0 && permNode.contains("$1")) {
                 permNode = permNode.replace("$1", args[0]);
             }

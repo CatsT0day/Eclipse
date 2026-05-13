@@ -10,7 +10,6 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 
@@ -81,13 +80,15 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
         }
 
         try {
-            if (player != null) {
-                if (perform(player, args)) return true;
+            if (requirePlayer && player != null) {
+                return perform(player, args);
+            } else {
+                return perform(sender, player, args);
             }
-            return perform(sender, player, args);
         } catch (Exception e) {
             sender.sendMessage(plugin.getMessage("commandError"));
             log("&4Error executing " + name + ": &c" + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -118,12 +119,12 @@ public abstract class CommandTemplate implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NonNull [] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         return onCommand(sender, args);
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String @NonNull [] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         Player player = (sender instanceof Player p) ? p : null;
         if (requirePlayer && player == null) return Collections.emptyList();
 
