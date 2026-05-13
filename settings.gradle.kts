@@ -21,10 +21,7 @@ dependencyResolutionManagement {
     }
 }
 
-// Core module (always included)
 include("core")
-
-// Version-specific NMS modules (always included)
 include(
     "v1_17_R1",
     "v1_18_R1",
@@ -41,5 +38,3 @@ include(
     "v1_21_R3",
     "v1_21_R4"
 )
-include("core")
-include("core")
