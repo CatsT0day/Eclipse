@@ -1,0 +1,35 @@
+[--rev, 1.21.11]
+Loading BuildTools version: git-BuildTools-4ebb05d-200 (#200)
+Java Version: Java 17
+Current Path: D:\Projects\EclipseAPI
+*** Could not find PortableGit installation, downloading. ***
+Starting download of https://github.com/git-for-windows/git/releases/download/v2.45.2.windows.1/PortableGit-2.45.2-64-bit.7z.exe
+Downloaded file: PortableGit-2.45.2-64-bit\PortableGit-2.45.2-64-bit.7z.exe with hash: 851a15074dea6b272785b2a2a4697a72970256de2afe7b8e4a9c5e168c27ccdd
+Extracting downloaded git install
+*** Using downloaded git PortableGit-2.45.2-64-bit\PortableGit ***
+*** Please note that this is a beta feature, so if it does not work please also try a manual install of git from https://git-for-windows.github.io/ ***
+git version 2.45.2.windows.1
+java version "17.0.12" 2024-07-16 LTS
+Java(TM) SE Runtime Environment (build 17.0.12+8-LTS-286)
+Java HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)
+Attempting to build version: '1.21.11' use --rev <version> to override
+Found version
+{
+	"name": "4598",
+	"description": "Jenkins build 4598",
+	"refs": {
+		"BuildData": "beeae81d9ac5521b767517cee44d0c345a8be3fb",
+		"Bukkit": "9daba7255f227a8f9cf3a02a3df0a2285556be58",
+		"CraftBukkit": "d74c5d880bd53a6cb44e74eaa5a9167fa07a82c2",
+		"Spigot": "56165cab196da9518bcb05be7183420eaf261410"
+	},
+	"hashes": {
+		"CraftBukkit": "9b9e15435e2547080f2c89996f939258a8c4787797e8c810075721e5c416bce9",
+		"Spigot": "6481503fca2838776b3da5a3f1c030e1328abc2fd77d9ea1bb4814889b540dcd"
+	},
+	"toolsVersion": 197,
+	"javaVersions": [65, 70]
+}
+
+*** The version you have requested to build requires Java versions between [Java 21, Java 26], but you are using Java 17
+*** Please rerun BuildTools using an appropriate Java version. For obvious reasons outdated MC versions do not support Java versions that did not exist at their release.

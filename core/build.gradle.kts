@@ -1,34 +1,40 @@
 plugins {
-    id("java-library")
-    id("xyz.jpenilla.run-paper") version "3.0.2"
+    `java-library`
 }
+
+group = "me.catst0day.Eclipse"
+version = "1.02.95-SNAPSHOT"
 
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://jitpack.io")
+    maven("https://lucko.me")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    implementation("net.kyori:adventure-text-minimessage:4.17.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
+    implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
+    implementation("org.reflections:reflections:0.10.2") {
+        exclude(group = "org.javassist", module = "javassist")
+        exclude(group = "com.google.code.gson", module = "gson")
+    }
+    implementation("org.javassist:javassist:3.30.2-GA")
+    compileOnly("net.luckperms:api:5.4")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
+        exclude(group = "org.bukkit", module = "bukkit")
+    }
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
 }
 
-tasks {
-    runServer {
-        // Configure the Minecraft version for our task.
-        // This is the only required configuration besides applying the plugin.
-        // Your plugin's jar (or shadowJar if present) will be used automatically.
-        minecraftVersion("1.21.11")
-        jvmArgs("-Xms2G", "-Xmx2G")
-    }
-
-    processResources {
-        val props = mapOf("version" to version )
-        filesMatching("plugin.yml") {
-            expand(props)
-        }
-    }
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.release.set(21)
 }

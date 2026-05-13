@@ -41,3 +41,5 @@ include(
     "v1_21_R3",
     "v1_21_R4"
 )
+include("core")
+include("core")

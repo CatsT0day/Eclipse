@@ -1,6 +1,74 @@
-name: core
-version: '${version}'
+name: Eclipse
+version: "${version}"
+main: me.catst0day.Eclipse.Eclipse
+api-version: 1.13
+website: https://github.com/CatsT0day/EclipseAPI/
+softdepend:
+  - luckperms
+description: Server manager and api
+author: CatsTOday
 
-main: me.catst0day.core.Core
-api-version: '1.21.11'
-load: POSTWORLD
+commands:
+  eclipse:
+    description: Main commands of the plugin
+    permission: eclipse.main
+
+permissions:
+  eclipse.main:
+    description: gives perm to use main command (not all cmds)
+  eclipse.update.notify:
+    description: Receive update notifications for updates
+    default: op
+  eclipse.silent:
+    description: silent mode for commands
+  eclipse.heal.others:
+    description: heal other players
+    default: op
+  eclipse.feed.others:
+    description: feed other players
+    default: op
+  eclipse.repair.all:
+    description: repair all items
+    default: op
+  eclipse.repair.hand:
+    description: repair item in hand
+  eclipse.clearinventory.others:
+    description: clear other players' inventory
+    default: op
+  eclipse.ecsee.edit:
+    description: edit other players' ender chest
+    default: op
+  eclipse.invsee.edit:
+    description: edit other players' inventory
+    default: op
+  eclipse.warp:
+    description: permission for specific warp
+  eclipse.teleport.delay:
+    description: override teleport delay
+  eclipse.damage.fly.bypass:
+    description: ...
+    default: op
+  eclipse.nickname:
+    description: set your own nickname
+  eclipse.nickname.others:
+    description: set other players' nicknames
+    default: op
+  eclipse.nickname.color:
+    description: use colors in nicknames
+  eclipse.worldextend:
+    description: manage world borders
+    default: op
+  eclipse.worldextend.others:
+    description: manage world borders in other worlds
+    default: op
+  eclipse.msg:
+    description: send private messages
+  eclipse.msg.receive:
+    description: receive private messages
+  eclipse.msg.toggle:
+    description: toggle receiving messages
+  eclipse.msg.spy:
+    description: spy on private messages
+    default: op
+  eclipse.reply:
+    description: reply to last message

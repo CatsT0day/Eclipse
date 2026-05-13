@@ -1,0 +1,17 @@
+[versions]
+paper = "1.21.11-R0.1-SNAPSHOT"
+adventure = "4.17.0"
+reflections = "0.10.2"
+javassist = "3.30.2-GA"
+luckperms = "5.4"
+vault = "1.7"
+
+[libraries]
+paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventure-serializer-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
+adventure-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
+reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
+javassist = { module = "org.javassist:javassist", version.ref = "javassist" }
+luckperms-api = { module = "net.luckperms:api", version.ref = "luckperms" }
+vault-api = { module = "com.github.MilkBowl:VaultAPI", version.ref = "vault" }
