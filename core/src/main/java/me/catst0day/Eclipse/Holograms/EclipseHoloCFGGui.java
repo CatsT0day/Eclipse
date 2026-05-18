@@ -7,14 +7,38 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class EclipseHoloCFGGui {
+    private static final Map<UUID, LineEditData> editingPlayers = new HashMap<>();
+    
     private final Eclipse plugin;
     private final EclipseHologram hologram;
     private final Player player;
     private Gui gui;
+    
+    public static class LineEditData {
+        public final EclipseHologram hologram;
+        public final int lineIndex;
+        public final boolean isNewLine;
+        
+        LineEditData(EclipseHologram hologram, int lineIndex, boolean isNewLine) {
+            this.hologram = hologram;
+            this.lineIndex = lineIndex;
+            this.isNewLine = isNewLine;
+        }
+    }
+    
+    public static LineEditData getEditingData(UUID uuid) {
+        return editingPlayers.get(uuid);
+    }
+    
+    public static void removeEditingData(UUID uuid) {
+        editingPlayers.remove(uuid);
+    }
     
     public EclipseHoloCFGGui(Eclipse plugin, EclipseHologram hologram, Player player) {
         this.plugin = plugin;
@@ -95,7 +119,7 @@ public class EclipseHoloCFGGui {
         gui.addButton(31, closeButton);
     }
     
-    private void openLinesEditor() {
+    public void openLinesEditor() {
         Gui linesGui = new Gui(player, plugin.getMessage("hologramLinesEditorTitle"), 6);
         
         List<String> lines = hologram.getLines();
@@ -107,6 +131,7 @@ public class EclipseHoloCFGGui {
                     .addLore(plugin.getMessage("hologramLineEditLore"))
                     .onLeftClick(p -> {
                         p.closeInventory();
+                        editingPlayers.put(p.getUniqueId(), new LineEditData(hologram, lineIndex, false));
                         p.sendMessage(plugin.getMessage("hologramEnterNewLine").replace("%line%", String.valueOf(lineIndex + 1)));
                     })
                     .onRightClick(p -> {
@@ -122,12 +147,10 @@ public class EclipseHoloCFGGui {
                 .addLore(plugin.getMessage("hologramAddLineLore"))
                 .onLeftClick(p -> {
                     p.closeInventory();
+                    editingPlayers.put(p.getUniqueId(), new LineEditData(hologram, lines.size(), true));
                     p.sendMessage(plugin.getMessage("hologramEnterNewLine"));
-                    // In a real implementation, you'd use a chat listener to get the new line
                 });
         linesGui.addButton(45, addButton);
-        
-        // Back button
         GuiButton backButton = new GuiButton(Material.ARROW)
                 .setName(plugin.getMessage("backButton"))
                 .onLeftClick(p -> open());

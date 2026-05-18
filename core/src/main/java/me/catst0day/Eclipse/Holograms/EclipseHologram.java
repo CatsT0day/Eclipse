@@ -539,10 +539,14 @@ public class EclipseHologram {
         if (line == null) return "";
         
         String parsed = line;
+        me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: Original line: '" + parsed + "'");
         parsed = parseCText(parsed, player);
+        me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: After parseCText: '" + parsed + "'");
         parsed = parseIcons(parsed, player);
+        me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: After parseIcons: '" + parsed + "'");
         if (getTextFillerWidth() > 0 && parsed.contains("%filler%")) {
             parsed = parsed.replace("%filler%", generateFiller(parsed, getTextFillerWidth()));
+            me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: After filler: '" + parsed + "'");
         }
         
         return parsed;

@@ -13,19 +13,24 @@ public class EclipseHoloProcessorDisplay extends EclipseHoloProcessor {
 
     @Override
     public CompletableFuture<Void> show(Player player) {
-        EclipseHologramPacket.showHologram(player, hologram);
+        EclipseHologramPacket
+                .showHologram(player, hologram);
+        EclipseHologramPacket
+                .updateHologram(player, hologram);
         return CompletableFuture.completedFuture(null);
     }
 
     @Override
     public CompletableFuture<Void> hide(Player player) {
-        EclipseHologramPacket.hideHologram(player, hologram);
+        EclipseHologramPacket
+                .hideHologram(player, hologram);
         return CompletableFuture.completedFuture(null);
     }
 
     @Override
     public CompletableFuture<Void> update(Player player) {
-        EclipseHologramPacket.updateHologram(player, hologram);
+        EclipseHologramPacket
+                .updateHologram(player, hologram);
         return CompletableFuture.completedFuture(null);
     }
 }

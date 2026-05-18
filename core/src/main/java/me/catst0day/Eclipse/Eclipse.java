@@ -213,7 +213,7 @@ public class Eclipse extends JavaPlugin {
             Util.loadWithMessage(count, "commands ", endTime);
 
         } catch (Exception e) {
-            log("&cCritical error scanning package: " + e.getMessage());
+            log("&cerror scanning package: " + e.getMessage());
         }
     }
 
@@ -226,12 +226,12 @@ public class Eclipse extends JavaPlugin {
                 CommandTemplate cmd = (CommandTemplate) clazz.getConstructor(Eclipse.class).newInstance(this);
 
                 SimpleCommandMap commandMap = (SimpleCommandMap) getCommandMap();
-                Command bukkitCmd = createBukkitCommand(cmd.getName(), cmd);
+                Command bukkitCmd = createBukkitCmd(cmd.getName(), cmd);
                 commandMap.register(getName(), bukkitCmd);
                 CommandTemplate.getRegisteredCommands().put(cmd.getName(), cmd);
                 if (cmd.getAliases() != null) {
                     for (String alias : cmd.getAliases()) {
-                        commandMap.register(getName(), createBukkitCommand(alias, cmd));
+                        commandMap.register(getName(), createBukkitCmd(alias, cmd));
                         CommandTemplate.getRegisteredCommands().put(alias, cmd);
                     }
                 }
@@ -243,7 +243,7 @@ public class Eclipse extends JavaPlugin {
         return false;
     }
 
-    private Command createBukkitCommand(String name, CommandTemplate template) {
+    private Command createBukkitCmd(String name, CommandTemplate template) {
         return new Command(name) {
             @Override public boolean execute(@NotNull CommandSender s, @NotNull String l, @NotNull String[] a) { return template.onCommand(s, this, l, a); }
             @Override public @NotNull List<String> tabComplete(@NotNull CommandSender s, @NotNull String al, @NotNull String[] a) {
@@ -359,10 +359,10 @@ public class Eclipse extends JavaPlugin {
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
     public Map<UUID, UUID> getTpaRequests() { return tpaRequests; }
 
-    public void toggleGodMode(Player sender, String[] args) {
+    public void toggleGodMode(@NotNull Player sender, @NotNull String[] args) {
         Player target = (args.length == 1) ? Bukkit.getPlayer(args[0]) : sender;
         if (target == null) {
-            if (sender != null) sender.sendMessage(getMessage("playerNotFound"));
+            sender.sendMessage(getMessage("playerNotFound"));
             return;
         }
 

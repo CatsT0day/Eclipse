@@ -88,7 +88,7 @@ public class Hologram extends CommandTemplate {
     }
 
     private void handleCreate(Player player, String[] args) {
-        if (args.length < 2) {
+        if (args.length < 3) {
             player.sendMessage(plugin.getMessage("hologramCreateUsage"));
             return;
         }
@@ -104,13 +104,9 @@ public class Hologram extends CommandTemplate {
             return;
         }
 
+        String line = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
         List<String> lines = new ArrayList<>();
-        if (args.length > 2) {
-            String line = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
-            lines.add(sanitizeLine(line));
-        } else {
-            lines.add(plugin.getMessage("hologramDefaultLine").replace("%name%", name));
-        }
+        lines.add(sanitizeLine(line));
 
         Location loc = player.getLocation().add(0, 1.5, 0);
         if (plugin.getHologramManager().createHologram(name, loc, lines)) {

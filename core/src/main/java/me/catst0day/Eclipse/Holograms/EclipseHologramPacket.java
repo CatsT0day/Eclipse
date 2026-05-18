@@ -1,3 +1,5 @@
+// there's a bug with test warpping, cascade, can you fix it? every letter, text wraps, disable the wrapping
+
 package me.catst0day.Eclipse.Holograms;
 
 import me.catst0day.Eclipse.Utils.Text.RawJsonMessage;
@@ -71,8 +73,7 @@ public class EclipseHologramPacket {
                 }
             }
         } catch (Exception e) {
-            Util.log("an error ouccured while initting holo reflect!");
-            e.printStackTrace();
+            Util.log("an error ouccured while initting holo reflect!" + e.getMessage());
         }
     }
 
@@ -216,6 +217,9 @@ public class EclipseHologramPacket {
             Location lineLoc = baseLoc.clone().subtract(0, i * LINE_HEIGHT, 0);
             String lineText = hologram.parseLine(lines.get(i), player);
             lineText = TextUtil.translateHexAndAlternateColorCodes(lineText);
+            
+            Util.log("DEBUG: Line " + i + " text before display: '" + lineText + "' (length: " + lineText.length() + ")");
+            Util.log("DEBUG: Line " + i + " contains newline: " + lineText.contains("\n") + ", carriage return: " + lineText.contains("\r"));
 
             if (IS_MODERN && textDisplayType != null) {
                 spawnTextDisplay(player, entityId, entityUuid, lineLoc, lineText, hologram);
@@ -303,33 +307,59 @@ public class EclipseHologramPacket {
             if (setTextMethod != null) {
                 setTextMethod.invoke(textDisplay, chatComponent);
             }
+            try {
+                int lineWidth = 3000;
+                Util.log("DEBUG: Setting lineWidth to " + lineWidth + " to disable text wrapping");
+
+                Method setLineWidthMethod = null;
+                try {
+                    setLineWidthMethod = textDisplayClass.getMethod("setLineWidth", int.class);
+                } catch (NoSuchMethodException ignored) {}
+                if (setLineWidthMethod == null) {
+                    for (Method method : textDisplayClass.getDeclaredMethods()) {
+                        if (method.getParameterCount() == 1
+                                && method.getParameterTypes()[0] == int.class
+                                && method.getReturnType() == void.class) {
+
+                            String mName = method.getName().toLowerCase();
+                            if (!mName.contains("background") && !mName.contains("id") && !mName.contains("pos")) {
+                                setLineWidthMethod = method;
+                                setLineWidthMethod.setAccessible(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (setLineWidthMethod != null) {
+                    setLineWidthMethod.invoke(textDisplay, lineWidth);
+                    Util.log("DEBUG: Set lineWidth through method: " + setLineWidthMethod.getName());
+                } else {
+                    Util.log("DEBUG: Could not find any method to set lineWidth");
+                }
+            } catch (Exception e) {
+                Util.log("DEBUG: Error in lineWidth post-setting: " + e.getMessage());
+            }
 
             try {
                 Object settings = hologram.getClass().getMethod("getTextSettings").invoke(hologram);
-                int configuredLineWidth = (int) settings.getClass().getMethod("getLineWidth").invoke(settings);
-                int lineWidth = calculateAutoLineWidth(name, configuredLineWidth);
-
                 String backgroundColor = (String) settings.getClass().getMethod("getBackgroundColor").invoke(settings);
                 int textAlpha = (int) settings.getClass().getMethod("getTextAlpha").invoke(settings);
                 boolean shadowed = (boolean) settings.getClass().getMethod("isShadowed").invoke(settings);
                 boolean seeThrough = (boolean) settings.getClass().getMethod("isSeeThrough").invoke(settings);
                 Object alignment = settings.getClass().getMethod("getTextAlignment").invoke(settings);
 
-                Method setLineWidthMethod;
-                try {
-                    setLineWidthMethod = textDisplayClass.getMethod("setLineWidth", int.class);
-                } catch (NoSuchMethodException e) {
-                    setLineWidthMethod = findMethodByParams(textDisplayClass, void.class, int.class);
-                }
-                if (setLineWidthMethod != null) {
-                    setLineWidthMethod.invoke(textDisplay, lineWidth);
-                }
-
-                Method setBgMethod;
+                Method setBgMethod = null;
                 try {
                     setBgMethod = textDisplayClass.getMethod("setBackgroundColor", int.class);
                 } catch (NoSuchMethodException e) {
-                    setBgMethod = findMethodByParams(textDisplayClass, void.class, int.class);
+                    for (Method m : textDisplayClass.getDeclaredMethods()) {
+                        if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == int.class && m.getName().toLowerCase().contains("background")) {
+                            setBgMethod = m;
+                            setBgMethod.setAccessible(true);
+                            break;
+                        }
+                    }
                 }
                 if (setBgMethod != null) {
                     setBgMethod.invoke(textDisplay, hexToRgb(backgroundColor));
@@ -383,7 +413,6 @@ public class EclipseHologramPacket {
             }
 
             Object spawnPacket = getSpawnPacket(textDisplay, location, entityId, entityUuid, textDisplayType);
-
             Object entityData = textDisplayClass.getMethod("getEntityData").invoke(textDisplay);
 
             List<?> allData;
@@ -398,10 +427,10 @@ public class EclipseHologramPacket {
             sendPacket(player, spawnPacket);
             sendPacket(player, metadataPacket);
         } catch (Exception e) {
-            Util.log("&4Error while spawning TextDisplay for " + player.getName());
             e.printStackTrace();
         }
     }
+
 
     private static void spawnArmorStand(Player player, int entityId, UUID entityUuid, Location location, String name) {
         try {

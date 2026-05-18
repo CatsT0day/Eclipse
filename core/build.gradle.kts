@@ -1,9 +1,10 @@
 plugins {
+    kotlin("jvm") version "2.0.0"
     `java-library`
 }
 
 group = "me.catst0day.Eclipse"
-version = "1.02.95-SNAPSHOT"
+version = "1.02.96-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -37,4 +38,10 @@ java {
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.release.set(21)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "21"
+    }
 }

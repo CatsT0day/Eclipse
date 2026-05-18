@@ -1,13 +1,14 @@
 import java.io.ByteArrayOutputStream
 
 plugins {
+    kotlin("jvm") version "2.0.0"
     java
     `maven-publish`
     id("com.gradleup.shadow") version "8.3.6"
 }
 
 group = "com.github.CatsT0day"
-version = "1.02.95-SNAPSHOT-ENTERp-MCVER"
+version = "1.03.05-SNAPSHOT-ENTERp-MCVER"
 
 val paperVersion by lazy {
     val buildToolsMaven = file("maven")
@@ -76,6 +77,12 @@ java {
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.release.set(21)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "21"
+    }
 }
 
 tasks.processResources {

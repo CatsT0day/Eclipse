@@ -3,7 +3,6 @@ package me.catst0day.Eclipse.Holograms.Processor;
 import me.catst0day.Eclipse.Holograms.EclipseHologram;
 import org.bukkit.entity.Player;
 
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
