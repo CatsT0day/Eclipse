@@ -494,4 +494,17 @@ public class EclipseHologramPacket {
             playerEntities.values().remove(hologramUuid);
         }
     }
+
+    public static UUID getHologramFromEntity(Player player, Location location) {
+        Map<Integer, UUID> playerEntities = hologramEntities.get(player.getUniqueId());
+        if (playerEntities == null) {
+            return null;
+        }
+        
+        for (UUID hologramUuid : playerEntities.values()) {
+            return hologramUuid;
+        }
+        
+        return null;
+    }
 }

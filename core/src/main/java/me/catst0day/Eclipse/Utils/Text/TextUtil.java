@@ -7,22 +7,14 @@ import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TextUtil {
     private static final MiniMessage MINI = MiniMessage.miniMessage();
-    private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.builder()
-            .character('§')
-            .hexColors()
-            .useUnusualXRepeatedCharacterHexFormat()
-            .build();
-
-    public static final String hexSymbol = "#";
-    private static final Pattern cleanOfficialColorRegexPattern = Pattern.compile("(?<!:\"|＆)" + hexSymbol + "([a-fA-F0-9]{6}|[a-fA-F0-9]{3})");
-    private static final Pattern cleanQuirkyHexColorRegexPattern = Pattern.compile("&" + hexSymbol + "([a-fA-F0-9]{6}|[a-fA-F0-9]{3})");
-    private static final Pattern hexDeColorNamePattern = Pattern.compile("(([&§])x)((([&§])[0-9A-Fa-f]){6})");
+    private static final LegacyComponentSerializer AMPERSAND_SERIALIZER = LegacyComponentSerializer.builder()
+            .character('&').hexColors().useUnusualXRepeatedCharacterHexFormat().build();
+    private static final LegacyComponentSerializer SECTION_SERIALIZER = LegacyComponentSerializer.builder()
+            .character('§').hexColors().useUnusualXRepeatedCharacterHexFormat().build();
 
     public static final TextUtil BLACK = new TextUtil("Black", '0', 0, 0, 0);
     public static final TextUtil DARK_BLUE = new TextUtil("Dark_Blue", '1', 0, 0, 170);
@@ -48,13 +40,13 @@ public class TextUtil {
     public static final TextUtil ITALIC = new TextUtil("Italic", 'o', false);
     public static final TextUtil RESET = new TextUtil("Reset", 'r', false, true);
 
-    private char c;
-    private boolean color;
+    private final char c;
+    private final boolean color;
     private boolean isReset;
     private int redChannel = -1;
     private int greenChannel = -1;
     private int blueChannel = -1;
-    private String name;
+    private final String name;
 
     private TextUtil(String name, char c, int red, int green, int blue) {
         this.name = name;
@@ -92,7 +84,7 @@ public class TextUtil {
                 return MINI.deserialize(input);
             } catch (Exception ignored) {}
         }
-        return LEGACY_SERIALIZER.deserialize(translateHexAndAlternateColorCodes(input));
+        return translateToComponent(input);
     }
 
     public static List<Component> parse(List<String> lines) {
@@ -109,48 +101,19 @@ public class TextUtil {
     }
 
     public static String toLegacy(Component component) {
-        return LEGACY_SERIALIZER.serialize(component);
+        return SECTION_SERIALIZER.serialize(component);
     }
 
     public static String translateHexAndAlternateColorCodes(String text) {
         if (text == null || text.isEmpty()) return text;
-
-        Matcher quirkyMatcher = cleanQuirkyHexColorRegexPattern.matcher(text);
-        StringBuilder sb1 = new StringBuilder();
-        while (quirkyMatcher.find()) {
-            quirkyMatcher.appendReplacement(sb1, toBukkit(expandHex(quirkyMatcher.group(1))));
-        }
-        quirkyMatcher.appendTail(sb1);
-        text = sb1.toString();
-
-        Matcher officialMatcher = cleanOfficialColorRegexPattern.matcher(text);
-        StringBuilder sb2 = new StringBuilder();
-        while (officialMatcher.find()) {
-            officialMatcher.appendReplacement(sb2, toBukkit(expandHex(officialMatcher.group(1))));
-        }
-        officialMatcher.appendTail(sb2);
-        text = sb2.toString();
-
-        char[] chars = text.toCharArray();
-        for (int i = 0; i < chars.length - 1; i++) {
-            if (chars[i] == '&' && isColorCode(chars[i + 1])) {
-                chars[i] = '§';
-                chars[i + 1] = Character.toLowerCase(chars[i + 1]);
-            }
-        }
-        return new String(chars);
+        return SECTION_SERIALIZER.serialize(translateToComponent(text));
     }
 
     public static String deColorize(String text) {
         if (text == null || text.isEmpty()) return text;
-        Matcher matcher = hexDeColorNamePattern.matcher(text.replace("&", "§"));
-        StringBuilder sb = new StringBuilder();
-        while (matcher.find()) {
-            String hex = matcher.group().replace("§x", "").replace("§", "");
-            matcher.appendReplacement(sb, hexSymbol + hex);
-        }
-        matcher.appendTail(sb);
-        return sb.toString().replace("§", "&");
+        String cleaned = text.replace("&", "§");
+        Component component = SECTION_SERIALIZER.deserialize(cleaned);
+        return AMPERSAND_SERIALIZER.serialize(component);
     }
 
     public static String stripColor(String text) {
@@ -158,22 +121,11 @@ public class TextUtil {
         return ChatColor.stripColor(translateHexAndAlternateColorCodes(text));
     }
 
-    private static String expandHex(String hex) {
-        if (hex == null) return null;
-        if (hex.length() == 3) {
-            return "" + hex.charAt(0) + hex.charAt(0) + hex.charAt(1) + hex.charAt(1) + hex.charAt(2) + hex.charAt(2);
+    private static Component translateToComponent(String input) {
+        if (input.contains("#") && !input.contains("&#")) {
+            input = input.replaceAll("#([a-fA-F0-9]{6})", "&#$1");
         }
-        return hex;
-    }
-
-    private static String toBukkit(String hex) {
-        StringBuilder magic = new StringBuilder("§x");
-        for (char c : hex.toCharArray()) magic.append('§').append(c);
-        return magic.toString();
-    }
-
-    private static boolean isColorCode(char c) {
-        return "0123456789AaBbCcDdEeFfKkLlMmNnOoRrXx".indexOf(c) > -1;
+        return input.contains("§") ? SECTION_SERIALIZER.deserialize(input) : AMPERSAND_SERIALIZER.deserialize(input);
     }
 
     public String getName() { return name; }

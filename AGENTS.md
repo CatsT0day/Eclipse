@@ -316,19 +316,6 @@ Particle agents handle visual particle effects.
 ### 11. Utility Agents
 
 Utility agents provide helper functions and common operations.
-
-#### ConfigUtil
-**Location:** `me.catst0day.Eclipse.Utils.ConfigUtil`  
-**Purpose:** Configuration file management
-
-#### EclipseArray
-**Location:** `me.catst0day.Eclipse.Utils.EclipseArray`  
-**Purpose:** Array utilities
-
-#### ResourceDownloader
-**Location:** `me.catst0day.Eclipse.Utils.ResourceDownloader`  
-**Purpose:** Resource file downloading
-
 #### TextUtil
 **Location:** `me.catst0day.Eclipse.Utils.Text.TextUtil`  
 **Purpose:** Text formatting and color codes  

@@ -105,6 +105,7 @@ public class Hologram extends CommandTemplate {
         }
 
         String line = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+        line = line.replace("_", " ");
         List<String> lines = new ArrayList<>();
         lines.add(sanitizeLine(line));
 
@@ -409,6 +410,14 @@ public class Hologram extends CommandTemplate {
                         return;
                 }
                 break;
+            case "clickcost":
+                try {
+                    hologram.setClickCost(Double.parseDouble(value));
+                } catch (NumberFormatException e) {
+                    player.sendMessage(plugin.getMessage("invalidNumber"));
+                    return;
+                }
+                break;
             default:
                 player.sendMessage(plugin.getMessage("hologramInvalidSetting").replace("%setting%", setting));
                 return;
@@ -523,6 +532,7 @@ public class Hologram extends CommandTemplate {
         }
 
         String line = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+        line = line.replace("_", " ");
         hologram.addLine(sanitizeLine(line));
         plugin.getHologramManager().updateHologram(hologram);
         player.sendMessage(plugin.getMessage("hologramLineAdded"));
@@ -577,6 +587,7 @@ public class Hologram extends CommandTemplate {
         try {
             int index = Integer.parseInt(args[2]) - 1;
             String line = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+            line = line.replace("_", " ");
             hologram.setLine(index, sanitizeLine(line));
             plugin.getHologramManager().updateHologram(hologram);
             player.sendMessage(plugin.getMessage("hologramLineSet"));
@@ -619,6 +630,7 @@ public class Hologram extends CommandTemplate {
                 copy.setUpdateInterval(source.getUpdateInterval());
                 copy.setClickable(source.isClickable());
                 copy.setClickCommand(source.getClickCommand());
+                copy.setClickCost(source.getClickCost());
                 copy.setPermission(source.getPermission());
                 copy.setFollowType(source.getFollowType());
                 copy.setTextAlignment(source.getTextAlignment());
@@ -674,7 +686,7 @@ public class Hologram extends CommandTemplate {
             if (subCommand.equals("set")) {
                 return List.of("clickable", "command", "permission", "viewdistance", "updatedistance", 
                         "updateinterval", "textalpha", "textwidth", "backgroundcolor", "backgroundalpha", 
-                        "scale", "alignment", "followtype").stream()
+                        "scale", "alignment", "followtype", "clickcost").stream()
                         .filter(arg -> arg.toLowerCase().startsWith(args[2].toLowerCase()))
                         .collect(Collectors.toList());
             }

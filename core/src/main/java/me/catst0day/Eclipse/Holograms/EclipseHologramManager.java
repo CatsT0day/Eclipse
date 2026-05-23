@@ -1,6 +1,8 @@
 package me.catst0day.Eclipse.Holograms;
 
 import me.catst0day.Eclipse.Eclipse;
+import me.catst0day.Eclipse.Holograms.Animations.AnimationParser;
+import me.catst0day.Eclipse.Holograms.Animations.AnimatableText;
 import me.catst0day.Eclipse.Managers.Database.EclipseSQLiteManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -41,6 +43,9 @@ public class EclipseHologramManager {
                 "view_distance INTEGER DEFAULT 48, " +
                 "always_visible INTEGER DEFAULT 0, " +
                 "update_interval INTEGER DEFAULT 20, " +
+                "clickable INTEGER DEFAULT 0, " +
+                "click_command TEXT DEFAULT '', " +
+                "click_cost REAL DEFAULT 0.0, " +
                 "lines TEXT NOT NULL);";
         
         try (Connection conn = dbManager.getConnection(); Statement stmt = conn.createStatement()) {
@@ -67,6 +72,9 @@ public class EclipseHologramManager {
                 int viewDistance = rs.getInt("view_distance");
                 boolean alwaysVisible = rs.getBoolean("always_visible");
                 int updateInterval = rs.getInt("update_interval");
+                boolean clickable = rs.getBoolean("clickable");
+                String clickCommand = rs.getString("click_command");
+                double clickCost = rs.getDouble("click_cost");
                 String linesData = rs.getString("lines");
                 
                 if (Bukkit.getWorld(worldName) != null) {
@@ -77,6 +85,9 @@ public class EclipseHologramManager {
                     hologram.setViewDistance(viewDistance);
                     hologram.setAlwaysVisible(alwaysVisible);
                     hologram.setUpdateInterval(updateInterval);
+                    hologram.setClickable(clickable);
+                    hologram.setClickCommand(clickCommand);
+                    hologram.setClickCost(clickCost);
                     holograms.put(name.toLowerCase(), hologram);
                 }
             }
@@ -93,6 +104,10 @@ public class EclipseHologramManager {
         EclipseHologram hologram = new EclipseHologram(name, location, new ArrayList<>(lines));
         holograms.put(name.toLowerCase(), hologram);
         saveHologram(hologram);
+        
+        // Auto-detect and register animations
+        registerAnimations(hologram);
+        
         return true;
     }
     
@@ -101,6 +116,10 @@ public class EclipseHologramManager {
         if (hologram == null) {
             return false;
         }
+        
+        // Remove animations
+        plugin.getAnimationManager().removeHologramAnimations(name);
+        
         for (Player player : Bukkit.getOnlinePlayers()) {
             EclipseHologramPacket.hideHologram(player, hologram);
         }
@@ -111,6 +130,15 @@ public class EclipseHologramManager {
     
     public EclipseHologram getHologram(String name) {
         return holograms.get(name.toLowerCase());
+    }
+    
+    public EclipseHologram getHologramByUUID(UUID uuid) {
+        for (EclipseHologram hologram : holograms.values()) {
+            if (hologram.getUniqueId().equals(uuid)) {
+                return hologram;
+            }
+        }
+        return null;
     }
     
     public Collection<EclipseHologram> getAllHolograms() {
@@ -126,7 +154,7 @@ public class EclipseHologramManager {
     }
     
     private void saveHologram(EclipseHologram hologram) {
-        String sql = "REPLACE INTO holograms(name, uuid, world, x, y, z, yaw, pitch, view_distance, always_visible, update_interval, lines) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "REPLACE INTO holograms(name, uuid, world, x, y, z, yaw, pitch, view_distance, always_visible, update_interval, clickable, click_command, click_cost, lines) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, hologram.getName());
             pstmt.setString(2, hologram.getUniqueId().toString());
@@ -139,7 +167,10 @@ public class EclipseHologramManager {
             pstmt.setInt(9, hologram.getViewDistance());
             pstmt.setBoolean(10, hologram.isAlwaysVisible());
             pstmt.setInt(11, hologram.getUpdateInterval());
-            pstmt.setString(12, String.join("\n", hologram.getLines()));
+            pstmt.setBoolean(12, hologram.isClickable());
+            pstmt.setString(13, hologram.getClickCommand());
+            pstmt.setDouble(14, hologram.getClickCost());
+            pstmt.setString(15, String.join("\n", hologram.getLines()));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,6 +189,10 @@ public class EclipseHologramManager {
     
     public void updateHologram(EclipseHologram hologram) {
         saveHologram(hologram);
+        
+        // Re-register animations if lines changed
+        registerAnimations(hologram);
+        
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (hologram.isVisibleTo(player)) {
                 EclipseHologramPacket.updateHologram(player, hologram);
@@ -226,7 +261,33 @@ public class EclipseHologramManager {
         for (Player player : Bukkit.getOnlinePlayers()) {
             hideAllHologramsFromPlayer(player);
         }
+        
+        // Clear all animations
+        for (String holoName : holograms.keySet()) {
+            plugin.getAnimationManager().removeHologramAnimations(holoName);
+        }
+        
         holograms.clear();
         visibleHolograms.clear();
+    }
+    
+    /**
+     * Automatically detects and registers animations for a hologram.
+     * 
+     * @param hologram The hologram to check for animations
+     */
+    private void registerAnimations(EclipseHologram hologram) {
+        List<String> lines = hologram.getLines();
+        
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            
+            if (AnimationParser.containsAnimation(line)) {
+                AnimatableText animation = AnimationParser.parse(line);
+                if (animation != null) {
+                    plugin.getAnimationManager().registerAnimation(hologram.getName(), i, animation);
+                }
+            }
+        }
     }
 }

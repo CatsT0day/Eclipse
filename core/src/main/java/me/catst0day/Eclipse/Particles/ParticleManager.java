@@ -7,14 +7,30 @@ import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+/**
+ * @deprecated Instead of using this class, use
+ * {@link me.catst0day.Eclipse.Utils.Particles.ParticleManager}
+ * This will no longer update, and will be removed in 1.04.00
+ */
 @Deprecated(since = "1.02.95", forRemoval = true)
 public class ParticleManager {
     private final Plugin plugin;
     private final Map<String, ParticleAnim> activeAnimations = new HashMap();
 
+    /**
+     * @deprecated Instead of using this class, use
+     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleManager}
+     * This will no longer update, and will be removed in 1.04.00
+     */
     public ParticleManager(Plugin plugin) {
         this.plugin = plugin;
     }
+    /**
+     * @deprecated Instead of using this class, use
+     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleManager}
+     * This will no longer update, and will be removed in 1.04.00
+     */
     @Deprecated(since = "1.02.95", forRemoval = true)
     public void startAnimation(String id, ParticleAnim animation, Location center, Player owner, String structureName) {
         if (this.activeAnimations.containsKey(id)) {
@@ -24,6 +40,11 @@ public class ParticleManager {
         animation.start(this.plugin, center, owner, structureName);
         this.activeAnimations.put(id, animation);
     }
+    /**
+     * @deprecated Instead of using this class, use
+     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleManager}
+     * This will no longer update, and will be removed in 1.04.00
+     */
     @Deprecated(since = "1.02.95", forRemoval = true)
     public void stopAnimation(String id) {
         if (this.activeAnimations.containsKey(id)) {
@@ -32,6 +53,11 @@ public class ParticleManager {
         }
 
     }
+    /**
+     * @deprecated Instead of using this class, use
+     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleManager}
+     * This will no longer update, and will be removed in 1.04.00
+     */
     @Deprecated(since = "1.02.95", forRemoval = true)
     public void stopAllAnimations() {
         if (!this.activeAnimations.isEmpty()) {

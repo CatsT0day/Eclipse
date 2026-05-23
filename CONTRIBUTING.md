@@ -170,7 +170,8 @@ player.sendMessage("Hello, World!");
 
 // Use:
 EclipsePlr player = Eclipse.getI().getPlayer(uuid);
-player.sendMsg("Hello, World!");
+player.sendMsg("Hello, World!"); 
+// this thing is also translated with MINIMESSAGE and "&" colors
 ```
 
 ### Command Implementation
@@ -203,7 +204,7 @@ public class CMd extends CommandTemplate {
 
   @Override
   protected boolean perform(CommandSender sender, Player unused, String[] args) {
-    // command logic
+     execute(sender, args);
   }
 
   private boolean execute(CommandSender sender, String[] args) {

@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.CatsT0day"
-version = "1.03.05-SNAPSHOT-ENTERp-MCVER"
+version = "1.03.11-SNAPSHOT-ENTERp-MCVER"
 
 val paperVersion by lazy {
     val buildToolsMaven = file("maven")
@@ -112,7 +112,7 @@ tasks.shadowJar {
     archiveVersion.set(fullVersion)
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     dependsOn(tasks.processResources)
-    relocate("net.kyori", "me.catst0day.Eclipse.libs.kyori")
+    // relocate("net.kyori", "me.catst0day.Eclipse.libs.kyori")
     relocate("org.reflections", "me.catst0day.Eclipse.libs.reflections")
     relocate("org.javassist", "me.catst0day.Eclipse.libs.javassist")
 }

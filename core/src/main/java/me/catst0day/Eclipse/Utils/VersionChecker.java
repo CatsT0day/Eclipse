@@ -34,18 +34,18 @@ public class VersionChecker {
         version = version.replaceAll("[^\\d.]", "");
 
         if (version.contains(".")) {
-            String numericParts = "";
+            StringBuilder numericParts = new StringBuilder();
             String[] parts = version.split("\\.");
 
             for (String part : parts) {
                 if (part.length() == 1) {
                     part = "0" + part;
                 }
-                numericParts += part;
+                numericParts.append(part);
             }
 
             try {
-                return Integer.parseInt(numericParts);
+                return Integer.parseInt(numericParts.toString());
             } catch (NumberFormatException e) {
                 log("Failed to convert version: " + version);
                 return 0;
@@ -102,13 +102,14 @@ public class VersionChecker {
     }
 
     public String getOfficialVersion() {
+        HttpURLConnection connection = null;
         BufferedReader reader = null;
 
         try {
             URL url = new URL("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/releases/latest");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
-            connection.setRequestProperty("User-Agent", "CAPI-VersionChecker");
+            connection.setRequestProperty("User-Agent", "Eclipse-VersionChecker");
 
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder response = new StringBuilder();
@@ -120,8 +121,6 @@ public class VersionChecker {
 
             String jsonResponse = response.toString();
             int tagStart = jsonResponse.indexOf("\"tag_name\":\"") + 12;
-            if (tagStart == -1) return null;
-
             int tagEnd = jsonResponse.indexOf("\"", tagStart);
             if (tagEnd == -1) return null;
 
@@ -135,8 +134,11 @@ public class VersionChecker {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    log("Error closing connection: " + e.getMessage());
+                    log("Error closing reader: " + e.getMessage());
                 }
+            }
+            if (connection != null) {
+                connection.disconnect();
             }
         }
 

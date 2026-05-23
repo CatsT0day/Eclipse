@@ -64,6 +64,7 @@ public class Eclipse extends JavaPlugin {
     private EclipseKitManager kitManager;
     private VersionChecker versionCheckManager;
     private EclipseSQLiteManager SQLiteManager;
+    private me.catst0day.Eclipse.Holograms.Animations.AnimationManager animationManager;
 
 
     @Override
@@ -79,6 +80,7 @@ public class Eclipse extends JavaPlugin {
         this.chatManager = new EclipseChatManager(this);
         this.moduleManager = new EclipseModuleManager(this);
         this.hologramManager = new EclipseHologramManager(this);
+        this.animationManager = new me.catst0day.Eclipse.Holograms.Animations.AnimationManager(this);
         
         setupVaultEconomy();
 
@@ -119,6 +121,9 @@ public class Eclipse extends JavaPlugin {
         if (kitManager != null) {
             kitManager.shutdown();
         }
+        if (animationManager != null) {
+            animationManager.shutdown();
+        }
     }
 
     public static Eclipse getI() {
@@ -138,9 +143,9 @@ public class Eclipse extends JavaPlugin {
         pm.registerEvents(new EclipseOnItemPickupEvent(this), this);
         pm.registerEvents(new EclipseChatListener(this), this);
         pm.registerEvents(new EclipseHologramListener(this), this);
+        pm.registerEvents(new EclipseOnPlayerAsyncChatHologramEvent(this), this);
+        pm.registerEvents(new EclipseHologramClickListener(this), this);
     }
-
-    // --- Msg System ---
 
     public void loadTranslations() {
         currentLang = getConfig().getString("lang", "EN").toUpperCase();
@@ -356,6 +361,7 @@ public class Eclipse extends JavaPlugin {
     public EclipseKitManager getKitManager() { return kitManager == null ? (kitManager = new EclipseKitManager(this)) : kitManager; }
     public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "Eclipse")) : versionCheckManager; }
     public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}
+    public me.catst0day.Eclipse.Holograms.Animations.AnimationManager getAnimationManager() { return animationManager; }
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
     public Map<UUID, UUID> getTpaRequests() { return tpaRequests; }
 

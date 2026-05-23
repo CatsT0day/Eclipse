@@ -39,10 +39,9 @@ public class RawJsonMessage {
         return this;
     }
 
-    public RawJsonMessage addCommand(String cmd) {
-        if (cmd == null || cmd.isEmpty()) return this;
+    public void addCommand(String cmd) {
+        if (cmd == null || cmd.isEmpty()) return;
         temp.put("click", ClickEvent.runCommand(cmd.startsWith("/") ? cmd : "/" + cmd));
-        return this;
     }
 
     public RawJsonMessage addSuggestion(String suggestion) {
@@ -99,11 +98,10 @@ public class RawJsonMessage {
     }
 
     public String combineClean() {
-        StringBuilder sb = new StringBuilder();
-        for (Component p : parts) {
-            sb.append(TextUtil.toLegacy(p));
-        }
-        return TextUtil.stripColor(sb.toString());
+        if (parts.isEmpty()) return "";
+        TextComponent.Builder builder = Component.text();
+        parts.forEach(builder::append);
+        return TextUtil.stripColor(TextUtil.toLegacy(builder.build()));
     }
 
     public Component getResult() {

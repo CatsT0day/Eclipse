@@ -20,6 +20,7 @@ public class EclipseHologram {
     private List<String> lines;
     private boolean clickable;
     private String clickCommand;
+    private double clickCost;
     private boolean showParticles;
     private boolean enabled;
     private String permission;
@@ -49,6 +50,7 @@ public class EclipseHologram {
         this.lines = new ArrayList<>(lines);
         this.clickable = false;
         this.clickCommand = "";
+        this.clickCost = 0.0;
         this.showParticles = true;
         this.enabled = true;
         this.permission = null;
@@ -222,6 +224,14 @@ public class EclipseHologram {
     
     public void setClickCommand(String clickCommand) {
         this.clickCommand = sanitizeCommand(clickCommand);
+    }
+    
+    public double getClickCost() {
+        return clickCost;
+    }
+    
+    public void setClickCost(double clickCost) {
+        this.clickCost = Math.max(0, clickCost);
     }
     
     private String sanitizeCommand(String command) {
@@ -542,6 +552,8 @@ public class EclipseHologram {
         me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: Original line: '" + parsed + "'");
         parsed = parseCText(parsed, player);
         me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: After parseCText: '" + parsed + "'");
+        parsed = parseEconomyPlaceholders(parsed, player);
+        me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: After economy placeholders: '" + parsed + "'");
         parsed = parseIcons(parsed, player);
         me.catst0day.Eclipse.Utils.Util.log("DEBUG parseLine: After parseIcons: '" + parsed + "'");
         if (getTextFillerWidth() > 0 && parsed.contains("%filler%")) {
@@ -571,6 +583,52 @@ public class EclipseHologram {
     
     private String parseIcons(String line, Player player) {
         return line.replaceAll("(ICON|SICON):[^\\s]+", "[ICON]");
+    }
+    
+    private String parseEconomyPlaceholders(String line, Player player) {
+        if (player == null) return line;
+        
+        me.catst0day.Eclipse.Eclipse plugin = me.catst0day.Eclipse.Eclipse.getI();
+        if (plugin == null || plugin.getEconomyManager() == null) return line;
+        
+        me.catst0day.Eclipse.Managers.EclipseEconomyManager economy = plugin.getEconomyManager();
+        java.util.UUID playerUuid = player.getUniqueId();
+        
+        String parsed = line;
+        parsed = parsed.replace("{balance}", economy.formatAmount(economy.getBalance(playerUuid)));
+        parsed = parsed.replace("{currency}", economy.getSettings().getCurrencyName());
+        parsed = parsed.replace("{currency_symbol}", economy.getSettings().getCurrencySymbol());
+        parsed = parsed.replace("{player}", player.getName());
+        parsed = parsed.replace("{online}", String.valueOf(org.bukkit.Bukkit.getOnlinePlayers().size()));
+        double totalBalance = 0;
+        for (org.bukkit.entity.Player onlinePlayer : org.bukkit.Bukkit.getOnlinePlayers()) {
+            totalBalance += economy.getBalance(onlinePlayer.getUniqueId());
+        }
+        parsed = parsed.replace("{server_balance}", economy.formatAmount(totalBalance));
+        
+        // Top balance placeholders (top_balance_1, top_balance_2, etc.)
+        java.util.Map<java.util.UUID, Double> balances = new java.util.HashMap<>();
+        for (org.bukkit.entity.Player onlinePlayer : org.bukkit.Bukkit.getOnlinePlayers()) {
+            balances.put(onlinePlayer.getUniqueId(), economy.getBalance(onlinePlayer.getUniqueId()));
+        }
+        
+        // Sort by balance descending
+        java.util.List<java.util.Map.Entry<java.util.UUID, Double>> sorted = balances.entrySet().stream()
+                .sorted(java.util.Map.Entry.<java.util.UUID, Double>comparingByValue().reversed())
+                .toList();
+        
+        for (int i = 0; i < Math.min(10, sorted.size()); i++) {
+            java.util.Map.Entry<java.util.UUID, Double> entry = sorted.get(i);
+            java.util.UUID uuid = entry.getKey();
+            double balance = entry.getValue();
+            org.bukkit.OfflinePlayer offlinePlayer = org.bukkit.Bukkit.getOfflinePlayer(uuid);
+            String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "Unknown";
+            
+            parsed = parsed.replace("{top_balance_" + (i + 1) + "_name}", playerName);
+            parsed = parsed.replace("{top_balance_" + (i + 1) + "}", economy.formatAmount(balance));
+        }
+        
+        return parsed;
     }
     
     private String generateFiller(String line, int targetWidth) {
