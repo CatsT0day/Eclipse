@@ -90,9 +90,8 @@ public class Enchant extends CommandTemplate {
     protected List<String> tabCompl(Player player, String[] args) {
         if (args.length == 1) {
             String prefix = args[0].toLowerCase();
-            // Получаем список всех доступных в реестре чар (включая кастомные)
             return Registry.ENCHANTMENT.stream()
-                    .map(e -> e.getKey().toString()) // Возвращает формат "namespace:key"
+                    .map(e -> e.getKey().toString())
                     .filter(key -> key.toLowerCase().startsWith(prefix))
                     .collect(Collectors.toList());
         } else if (args.length == 2) {
