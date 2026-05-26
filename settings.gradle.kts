@@ -21,4 +21,4 @@ dependencyResolutionManagement {
     }
 }
 
-include("core")
+include(":main:plugin-core")

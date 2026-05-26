@@ -102,7 +102,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$paperVersion")
-    implementation(project(":core"))
+    implementation(project(":main:plugin-core"))
 }
 
 

@@ -1,5 +1,3 @@
-// there's a bug with test warpping, cascade, can you fix it? every letter, text wraps, disable the wrapping
-
 package me.catst0day.Eclipse.Holograms;
 
 import me.catst0day.Eclipse.Utils.Text.RawJsonMessage;
@@ -116,11 +114,7 @@ public class EclipseHologramPacket {
         }
     }
 
-    /**
-     * Calculates automatic line width based on text content.
-     * Minecraft characters are approximately 6-8 pixels wide.
-     * This prevents the "one letter per line" bug when lineWidth is too small.
-     */
+
     private static int calculateAutoLineWidth(String text, int configuredWidth) {
         if (text == null || text.isEmpty()) {
             return Math.max(configuredWidth, 1000);

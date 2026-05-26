@@ -67,7 +67,7 @@ public class EclipsePlrTest {
         String message = "&cTest message";
         
         // This test would require mocking getPlayer() to return a mock player
-        // For now, we test the structure
+        // For now, we test the structure lol
         assertNotNull(eclipsePlr);
     }
     
