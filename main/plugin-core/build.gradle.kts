@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.0"
     `java-library`
+    id("io.papermc.paperweight.userdev") version "1.7.1"
 }
 
 group = "me.catst0day.Eclipse"
@@ -14,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
     implementation("net.kyori:adventure-text-minimessage:4.17.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("net.kyori:adventure-text-serializer-gson:4.17.0")

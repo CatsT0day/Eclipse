@@ -25,7 +25,7 @@ public class AnimationManager {
     /**
      * Creates a new AnimationManager.
      * 
-     * @param plugin The plugin instance
+     * @param plugin The plugin instance (can be replaced with eclipse.getI() btw)
      */
     public AnimationManager(Eclipse plugin) {
         this.plugin = plugin;

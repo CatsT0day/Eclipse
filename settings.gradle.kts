@@ -22,3 +22,6 @@ dependencyResolutionManagement {
 }
 
 include(":main:plugin-core")
+include(":main:nms-core")
+include("main:core-nms")
+include("main:kotlin-core")
