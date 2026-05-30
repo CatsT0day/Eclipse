@@ -6,36 +6,25 @@ import me.catst0day.Eclipse.Holograms.EclipseHologramBuilder
 import org.bukkit.Location
 import org.bukkit.Material
 
-/**
- * Kotlin DSL for creating and configuring holograms with a clean, fluent API.
- * Provides type-safe builders and extension functions for comfortable hologram creation.
- */
 
-/**
- * DSL marker to prevent accidental nesting of hologram builders
- */
+
+
 @DslMarker
 annotation class HologramDsl
 
-/**
- * Extension function to create a hologram using the DSL
- */
+
 fun hologram(name: String, location: Location, block: HologramBuilder.() -> Unit): EclipseHologram {
     return HologramBuilder(name, location).apply(block).build()
 }
 
-/**
- * Extension function to create and register a hologram using the DSL
- */
+
 fun Eclipse.createHologram(name: String, location: Location, block: HologramBuilder.() -> Unit): EclipseHologram {
     val hologram = hologram(name, location, block)
     hologramManager.createHologram(name, location, hologram.lines)
     return hologramManager.getHologram(name) ?: hologram
 }
 
-/**
- * Builder class for creating holograms using Kotlin DSL
- */
+
 @HologramDsl
 class HologramBuilder(private val name: String, private val location: Location) {
     private val lines = mutableListOf<String>()
@@ -76,270 +65,194 @@ class HologramBuilder(private val name: String, private val location: Location) 
     private var fadeInTicks = 0
     private var fadeOutTicks = 0
 
-    /**
-     * Add a line to the hologram
-     */
+    
     fun line(text: String) {
         lines.add(text)
     }
 
-    /**
-     * Add multiple lines to the hologram
-     */
+    
     fun lines(vararg texts: String) {
         lines.addAll(texts)
     }
 
-    /**
-     * Add multiple lines using a list
-     */
+    
     fun lines(texts: List<String>) {
         lines.addAll(texts)
     }
 
-    /**
-     * Make the hologram clickable with a command
-     */
+    
     fun clickable(command: String, cost: Double = 0.0) {
         this.clickable = true
         this.clickCommand = command
         this.clickCost = cost
     }
 
-    /**
-     * Configure particles visibility
-     */
+    
     fun showParticles(show: Boolean) {
         this.showParticles = show
     }
 
-    /**
-     * Set whether the hologram is enabled
-     */
+    
     fun enabled(enabled: Boolean) {
         this.enabled = enabled
     }
 
-    /**
-     * Set the permission required to view the hologram
-     */
+    
     fun permission(permission: String) {
         this.permission = permission
     }
 
-    /**
-     * Set the view distance in blocks
-     */
+    
     fun viewDistance(distance: Int) {
         this.viewDistance = distance
     }
 
-    /**
-     * Set whether the hologram is always visible
-     */
+    
     fun alwaysVisible(alwaysVisible: Boolean) {
         this.alwaysVisible = alwaysVisible
     }
 
-    /**
-     * Set the update interval in ticks
-     */
+    
     fun updateInterval(interval: Int) {
         this.updateInterval = interval
     }
 
-    /**
-     * Set the update range in blocks
-     */
+    
     fun updateRange(range: Int) {
         this.updateRange = range
     }
 
-    /**
-     * Set whether line of sight is checked
-     */
+    
     fun lineOfSight(check: Boolean) {
         this.lineOfSight = check
     }
 
-    /**
-     * Set the follow type (billboard behavior)
-     */
+    
     fun followType(type: EclipseHologram.FollowType) {
         this.followType = type
     }
 
-    /**
-     * Set whether text is double-sided
-     */
+    
     fun doubleSided(doubleSided: Boolean) {
         this.doubleSided = doubleSided
     }
 
-    /**
-     * Set the text alignment
-     */
+    
     fun textAlignment(alignment: EclipseHologram.TextAlignment) {
         this.textAlignment = alignment
     }
 
-    /**
-     * Set whether text has shadow
-     */
+    
     fun textShadow(shadow: Boolean) {
         this.textShadow = shadow
     }
 
-    /**
-     * Set the text alpha (transparency 0-255)
-     */
+    
     fun textAlpha(alpha: Int) {
         this.textAlpha = alpha
     }
 
-    /**
-     * Set the text width
-     */
+    
     fun textWidth(width: Int) {
         this.textWidth = width
     }
 
-    /**
-     * Set the text filler width
-     */
+    
     fun textFillerWidth(width: Int) {
         this.textFillerWidth = width
     }
 
-    /**
-     * Set whether text is see-through
-     */
+    
     fun textSeeThrough(seeThrough: Boolean) {
         this.textSeeThrough = seeThrough
     }
 
-    /**
-     * Set the light level (-1 to 15)
-     */
+    
     fun lightLevel(level: Int) {
         this.lightLevel = level
     }
 
-    /**
-     * Set the background color (hex format)
-     */
+    
     fun backgroundColor(color: String) {
         this.backgroundColor = color
     }
 
-    /**
-     * Set the background alpha (0-255)
-     */
+    
     fun backgroundAlpha(alpha: Int) {
         this.backgroundAlpha = alpha
     }
 
-    /**
-     * Set the hologram scale
-     */
+    
     fun scale(scale: Double) {
         this.scale = scale
     }
 
-    /**
-     * Set the yaw offset
-     */
+    
     fun yawOffset(offset: Double) {
         this.yawOffset = offset
     }
 
-    /**
-     * Set the pitch offset
-     */
+    
     fun pitchOffset(offset: Double) {
         this.pitchOffset = offset
     }
 
-    /**
-     * Enable the background board
-     */
+    
     fun boardEnabled(enabled: Boolean) {
         this.boardEnabled = enabled
     }
 
-    /**
-     * Set the board material
-     */
+    
     fun boardMaterial(material: Material) {
         this.boardMaterial = material
     }
 
-    /**
-     * Set the board scale
-     */
+    
     fun boardScale(scale: Double) {
         this.boardScale = scale
     }
 
-    /**
-     * Set the board yaw offset
-     */
+    
     fun boardYawOffset(offset: Double) {
         this.boardYawOffset = offset
     }
 
-    /**
-     * Set the board pitch offset
-     */
+    
     fun boardPitchOffset(offset: Double) {
         this.boardPitchOffset = offset
     }
 
-    /**
-     * Set the board thickness
-     */
+    
     fun boardThickness(thickness: Double) {
         this.boardThickness = thickness
     }
 
-    /**
-     * Set the icon scale
-     */
+    
     fun iconScale(scale: Double) {
         this.iconScale = scale
     }
 
-    /**
-     * Set the icon yaw offset
-     */
+    
     fun iconYawOffset(offset: Double) {
         this.iconYawOffset = offset
     }
 
-    /**
-     * Set the icon pitch offset
-     */
+    
     fun iconPitchOffset(offset: Double) {
         this.iconPitchOffset = offset
     }
 
-    /**
-     * Set the fade in duration in ticks
-     */
+    
     fun fadeInTicks(ticks: Int) {
         this.fadeInTicks = ticks
     }
 
-    /**
-     * Set the fade out duration in ticks
-     */
+    
     fun fadeOutTicks(ticks: Int) {
         this.fadeOutTicks = ticks
     }
 
-    /**
-     * Build the hologram with the configured settings
-     */
+    
     fun build(): EclipseHologram {
         return EclipseHologramBuilder.create(name, location)
             .lines(lines)
@@ -383,22 +296,16 @@ class HologramBuilder(private val name: String, private val location: Location) 
     }
 }
 
-/**
- * Convenience functions for common hologram configurations
- */
 
-/**
- * Create a simple text hologram with minimal configuration
- */
+
+
 fun simpleHologram(name: String, location: Location, vararg lines: String): EclipseHologram {
     return hologram(name, location) {
         lines(*lines)
     }
 }
 
-/**
- * Create a clickable hologram that executes a command
- */
+
 fun clickableHologram(
     name: String,
     location: Location,
@@ -412,9 +319,7 @@ fun clickableHologram(
     }
 }
 
-/**
- * Create a temporary hologram that fades in and out
- */
+
 fun temporaryHologram(
     name: String,
     location: Location,
@@ -429,9 +334,7 @@ fun temporaryHologram(
     }
 }
 
-/**
- * Create a hologram with animated text using animation tags
- */
+
 fun animatedHologram(
     name: String,
     location: Location,

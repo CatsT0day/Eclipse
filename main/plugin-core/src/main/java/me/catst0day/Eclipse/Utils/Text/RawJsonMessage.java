@@ -52,7 +52,7 @@ public class RawJsonMessage {
 
     public RawJsonMessage addUrl(String url) {
         if (url == null || url.isEmpty()) return this;
-        temp.put("click", ClickEvent.openUrl(url.startsWith("http") ? url : "https://" + url));
+        temp.put("click", ClickEvent.openUrl(url.startsWith("http") ? url : "https:
         return this;
     }
 

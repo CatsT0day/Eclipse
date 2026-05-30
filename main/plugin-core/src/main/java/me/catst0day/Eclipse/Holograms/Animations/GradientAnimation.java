@@ -1,9 +1,6 @@
 package me.catst0day.Eclipse.Holograms.Animations;
 
-/**
- * Gradient animation that transitions between two colors.
- * The gradient shifts position over time, creating a flowing effect.
- */
+
 public class GradientAnimation implements AnimatableText {
     
     private final String text;
@@ -13,15 +10,7 @@ public class GradientAnimation implements AnimatableText {
     private final float speed;
     private boolean active;
     
-    /**
-     * Creates a new gradient animation.
-     * 
-     * @param text The text to animate
-     * @param updateInterval Ticks between gradient updates
-     * @param startColor Starting hex color (e.g., "#FF0000")
-     * @param endColor Ending hex color (e.g., "#0000FF")
-     * @param speed Speed of gradient shift (0.0 to 1.0)
-     */
+    
     public GradientAnimation(String text, int updateInterval, String startColor, String endColor, float speed) {
         this.text = text;
         this.updateInterval = Math.max(1, updateInterval);
@@ -63,14 +52,7 @@ public class GradientAnimation implements AnimatableText {
         this.active = true;
     }
     
-    /**
-     * Interpolates between two hex colors.
-     * 
-     * @param color1 Starting hex color
-     * @param color2 Ending hex color
-     * @param t Interpolation factor (0.0 to 1.0)
-     * @return Interpolated hex color
-     */
+    
     private String interpolateColor(String color1, String color2, float t) {
         int rgb1 = hexToRgb(color1);
         int rgb2 = hexToRgb(color2);
@@ -90,12 +72,7 @@ public class GradientAnimation implements AnimatableText {
         return String.format("#%02X%02X%02X", r, g, b);
     }
     
-    /**
-     * Converts hex color string to RGB integer.
-     * 
-     * @param hex Hex color string (e.g., "#FF0000")
-     * @return RGB integer
-     */
+    
     private int hexToRgb(String hex) {
         hex = hex.replace("#", "");
         if (hex.length() == 3) {

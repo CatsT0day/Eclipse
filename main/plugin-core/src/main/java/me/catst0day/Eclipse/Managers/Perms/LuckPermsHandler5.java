@@ -75,7 +75,7 @@ public class LuckPermsHandler5 implements PermissionInterface {
                 User user = api.getUserManager().loadUser(uuid).join();
                 if (user != null) {
                     String prefix = user.getCachedData().getMetaData().getPrefix();
-                    // Проверка на null вместо orElse()
+                    
                     if (prefix != null && !prefix.isEmpty()) {
                         log("&7Retrieved prefix '" + prefix + "' for UUID " + uuid);
                         return prefix;
@@ -102,7 +102,7 @@ public class LuckPermsHandler5 implements PermissionInterface {
                 User user = api.getUserManager().loadUser(uuid).join();
                 if (user != null) {
                     String suffix = user.getCachedData().getMetaData().getSuffix();
-                    // Проверка на null вместо orElse()
+                    
                     if (suffix != null && !suffix.isEmpty()) {
                         log("&7Retrieved suffix '" + suffix + "' for UUID " + uuid);
                         return suffix;
@@ -129,7 +129,7 @@ public class LuckPermsHandler5 implements PermissionInterface {
                 User user = api.getUserManager().loadUser(player.getUniqueId()).join();
                 if (user != null) {
                     String color = user.getCachedData().getMetaData().getMetaValue("name-color");
-                    // Проверка на null вместо orElse()
+                    
                     if (color != null && !color.isEmpty()) {
                         log("&7Retrieved name color '" + color + "' for player " + player.getName());
                         return color;

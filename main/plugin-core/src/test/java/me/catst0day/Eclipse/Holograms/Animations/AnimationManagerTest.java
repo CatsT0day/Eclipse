@@ -10,10 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Unit tests for AnimationManager.
- * Tests animation registration, removal, and management.
- */
+
 @ExtendWith(MockitoExtension.class)
 public class AnimationManagerTest {
     
@@ -111,7 +108,7 @@ public class AnimationManagerTest {
         animationManager.registerAnimation("testHolo", 0, animation1);
         animationManager.registerAnimation("testHolo", 0, animation2);
         
-        // Second animation should replace the first
+        
         var animations = animationManager.getHologramAnimations("testHolo");
         assertEquals(1, animations.size());
         assertEquals(animation2, animations.get(0));

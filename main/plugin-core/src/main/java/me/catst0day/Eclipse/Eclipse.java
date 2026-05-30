@@ -348,7 +348,7 @@ public class Eclipse extends JavaPlugin {
         }, 0L, 20L);
     }
 
-    // --- Getters & API ---
+    
 
     public EclipseHomeManager getHomeManager() { return homeManager == null ? (homeManager = new EclipseHomeManager(this)) : homeManager; }
     public EclipsePermissionManager getPermissionManager() { return permManager == null ? (permManager = new EclipsePermissionManager(this)) : permManager; }

@@ -10,19 +10,14 @@ public class EclipsePlayerInventory {
 
     private static Method topInventoryMethod = null;
 
-    /**
-     * Gets the contents of the top inventory safely.
-     */
+    
     public static ItemStack[] getTopInventoryContents(Player player) {
         Inventory inv = getTopInventory(player);
         if (inv == null) return new ItemStack[0];
         return inv.getContents();
     }
 
-    /**
-     * Handles the 1.21+ InventoryView Interface change using reflection
-     * to maintain binary compatibility across all versions.
-     */
+    
     public static Inventory getTopInventory(Player player) {
         if (player == null) return null;
         InventoryView view = player.getOpenInventory();

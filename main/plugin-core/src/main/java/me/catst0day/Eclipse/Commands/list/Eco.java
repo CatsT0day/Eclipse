@@ -155,7 +155,7 @@ public class Eco extends CommandTemplate {
 
     private void handleTop(CommandSender sender) {
         sender.sendMessage(plugin.getMessage("ecoTopHeader"));
-        // Implementation would require storing all accounts sorted by balance
+        
         sender.sendMessage(plugin.getMessage("ecoTopNotImplemented"));
     }
 

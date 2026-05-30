@@ -106,7 +106,7 @@ public class VersionChecker {
         BufferedReader reader = null;
 
         try {
-            URL url = new URL("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/releases/latest");
+            URL url = new URL("https:
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
             connection.setRequestProperty("User-Agent", "Eclipse-VersionChecker");

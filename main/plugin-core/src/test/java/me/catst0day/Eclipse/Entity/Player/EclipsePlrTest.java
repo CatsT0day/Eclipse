@@ -16,10 +16,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Unit tests for EclipsePlr.
- * Tests player wrapper functionality.
- */
+
 @ExtendWith(MockitoExtension.class)
 public class EclipsePlrTest {
     
@@ -66,8 +63,8 @@ public class EclipsePlrTest {
     public void testSendMsg() {
         String message = "&cTest message";
         
-        // This test would require mocking getPlayer() to return a mock player
-        // For now, we test the structure lol
+        
+        
         assertNotNull(eclipsePlr);
     }
     
@@ -124,7 +121,7 @@ public class EclipsePlrTest {
     
     @Test
     public void testSetTotalPlayTime() {
-        long playTime = 3600000L; // 1 hour in milliseconds
+        long playTime = 3600000L; 
         eclipsePlr.setTotalPlayTime(playTime);
         
         assertEquals(playTime, eclipsePlr.getTotalPlayTime());
@@ -135,8 +132,8 @@ public class EclipsePlrTest {
         double health = 15.0;
         eclipsePlr.setHealth(health);
         
-        // Health is stored internally
-        // Would need to verify with getPlayer() mock
+        
+        
         assertNotNull(eclipsePlr);
     }
     
@@ -144,38 +141,38 @@ public class EclipsePlrTest {
     public void testSetAllowFlight() {
         eclipsePlr.setAllowFlight(true);
         
-        // Allow flight is stored internally
-        // Would need to verify with getPlayer() mock
+        
+        
         assertNotNull(eclipsePlr);
     }
     
     @Test
     public void testTeleportWithCause() {
-        // This test would require mocking getPlayer() and world
+        
         assertNotNull(eclipsePlr);
     }
     
     @Test
     public void testTeleportAsynchronously() {
-        // This test would require mocking getPlayer() and world chunk loading
+        
         assertNotNull(eclipsePlr);
     }
     
     @Test
     public void testSendTitle() {
-        // This test would require mocking getPlayer()
+        
         assertNotNull(eclipsePlr);
     }
     
     @Test
     public void testSendTitleAsynchronously() {
-        // This test would require mocking getPlayer() and scheduler
+        
         assertNotNull(eclipsePlr);
     }
     
     @Test
     public void testSetGameMode() {
-        // This test would require mocking getPlayer()
+        
         assertNotNull(eclipsePlr);
     }
     

@@ -9,11 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
 
-/**
- * @deprecated Instead of using this interface, use
- * {@link me.catst0day.Eclipse.Utils.Particles.ParticleAnim}
- * This will no longer update, and will be removed in 1.04.00
- */
+
 @Deprecated(since = "1.02.95", forRemoval = true)
 public class SphereAnim implements ParticleAnim {
     private BukkitTask task;
@@ -25,11 +21,7 @@ public class SphereAnim implements ParticleAnim {
     }
 
     @Override
-    /**
-     * @deprecated Instead of using this interface, use
-     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleAnim}
-     * This will no longer update, and will be removed in 1.04.00
-     */
+    
     @Deprecated(since = "1.02.95", forRemoval = true)
     public void start(Plugin plugin, final Location center, Player owner, String structureName) {
         this.task = EclipseScheduler.scheduleSyncRepeatingTask(plugin, () -> {
@@ -66,11 +58,7 @@ public class SphereAnim implements ParticleAnim {
     }
 
     @Override
-    /**
-     * @deprecated Instead of using this interface, use
-     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleAnim}
-     * This will no longer update, and will be removed in 1.04.00
-     */
+    
     @Deprecated(since = "1.02.95", forRemoval = true)
     public void stop() {
 

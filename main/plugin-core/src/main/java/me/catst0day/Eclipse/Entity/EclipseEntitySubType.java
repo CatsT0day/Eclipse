@@ -53,28 +53,28 @@ public enum EclipseEntitySubType {
     CREAMY,
     DARK_BROWN,
 
-    // Rabbit
+    
     BLACK_AND_WHITE,
     GOLD,
     SALT_AND_PEPPER,
     THE_KILLER_BUNNY,
 
-    // Fox
+    
     SNOW,
 
-    // Goat
+    
     SCREAMING,
 
-    // Axolotl
+    
     LUCY, WILD,
 
-    // Panda
+    
     AGGRESSIVE, LAZY, PLAYFUL, WEAK, WORRIED,
 
-    // Cat
+    
     ALL_BLACK, BRITISH_SHORTHAIR, CALICO, JELLIE, PERSIAN, RAGDOLL, SIAMESE, TABBY,
 
-    // Slimes
+    
     SIZE1,
     SIZE2,
     SIZE3,
@@ -86,11 +86,11 @@ public enum EclipseEntitySubType {
     SIZE9,
     SIZE10,
 
-    // Creeper
+    
     POWERED,
     UNPOWERED,
 
-    // Villagers
+    
     NORMAL, FARMER, LIBRARIAN, PRIEST, BLACKSMITH, BUTCHER, NITWIT, HUSK,
     ARMORER, CARTOGRAPHER, CLERIC, FISHERMAN, FLETCHER, LEATHERWORKER, MASON, SHEPHERD, TOOLSMITH, WEAPONSMITH,
     DESERT, JUNGLE, PLAINS, SAVANNA, SWAMP, TAIGA;

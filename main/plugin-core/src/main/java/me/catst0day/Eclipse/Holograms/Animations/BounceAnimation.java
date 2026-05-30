@@ -1,9 +1,6 @@
 package me.catst0day.Eclipse.Holograms.Animations;
 
-/**
- * Bounce animation that makes text bounce up and down.
- * Creates a playful vertical movement effect.
- */
+
 public class BounceAnimation implements AnimatableText {
     
     private final String text;
@@ -12,14 +9,7 @@ public class BounceAnimation implements AnimatableText {
     private final float speed;
     private boolean active;
     
-    /**
-     * Creates a new bounce animation.
-     * 
-     * @param text The text to bounce
-     * @param updateInterval Ticks between position updates
-     * @param amplitude Bounce height in pixels
-     * @param speed Speed of bouncing (0.0 to 1.0)
-     */
+    
     public BounceAnimation(String text, int updateInterval, float amplitude, float speed) {
         this.text = text;
         this.updateInterval = Math.max(1, updateInterval);
@@ -32,11 +22,11 @@ public class BounceAnimation implements AnimatableText {
     public String getText(long tick) {
         if (!active) return text;
         
-        // Use sine wave for bouncing
+        
         float phase = (float) (tick * speed * 0.1);
         float offset = (float) Math.sin(phase) * amplitude;
         
-        // Apply vertical offset using translation tag
+        
         return String.format("<translate:0.0:%.2f>%s", offset, text);
     }
     

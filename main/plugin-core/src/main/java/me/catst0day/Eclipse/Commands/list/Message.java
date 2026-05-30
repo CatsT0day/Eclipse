@@ -96,7 +96,7 @@ public class Message extends CommandTemplate {
                 .replace("%to%", target.getName())
                 .replace("%message%", message.toString()));
 
-        lastMessaged.put(target.getUniqueId(), null); // Console doesn't have UUID
+        lastMessaged.put(target.getUniqueId(), null); 
 
         return true;
     }

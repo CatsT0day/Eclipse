@@ -26,14 +26,14 @@ public class EclipseHologramClickListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         
-        // Check cooldown
+        
         long lastClick = clickCooldowns.getOrDefault(player.getUniqueId(), 0L);
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastClick < CLICK_COOLDOWN_MS) {
             return;
         }
         
-        // Check if player clicked a hologram entity
+        
         UUID hologramUuid = EclipseHologramPacket.getHologramFromEntity(player, event.getClickedBlock() != null ? event.getClickedBlock().getLocation() : null);
         if (hologramUuid == null) {
             return;
@@ -62,7 +62,7 @@ public class EclipseHologramClickListener implements Listener {
             return;
         }
         
-        // Handle paid hologram
+        
         if (cost > 0) {
             if (!plugin.getEconomyManager().hasBalance(player.getUniqueId(), cost)) {
                 player.sendMessage(plugin.getMessage("hologramClickCannotAfford")
@@ -71,7 +71,7 @@ public class EclipseHologramClickListener implements Listener {
                 return;
             }
             
-            // Process payment
+            
             if (!plugin.getEconomyManager().removeBalance(player.getUniqueId(), cost)) {
                 player.sendMessage(plugin.getMessage("hologramClickPaymentFailed"));
                 return;
@@ -82,17 +82,17 @@ public class EclipseHologramClickListener implements Listener {
                     .replace("%command%", command));
         }
         
-        // Execute command
+        
         executeCommand(player, command);
     }
 
     private void executeCommand(Player player, String command) {
-        // Replace player placeholders
+        
         String parsedCommand = command
                 .replace("{player}", player.getName())
                 .replace("{uuid}", player.getUniqueId().toString());
         
-        // Execute as player or console based on command prefix
+        
         if (parsedCommand.startsWith("[player] ")) {
             parsedCommand = parsedCommand.substring("[player] ".length());
             plugin.getServer().dispatchCommand(player, parsedCommand);
@@ -100,7 +100,7 @@ public class EclipseHologramClickListener implements Listener {
             parsedCommand = parsedCommand.substring("[console] ".length());
             plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), parsedCommand);
         } else {
-            // Default to player execution
+            
             plugin.getServer().dispatchCommand(player, parsedCommand);
         }
     }

@@ -5,10 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-/**
- * Unit tests for FrameAnimation.
- * Tests frame cycling and interval handling.
- */
+
 public class FrameAnimationTest {
     
     @Test
@@ -41,7 +38,7 @@ public class FrameAnimationTest {
         assertEquals("Frame2", animation.getText(9));
         assertEquals("Frame3", animation.getText(10));
         assertEquals("Frame3", animation.getText(14));
-        assertEquals("Frame1", animation.getText(15)); // Should cycle back
+        assertEquals("Frame1", animation.getText(15)); 
     }
     
     @Test
@@ -66,7 +63,7 @@ public class FrameAnimationTest {
     
     @Test
     public void testFrameAnimationCustomDelimiter() {
-        FrameAnimation animation = new FrameAnimation("Frame1///Frame2///Frame3", 5, "///");
+        FrameAnimation animation = new FrameAnimation("Frame1
         
         assertEquals("Frame1", animation.getText(0));
         assertEquals("Frame2", animation.getText(5));
@@ -93,7 +90,7 @@ public class FrameAnimationTest {
     public void testFrameAnimationInactive() {
         FrameAnimation animation = new FrameAnimation("Frame1||Frame2", 5, "||");
         
-        // Manually deactivate by checking if it cycles correctly after reset
+        
         animation.reset();
         assertTrue(animation.isActive());
     }
@@ -135,7 +132,7 @@ public class FrameAnimationTest {
     public void testFrameAnimationNullDelimiter() {
         FrameAnimation animation = new FrameAnimation("Frame1||Frame2", 5, null);
         
-        // Should use default delimiter "||"
+        
         assertEquals("Frame1", animation.getText(0));
         assertEquals("Frame2", animation.getText(5));
     }

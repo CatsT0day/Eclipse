@@ -4,27 +4,16 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.Plugin
 
-/**
- * DSL for registering custom placeholders with PlaceholderAPI
- * Uses Kotlin features that Java doesn't have:
- * - Lambda with receiver
- * - Extension functions
- * - Named parameters
- * - Type-safe builders
- */
 
-/**
- * Represents a custom placeholder with its identifier and resolver function
- */
+
+
 data class CustomPlaceholder(
     val identifier: String,
     val description: String = "",
     val resolver: (OfflinePlayer?, String) -> String
 )
 
-/**
- * Builder class for creating placeholder expansions using DSL
- */
+
 class PlaceholderExpansionBuilder(private val plugin: Plugin) {
     private val placeholders = mutableListOf<CustomPlaceholder>()
     private val placeholderMap = mutableMapOf<String, CustomPlaceholder>()
@@ -32,30 +21,22 @@ class PlaceholderExpansionBuilder(private val plugin: Plugin) {
     private var version: String = plugin.description.version
     private var identifier: String = plugin.name.lowercase()
 
-    /**
-     * Set the expansion identifier
-     */
+    
     fun identifier(id: String) {
         this.identifier = id
     }
 
-    /**
-     * Set the expansion author
-     */
+    
     fun author(author: String) {
         this.author = author
     }
 
-    /**
-     * Set the expansion version
-     */
+    
     fun version(version: String) {
         this.version = version
     }
 
-    /**
-     * Add a placeholder using DSL
-     */
+    
     fun placeholder(
         name: String,
         description: String = "",
@@ -64,9 +45,7 @@ class PlaceholderExpansionBuilder(private val plugin: Plugin) {
         placeholders.add(CustomPlaceholder(name, description, resolver))
     }
 
-    /**
-     * Add a simple placeholder that doesn't use parameters
-     */
+    
     fun simplePlaceholder(
         name: String,
         description: String = "",
@@ -75,19 +54,14 @@ class PlaceholderExpansionBuilder(private val plugin: Plugin) {
         placeholder(name, description) { player, _ -> resolver(player) }
     }
 
-    /**
-     * Add multiple placeholders at once
-     */
+    
     fun placeholders(block: PlaceholderListBuilder.() -> Unit) {
         PlaceholderListBuilder().apply(block).placeholders.forEach {
             placeholders.add(it)
         }
     }
 
-    /**
-     * Internal helper method to isolate resolution logic from the anonymous object's scope.
-     * This eliminates compiler ambiguity issues with PlaceholderAPI internals.
-     */
+    
     private fun resolvePlaceholder(player: OfflinePlayer?, params: String): String? {
         for (ph in placeholders) {
             if (params.startsWith(ph.identifier, ignoreCase = false)) {
@@ -109,9 +83,7 @@ class PlaceholderExpansionBuilder(private val plugin: Plugin) {
         return null
     }
 
-    /**
-     * Build and register the expansion
-     */
+    
     fun buildAndRegister(): PlaceholderExpansion {
         val expansion = object : PlaceholderExpansion() {
             override fun getIdentifier(): String = this@PlaceholderExpansionBuilder.identifier
@@ -129,9 +101,7 @@ class PlaceholderExpansionBuilder(private val plugin: Plugin) {
     }
 }
 
-/**
- * Builder for adding multiple placeholders
- */
+
 class PlaceholderListBuilder {
     internal val placeholders = mutableListOf<CustomPlaceholder>()
 
@@ -152,9 +122,7 @@ class PlaceholderListBuilder {
     }
 }
 
-/**
- * Main DSL function to register placeholders
- */
+
 fun registerPlaceholders(
     plugin: Plugin,
     block: PlaceholderExpansionBuilder.() -> Unit
@@ -162,9 +130,7 @@ fun registerPlaceholders(
     return PlaceholderExpansionBuilder(plugin).apply(block).buildAndRegister()
 }
 
-/**
- * Java-friendly API for registering placeholders
- */
+
 object PlaceholderRegistrar {
 
     @JvmStatic
@@ -211,9 +177,7 @@ object PlaceholderRegistrar {
     }
 }
 
-/**
- * Functional interfaces for Java compatibility
- */
+
 fun interface PlaceholderResolver {
     fun resolve(player: OfflinePlayer?, params: String): String
 }

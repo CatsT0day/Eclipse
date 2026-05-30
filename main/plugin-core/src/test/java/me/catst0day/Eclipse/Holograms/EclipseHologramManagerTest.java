@@ -16,10 +16,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Unit tests for EclipseHologramManager.
- * Tests hologram creation, deletion, and management.
- */
+
 @ExtendWith(MockitoExtension.class)
 public class EclipseHologramManagerTest {
     
@@ -36,7 +33,7 @@ public class EclipseHologramManagerTest {
     
     @BeforeEach
     public void setUp() {
-        // Mock the database manager and file operations
+        
         when(plugin.getDataFolder()).thenReturn(new java.io.File("test"));
         hologramManager = new EclipseHologramManager(plugin);
     }

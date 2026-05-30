@@ -17,9 +17,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * NMS handler for Minecraft 1.20.4 (v1_20_R4).
- */
+
 public class NMS_v1_20_R4 implements NMSHandler {
 
     @Override
@@ -160,7 +158,7 @@ public class NMS_v1_20_R4 implements NMSHandler {
 
     @Override
     public void setTextDisplayLineWidth(Object textDisplay, int width) {
-        // Use reflection for private method
+        
         try {
             java.lang.reflect.Method method = textDisplay.getClass().getDeclaredMethod("setLineWidth", int.class);
             method.setAccessible(true);
@@ -172,7 +170,7 @@ public class NMS_v1_20_R4 implements NMSHandler {
 
     @Override
     public void setTextDisplayBackgroundColor(Object textDisplay, int color) {
-        // Use reflection for private method
+        
         try {
             java.lang.reflect.Method method = textDisplay.getClass().getDeclaredMethod("setBackgroundColor", int.class);
             method.setAccessible(true);

@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/**
- * Registry for NMS handlers. Automatically selects the appropriate handler based on server version.
- */
+
 public final class NMSRegistry {
 
     private static NMSHandler handler;
@@ -32,16 +30,12 @@ public final class NMSRegistry {
 
     private NMSRegistry() {}
 
-    /**
-     * Registers a handler factory for a specific NMS version.
-     */
+    
     public static void registerHandler(String version, Supplier<NMSHandler> factory) {
         handlerFactories.put(version, factory);
     }
 
-    /**
-     * Gets the appropriate NMS handler for the current server version.
-     */
+    
     public static NMSHandler getHandler() {
         if (handler != null) {
             return handler;
@@ -56,30 +50,24 @@ public final class NMSRegistry {
             return handler;
         }
 
-        // Fallback to closest version or reflection-based handler
+        
         Util.log("No specific NMS handler found for " + nmsVersion + ", using fallback");
         handler = new NMSFallback();
         return handler;
     }
 
-    /**
-     * Gets the NMS handler without auto-initialization.
-     */
+    
     @Nullable
     public static NMSHandler getHandlerOrNull() {
         return handler;
     }
 
-    /**
-     * Sets the NMS handler manually (for testing).
-     */
+    
     public static void setHandler(NMSHandler handler) {
         NMSRegistry.handler = handler;
     }
 
-    /**
-     * Resets the handler (for testing).
-     */
+    
     public static void reset() {
         handler = null;
     }

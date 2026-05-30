@@ -1,9 +1,6 @@
 package me.catst0day.Eclipse.Holograms.Animations;
 
-/**
- * Rainbow animation that cycles through colors using HSL color space.
- * The text color changes smoothly through the rainbow spectrum.
- */
+
 public class RainbowAnimation implements AnimatableText {
     
     private final String text;
@@ -13,15 +10,7 @@ public class RainbowAnimation implements AnimatableText {
     private final float lightness;
     private boolean active;
     
-    /**
-     * Creates a new rainbow animation.
-     * 
-     * @param text The text to animate
-     * @param updateInterval Ticks between color updates
-     * @param speed Speed of color cycling (0.0 to 1.0)
-     * @param saturation Color saturation (0.0 to 1.0)
-     * @param lightness Color lightness (0.0 to 1.0)
-     */
+    
     public RainbowAnimation(String text, int updateInterval, float speed, float saturation, float lightness) {
         this.text = text;
         this.updateInterval = Math.max(1, updateInterval);
@@ -55,14 +44,7 @@ public class RainbowAnimation implements AnimatableText {
         this.active = true;
     }
     
-    /**
-     * Converts HSL color to hex string.
-     * 
-     * @param h Hue (0.0 to 1.0)
-     * @param s Saturation (0.0 to 1.0)
-     * @param l Lightness (0.0 to 1.0)
-     * @return Hex color string (e.g., "#FF0000")
-     */
+    
     private String hslToHex(float h, float s, float l) {
         float r, g, b;
         

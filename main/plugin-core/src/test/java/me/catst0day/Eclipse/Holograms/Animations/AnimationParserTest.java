@@ -3,10 +3,7 @@ package me.catst0day.Eclipse.Holograms.Animations;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for AnimationParser.
- * Tests parsing of different animation tag formats.
- */
+
 public class AnimationParserTest {
     
     @Test
@@ -75,9 +72,9 @@ public class AnimationParserTest {
         String result1 = animation.getText(0);
         String result2 = animation.getText(10);
         
-        // Results should be different due to color change
+        
         assertNotEquals(result1, result2);
-        // Both should contain the text
+        
         assertTrue(result1.contains("Test"));
         assertTrue(result2.contains("Test"));
     }
@@ -91,9 +88,9 @@ public class AnimationParserTest {
         String result1 = animation.getText(0);
         String result2 = animation.getText(10);
         
-        // Results should be different due to gradient shift
+        
         assertNotEquals(result1, result2);
-        // Both should contain the text
+        
         assertTrue(result1.contains("Test"));
         assertTrue(result2.contains("Test"));
     }

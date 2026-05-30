@@ -38,7 +38,7 @@ public class Kit extends CommandTemplate {
             case "give" -> handleGive(player, args);
             case "reset" -> handleReset(player, args);
             default -> {
-                // Try claim by name
+                
                 EclipseKitManager.Kit kit = plugin.getKitManager().getKit(action);
                 if (kit != null) {
                     claimKit(player, kit);
@@ -130,7 +130,7 @@ public class Kit extends CommandTemplate {
         EclipseKitManager.Kit kit = new EclipseKitManager.Kit(name);
         kit.setDisplayName(name);
 
-        // Add items from inventory
+        
         for (ItemStack item : player.getInventory().getContents()) {
             if (item != null && item.getType() != Material.AIR) {
                 kit.addItem(item.clone());

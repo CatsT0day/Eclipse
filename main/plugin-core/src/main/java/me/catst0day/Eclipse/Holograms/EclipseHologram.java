@@ -606,13 +606,13 @@ public class EclipseHologram {
         }
         parsed = parsed.replace("{server_balance}", economy.formatAmount(totalBalance));
         
-        // Top balance placeholders (top_balance_1, top_balance_2, etc.)
+        
         java.util.Map<java.util.UUID, Double> balances = new java.util.HashMap<>();
         for (org.bukkit.entity.Player onlinePlayer : org.bukkit.Bukkit.getOnlinePlayers()) {
             balances.put(onlinePlayer.getUniqueId(), economy.getBalance(onlinePlayer.getUniqueId()));
         }
         
-        // Sort by balance descending
+        
         java.util.List<java.util.Map.Entry<java.util.UUID, Double>> sorted = balances.entrySet().stream()
                 .sorted(java.util.Map.Entry.<java.util.UUID, Double>comparingByValue().reversed())
                 .toList();

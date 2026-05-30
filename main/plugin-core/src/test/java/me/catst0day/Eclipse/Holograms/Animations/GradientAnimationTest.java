@@ -3,10 +3,7 @@ package me.catst0day.Eclipse.Holograms.Animations;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for GradientAnimation.
- * Tests color interpolation and gradient shifting.
- */
+
 public class GradientAnimationTest {
     
     @Test
@@ -25,7 +22,7 @@ public class GradientAnimationTest {
         
         String text = animation.getText(0);
         
-        // Should contain color codes for each character
+        
         assertTrue(text.matches("(#[0-9A-Fa-f]{6}T)(#[0-9A-Fa-f]{6}e)(#[0-9A-Fa-f]{6}s)(#[0-9A-Fa-f]{6}t)"));
     }
     
@@ -36,7 +33,7 @@ public class GradientAnimationTest {
         String text1 = animation.getText(0);
         String text2 = animation.getText(10);
         
-        // Gradient should shift over time
+        
         assertNotEquals(text1, text2);
     }
     
@@ -51,7 +48,7 @@ public class GradientAnimationTest {
         String fast1 = fast.getText(0);
         String fast2 = fast.getText(100);
         
-        // Fast animation should change more
+        
         assertNotEquals(fast1, fast2);
     }
     
@@ -61,7 +58,7 @@ public class GradientAnimationTest {
         
         String text = animation.getText(0);
         
-        // Should contain both red and blue colors
+        
         assertTrue(text.contains("#FF0000") || text.contains("#FF"));
         assertTrue(text.contains("#0000FF") || text.contains("#00"));
     }
@@ -71,7 +68,7 @@ public class GradientAnimationTest {
         GradientAnimation animation1 = new GradientAnimation("Test", 1, "#F00", "#00F", 0.5f);
         GradientAnimation animation2 = new GradientAnimation("Test", 1, "#FF0000", "#0000FF", 0.5f);
         
-        // Both should work (short and long hex formats)
+        
         assertNotNull(animation1.getText(0));
         assertNotNull(animation2.getText(0));
     }
@@ -90,7 +87,7 @@ public class GradientAnimationTest {
         
         String text = animation.getText(0);
         
-        // Should still work even with same colors
+        
         assertNotNull(text);
         assertTrue(text.contains("Test"));
     }
@@ -101,7 +98,7 @@ public class GradientAnimationTest {
         
         String text = animation.getText(0);
         
-        // Should be empty or only color codes
+        
         assertTrue(text.isEmpty() || text.matches("^#[0-9A-Fa-f]{6}$"));
     }
     
@@ -112,7 +109,7 @@ public class GradientAnimationTest {
         
         String result = animation.getText(0);
         
-        // Should contain the text
+        
         assertTrue(result.contains(longText));
     }
 }

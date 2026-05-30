@@ -17,10 +17,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * NMS handler for Minecraft 1.21.1 (v1_21_R1).
- * Uses direct NMS calls without reflection for better performance and stability.
- */
+
 public class NMS_v1_21_R1 implements NMSHandler {
 
     @Override

@@ -4,7 +4,7 @@ package me.catst0day.Eclipse.EventListeners;
 import me.catst0day.Eclipse.Eclipse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener; // Добавлен импорт интерфейса Listener
+import org.bukkit.event.Listener; 
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class EclipseOnEntityDamageEvent implements Listener {

@@ -10,10 +10,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-/**
- * Fallback NMS handler using reflection for unsupported versions.
- * This maintains backward compatibility with the original reflection-based approach.
- */
+
 public class NMSFallback implements NMSHandler {
 
     private static Class<?> craftPlayerClass;

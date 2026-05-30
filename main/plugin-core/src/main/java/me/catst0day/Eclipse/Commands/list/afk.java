@@ -48,7 +48,7 @@ public class afk extends CommandTemplate {
             targetUser.setMetadata("afkReason", reason);
         }
 
-        // Исправленная логика получения boolean из метадаты
+        
         Object afkMeta = targetUser.getMetadata("isAfk");
         boolean isCurrentlyAfk = afkMeta != null && (boolean) afkMeta;
         boolean newAfkStatus = !isCurrentlyAfk;
@@ -59,7 +59,7 @@ public class afk extends CommandTemplate {
             String msgKey = newAfkStatus ? "afkSuccessMsg" : "afkSuccessSilentMsg";
             targetPlayer.sendMessage(plugin.getMessage(msgKey));
 
-            // Работа с Title
+            
             List<String> subTitles = plugin.getConfig().getStringList("afkSubTitles");
             if (subTitles.isEmpty()) {
                 subTitles = List.of(plugin.getMessage("afkSTitle1"), plugin.getMessage("afkSTitle2"));

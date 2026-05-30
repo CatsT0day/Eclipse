@@ -15,10 +15,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Unit tests for EclipseHologram.
- * Tests hologram creation, line management, and settings.
- */
+
 @ExtendWith(MockitoExtension.class)
 public class EclipseHologramTest {
     
@@ -127,11 +124,11 @@ public class EclipseHologramTest {
         lines.add("Test");
         
         EclipseHologram hologram = new EclipseHologram("testHolo", location, lines);
-        hologram.setViewDistance(200); // Should be clamped to 128
+        hologram.setViewDistance(200); 
         
         assertEquals(128, hologram.getViewDistance());
         
-        hologram.setViewDistance(0); // Should be clamped to 1
+        hologram.setViewDistance(0); 
         assertEquals(1, hologram.getViewDistance());
     }
     
@@ -163,7 +160,7 @@ public class EclipseHologramTest {
         lines.add("Test");
         
         EclipseHologram hologram = new EclipseHologram("testHolo", location, lines);
-        hologram.setUpdateInterval(0); // Should be clamped to 1
+        hologram.setUpdateInterval(0); 
         
         assertEquals(1, hologram.getUpdateInterval());
     }
