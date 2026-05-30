@@ -65,7 +65,7 @@ val gitBranch by lazy {
 }
 
 val fullVersion = version.toString()
-    .replace("-SNAPSHOT", "-indev+$gitDepth-$gitCommit").replace("-NORMAL", "-stable+$gitDepth-$gitCommit")
+    .replace("-SNAPSHOT", "-indev-prerelease+$gitDepth-$gitCommit").replace("-NORMAL", "-stable+$gitDepth-$gitCommit")
     .replace("-ENTERp", "-enterprise").replace("-FREE", "-regular")
     .replace("-MCVER", paperVersion.replace("-SNAPSHOT", ""))
 java {
