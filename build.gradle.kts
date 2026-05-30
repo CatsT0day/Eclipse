@@ -117,6 +117,60 @@ tasks.shadowJar {
     relocate("org.javassist", "me.catst0day.Eclipse.libs.javassist")
 }
 
+tasks.register("cat") {
+    dependsOn(tasks.named("shadowJar"))
+    group = "build"
+    description = "run server with cats"
+    val noRun = project.hasProperty("noRun")
+
+    doFirst {
+        logger.lifecycle("=========================================")
+        if (noRun) {
+            logger.lifecycle(" cats refuse to run (--noRun active)...")
+        } else {
+            logger.lifecycle(" cats are doing their job...")
+        }
+        logger.lifecycle("=========================================")
+    }
+
+    doLast {
+        logger.lifecycle("=========================================")
+        if (noRun) {
+            logger.lifecycle("  cats just slept through the build, but build is done.")
+        } else {
+            logger.lifecycle("  cats did the job cooler than expected, lol")
+        }
+        logger.lifecycle("=========================================")
+    }
+}
+
+tasks.register("kitten") {
+    dependsOn(tasks.named("shadowJar"))
+    group = "build"
+    description = "run server with cats"
+    val noRun = project.hasProperty("noRun")
+
+    doFirst {
+        logger.lifecycle("=========================================")
+        if (noRun) {
+            logger.lifecycle(" cats refuse to run (--noRun active)...")
+        } else {
+            logger.lifecycle(" cats are doing their job...")
+        }
+        logger.lifecycle("=========================================")
+    }
+
+    doLast {
+        logger.lifecycle("=========================================")
+        if (noRun) {
+            logger.lifecycle("  cats just slept through the build, but build is done.")
+        } else {
+            logger.lifecycle("  cats did the job cooler than expected, lol")
+        }
+        logger.lifecycle("=========================================")
+    }
+}
+
 configure<PublishingExtension> {
     publications {
         register<MavenPublication>("maven") {
