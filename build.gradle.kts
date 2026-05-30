@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.CatsT0day"
-version = "1.03.11-SNAPSHOT-ENTERp-MCVER"
+version = "1.03.12-SNAPSHOT-ENTERp-MCVER"
 
 val paperVersion by lazy {
     val buildToolsMaven = file("maven")
@@ -16,12 +16,12 @@ val paperVersion by lazy {
         val paperApiDir = buildToolsMaven.resolve("io/papermc/paper/paper-api")
         if (paperApiDir.exists()) {
             val versions = paperApiDir.listFiles()?.map { it.name }?.sortedDescending()
-            versions?.firstOrNull { it.contains("-SNAPSHOT") } ?: versions?.firstOrNull() ?: "1.21.11-R0.1-SNAPSHOT"
+            versions?.firstOrNull { it.contains("-SNAPSHOT") } ?: versions?.firstOrNull() ?: "1.21.1-R0.1-SNAPSHOT"
         } else {
-            "1.21.11-R0.1-SNAPSHOT"
+            "1.21.1-R0.1-SNAPSHOT"
         }
     } else {
-        "1.21.11-R0.1-SNAPSHOT"
+        "1.21.1-R0.1-SNAPSHOT"
     }
 }
 

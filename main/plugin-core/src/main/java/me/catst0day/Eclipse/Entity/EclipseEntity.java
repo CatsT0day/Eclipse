@@ -129,7 +129,7 @@ public class EclipseEntity {
         if (!(entity instanceof LivingEntity lentity)) return 0d;
 
         try {
-            AttributeInstance attr = lentity.getAttribute(Attribute.MAX_HEALTH);
+            AttributeInstance attr = lentity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             return attr != null ? attr.getValue() : lentity.getMaxHealth();
         } catch (NoSuchMethodError | NoSuchFieldError e) {
             return lentity.getMaxHealth();

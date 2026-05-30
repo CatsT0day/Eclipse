@@ -28,6 +28,7 @@ public class Suicide extends CommandTemplate {
         EntityDamageEvent damageEvent = new EntityDamageEvent(
                 player,
                 EntityDamageEvent.DamageCause.SUICIDE,
+                org.bukkit.damage.DamageSource.builder(org.bukkit.damage.DamageType.GENERIC).withDirectEntity(player).build(),
                 Float.MAX_VALUE
         );
 

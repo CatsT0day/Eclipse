@@ -290,4 +290,257 @@ public class EclipseHologramManager {
             }
         }
     }
+    
+    // Convenience methods for quick hologram operations
+    
+    /**
+     * Creates a simple hologram with minimal configuration.
+     * 
+     * @param name The hologram name
+     * @param location The hologram location
+     * @param lines The lines to display
+     * @return true if created successfully, false otherwise
+     */
+    public boolean createSimpleHologram(String name, Location location, String... lines) {
+        return createHologram(name, location, Arrays.asList(lines));
+    }
+    
+    /**
+     * Creates a clickable hologram that executes a command when clicked.
+     * 
+     * @param name The hologram name
+     * @param location The hologram location
+     * @param command The command to execute on click
+     * @param lines The lines to display
+     * @return true if created successfully, false otherwise
+     */
+    public boolean createClickableHologram(String name, Location location, String command, String... lines) {
+        if (createHologram(name, location, Arrays.asList(lines))) {
+            EclipseHologram hologram = getHologram(name);
+            if (hologram != null) {
+                hologram.setClickable(true);
+                hologram.setClickCommand(command);
+                updateHologram(hologram);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Creates a clickable hologram with a cost.
+     * 
+     * @param name The hologram name
+     * @param location The hologram location
+     * @param command The command to execute on click
+     * @param cost The cost to click
+     * @param lines The lines to display
+     * @return true if created successfully, false otherwise
+     */
+    public boolean createClickableHologram(String name, Location location, String command, double cost, String... lines) {
+        if (createHologram(name, location, Arrays.asList(lines))) {
+            EclipseHologram hologram = getHologram(name);
+            if (hologram != null) {
+                hologram.setClickable(true);
+                hologram.setClickCommand(command);
+                hologram.setClickCost(cost);
+                updateHologram(hologram);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Creates a temporary hologram that fades in and out.
+     * 
+     * @param name The hologram name
+     * @param location The hologram location
+     * @param fadeInTicks The fade in duration in ticks
+     * @param fadeOutTicks The fade out duration in ticks
+     * @param lines The lines to display
+     * @return true if created successfully, false otherwise
+     */
+    public boolean createTemporaryHologram(String name, Location location, int fadeInTicks, int fadeOutTicks, String... lines) {
+        if (createHologram(name, location, Arrays.asList(lines))) {
+            EclipseHologram hologram = getHologram(name);
+            if (hologram != null) {
+                hologram.setFadeInTicks(fadeInTicks);
+                hologram.setFadeOutTicks(fadeOutTicks);
+                updateHologram(hologram);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Creates a hologram with animated lines.
+     * Automatically detects animation tags in the lines.
+     * 
+     * @param name The hologram name
+     * @param location The hologram location
+     * @param lines The animated lines to display
+     * @return true if created successfully, false otherwise
+     */
+    public boolean createAnimatedHologram(String name, Location location, String... lines) {
+        return createHologram(name, location, Arrays.asList(lines));
+    }
+    
+    /**
+     * Updates a hologram's lines and re-registers animations.
+     * 
+     * @param name The hologram name
+     * @param lines The new lines
+     * @return true if updated successfully, false otherwise
+     */
+    public boolean updateHologramLines(String name, String... lines) {
+        EclipseHologram hologram = getHologram(name);
+        if (hologram == null) {
+            return false;
+        }
+        
+        hologram.setLines(Arrays.asList(lines));
+        updateHologram(hologram);
+        return true;
+    }
+    
+    /**
+     * Adds a line to a hologram.
+     * 
+     * @param name The hologram name
+     * @param line The line to add
+     * @return true if added successfully, false otherwise
+     */
+    public boolean addHologramLine(String name, String line) {
+        EclipseHologram hologram = getHologram(name);
+        if (hologram == null) {
+            return false;
+        }
+        
+        hologram.addLine(line);
+        updateHologram(hologram);
+        return true;
+    }
+    
+    /**
+     * Removes a line from a hologram.
+     * 
+     * @param name The hologram name
+     * @param index The line index (0-based)
+     * @return true if removed successfully, false otherwise
+     */
+    public boolean removeHologramLine(String name, int index) {
+        EclipseHologram hologram = getHologram(name);
+        if (hologram == null) {
+            return false;
+        }
+        
+        hologram.removeLine(index);
+        updateHologram(hologram);
+        return true;
+    }
+    
+    /**
+     * Teleports a hologram to a new location.
+     * 
+     * @param name The hologram name
+     * @param newLocation The new location
+     * @return true if teleported successfully, false otherwise
+     */
+    public boolean teleportHologram(String name, Location newLocation) {
+        EclipseHologram hologram = getHologram(name);
+        if (hologram == null) {
+            return false;
+        }
+        
+        hologram.setLocation(newLocation);
+        updateHologram(hologram);
+        return true;
+    }
+    
+    /**
+     * Enables or disables a hologram.
+     * 
+     * @param name The hologram name
+     * @param enabled Whether to enable or disable
+     * @return true if toggled successfully, false otherwise
+     */
+    public boolean setHologramEnabled(String name, boolean enabled) {
+        EclipseHologram hologram = getHologram(name);
+        if (hologram == null) {
+            return false;
+        }
+        
+        hologram.setEnabled(enabled);
+        updateHologram(hologram);
+        return true;
+    }
+    
+    /**
+     * Gets all holograms near a location.
+     * 
+     * @param location The center location
+     * @param radius The search radius in blocks
+     * @return List of holograms within the radius
+     */
+    public List<EclipseHologram> getHologramsNear(Location location, double radius) {
+        List<EclipseHologram> nearby = new ArrayList<>();
+        double radiusSquared = radius * radius;
+        
+        for (EclipseHologram hologram : holograms.values()) {
+            if (!hologram.getLocation().getWorld().equals(location.getWorld())) {
+                continue;
+            }
+            
+            if (hologram.getLocation().distanceSquared(location) <= radiusSquared) {
+                nearby.add(hologram);
+            }
+        }
+        
+        return nearby;
+    }
+    
+    /**
+     * Gets all holograms in a specific world.
+     * 
+     * @param worldName The world name
+     * @return List of holograms in the world
+     */
+    public List<EclipseHologram> getHologramsInWorld(String worldName) {
+        List<EclipseHologram> worldHolograms = new ArrayList<>();
+        
+        for (EclipseHologram hologram : holograms.values()) {
+            if (hologram.getLocation().getWorld().getName().equals(worldName)) {
+                worldHolograms.add(hologram);
+            }
+        }
+        
+        return worldHolograms;
+    }
+    
+    /**
+     * Deletes all holograms in a specific world.
+     * 
+     * @param worldName The world name
+     * @return Number of holograms deleted
+     */
+    public int deleteHologramsInWorld(String worldName) {
+        int count = 0;
+        List<String> toDelete = new ArrayList<>();
+        
+        for (EclipseHologram hologram : holograms.values()) {
+            if (hologram.getLocation().getWorld().getName().equals(worldName)) {
+                toDelete.add(hologram.getName());
+            }
+        }
+        
+        for (String name : toDelete) {
+            if (deleteHologram(name)) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
 }

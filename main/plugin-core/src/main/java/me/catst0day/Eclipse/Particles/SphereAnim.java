@@ -8,9 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
+
 /**
- * @deprecated Instead of using this class, use
- * {@link me.catst0day.Eclipse.Utils.Particles.SphereAnim}
+ * @deprecated Instead of using this interface, use
+ * {@link me.catst0day.Eclipse.Utils.Particles.ParticleAnim}
  * This will no longer update, and will be removed in 1.04.00
  */
 @Deprecated(since = "1.02.95", forRemoval = true)
@@ -18,22 +19,17 @@ public class SphereAnim implements ParticleAnim {
     private BukkitTask task;
     private final double radius;
     private double angle = 0.0;
-    /**
-     * @deprecated Instead of using this class, use
-     * {@link me.catst0day.Eclipse.Utils.Particles.SphereAnim}
-     * This will no longer update, and will be removed in 1.04.00
-     */
-    @Deprecated(since = "1.02.95", forRemoval = true)
+
     public SphereAnim(double radius) {
         this.radius = radius;
     }
 
+    @Override
     /**
-     * @deprecated Instead of using this class, use
-     * {@link me.catst0day.Eclipse.Utils.Particles.SphereAnim}
+     * @deprecated Instead of using this interface, use
+     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleAnim}
      * This will no longer update, and will be removed in 1.04.00
      */
-    @Override
     @Deprecated(since = "1.02.95", forRemoval = true)
     public void start(Plugin plugin, final Location center, Player owner, String structureName) {
         this.task = EclipseScheduler.scheduleSyncRepeatingTask(plugin, () -> {
@@ -69,14 +65,15 @@ public class SphereAnim implements ParticleAnim {
         }, 0L, 3L);
     }
 
+    @Override
     /**
-     * @deprecated Instead of using this class, use
-     * {@link me.catst0day.Eclipse.Utils.Particles.SphereAnim}
+     * @deprecated Instead of using this interface, use
+     * {@link me.catst0day.Eclipse.Utils.Particles.ParticleAnim}
      * This will no longer update, and will be removed in 1.04.00
      */
-    @Override
     @Deprecated(since = "1.02.95", forRemoval = true)
     public void stop() {
+
         if (this.task != null) {
             this.task.cancel();
             this.task = null;

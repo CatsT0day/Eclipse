@@ -12,6 +12,7 @@ public class ConfigReloadException extends Exception {
      * {@link me.catst0day.Eclipse.Utils.Exceptions.ConfigReloadException}
      * This will no longer update, and will be removed in 1.04.00
      */
+    @Deprecated(since = "1.02.95", forRemoval = true)
     public ConfigReloadException(String message, Throwable cause) {
         super(message, cause);
     }
