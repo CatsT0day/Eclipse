@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.CatsT0day"
-version = "1.03.12-SNAPSHOT-ENTERp-MCVER"
+version = "1.03.14-SNAPSHOT-ENTERp-MCVER"
 
 val paperVersion by lazy {
     val buildToolsMaven = file("maven")
@@ -145,30 +145,7 @@ tasks.register("cat") {
 }
 
 tasks.register("kitten") {
-    dependsOn(tasks.named("shadowJar"))
-    group = "build"
-    description = "run server with cats"
-    val noRun = project.hasProperty("noRun")
-
-    doFirst {
-        logger.lifecycle("=========================================")
-        if (noRun) {
-            logger.lifecycle(" cats refuse to run (--noRun active)...")
-        } else {
-            logger.lifecycle(" cats are doing their job...")
-        }
-        logger.lifecycle("=========================================")
-    }
-
-    doLast {
-        logger.lifecycle("=========================================")
-        if (noRun) {
-            logger.lifecycle("  cats just slept through the build, but build is done.")
-        } else {
-            logger.lifecycle("  cats did the job cooler than expected, lol")
-        }
-        logger.lifecycle("=========================================")
-    }
+    dependsOn(tasks.named("cat"))
 }
 
 configure<PublishingExtension> {

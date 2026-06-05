@@ -36,3 +36,7 @@ modules:
     enabled: true
   adminCommands:
     enabled: true
+  mail:
+    enabled: true
+  auction:
+    enabled: true

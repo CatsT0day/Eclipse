@@ -117,8 +117,9 @@ public class TextUtil {
     }
 
     public static String stripColor(String text) {
-        if (text == null) return null;
-        return ChatColor.stripColor(translateHexAndAlternateColorCodes(text));
+        if (text == null)
+            return null;
+        return TextUtil.stripColor(translateHexAndAlternateColorCodes(text));
     }
 
     private static Component translateToComponent(String input) {

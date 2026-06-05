@@ -6,6 +6,8 @@ import me.catst0day.Eclipse.Bossbar.EclipseBossBar;
 import me.catst0day.Eclipse.EventListeners.*;
 import me.catst0day.Eclipse.Holograms.EclipseHologramManager;
 import me.catst0day.Eclipse.Managers.*;
+import me.catst0day.Eclipse.Managers.EclipseMailManager;
+import me.catst0day.Eclipse.Managers.EclipseAuctionManager;
 import me.catst0day.Eclipse.Economy.VaultEconomy;
 import me.catst0day.Eclipse.Utils.Text.TextUtil;
 import me.catst0day.Eclipse.Utils.Util;
@@ -65,6 +67,8 @@ public class Eclipse extends JavaPlugin {
     private VersionChecker versionCheckManager;
     private EclipseSQLiteManager SQLiteManager;
     private me.catst0day.Eclipse.Holograms.Animations.AnimationManager animationManager;
+    private EclipseMailManager mailManager;
+    private EclipseAuctionManager auctionManager;
 
 
     @Override
@@ -81,7 +85,9 @@ public class Eclipse extends JavaPlugin {
         this.moduleManager = new EclipseModuleManager(this);
         this.hologramManager = new EclipseHologramManager(this);
         this.animationManager = new me.catst0day.Eclipse.Holograms.Animations.AnimationManager(this);
-        
+        this.mailManager = new EclipseMailManager(this);
+        this.auctionManager = new EclipseAuctionManager(this);
+
         setupVaultEconomy();
 
         register();
@@ -109,6 +115,7 @@ public class Eclipse extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        
         Bukkit.getScheduler().cancelTasks(this);
         bossBars.values().forEach(BossBar::removeAll);
         bossBars.clear();
@@ -145,6 +152,8 @@ public class Eclipse extends JavaPlugin {
         pm.registerEvents(new EclipseHologramListener(this), this);
         pm.registerEvents(new EclipseOnPlayerAsyncChatHologramEvent(this), this);
         pm.registerEvents(new EclipseHologramClickListener(this), this);
+        pm.registerEvents(new EclipseMailListener(this), this);
+        pm.registerEvents(new EclipseAuctionListener(this), this);
     }
 
     public void loadTranslations() {
@@ -362,6 +371,8 @@ public class Eclipse extends JavaPlugin {
     public VersionChecker getVersionCheckManager() { return versionCheckManager == null ? (versionCheckManager = new VersionChecker(this, "CatsT0day", "Eclipse")) : versionCheckManager; }
     public EclipseSQLiteManager getSQLiteManager() { return SQLiteManager == null ? (EclipseSQLiteManager) null : SQLiteManager;}
     public me.catst0day.Eclipse.Holograms.Animations.AnimationManager getAnimationManager() { return animationManager; }
+    public EclipseMailManager getMailManager() { return mailManager == null ? (mailManager = new EclipseMailManager(this)) : mailManager; }
+    public EclipseAuctionManager getAuctionManager() { return auctionManager == null ? (auctionManager = new EclipseAuctionManager(this)) : auctionManager; }
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
     public Map<UUID, UUID> getTpaRequests() { return tpaRequests; }
 

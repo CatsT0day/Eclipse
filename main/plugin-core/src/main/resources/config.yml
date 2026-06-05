@@ -32,3 +32,12 @@ spawn:
     fadeIn: 25
     stay: 25
     fadeOut: 25
+
+mail:
+  expirationDays: 30
+  notifyOnJoin: true
+
+auction:
+  listingDurationDays: 7
+  maxListingsPerPlayer: 10
+  taxRate: 0.05
