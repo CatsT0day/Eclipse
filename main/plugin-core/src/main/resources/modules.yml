@@ -40,3 +40,5 @@ modules:
     enabled: true
   auction:
     enabled: true
+  moderation:
+    enabled: true

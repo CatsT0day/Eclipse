@@ -72,3 +72,44 @@ permissions:
     default: op
   eclipse.reply:
     description: reply to last message
+
+  # Moderation permissions
+  eclipse.moderation.ban:
+    description: ban players
+    default: op
+  eclipse.moderation.tempban:
+    description: temporarily ban players
+    default: op
+  eclipse.moderation.unban:
+    description: unban players
+    default: op
+  eclipse.moderation.mute:
+    description: mute players
+    default: op
+  eclipse.moderation.tempmute:
+    description: temporarily mute players
+    default: op
+  eclipse.moderation.unmute:
+    description: unmute players
+    default: op
+  eclipse.moderation.kick:
+    description: kick players
+    default: op
+  eclipse.moderation.warn:
+    description: warn players
+    default: op
+  eclipse.moderation.history:
+    description: view punishment history
+    default: op
+  eclipse.moderation.clearwarnings:
+    description: clear player warnings
+    default: op
+  eclipse.moderation.silent:
+    description: silent punishments
+    default: op
+  eclipse.moderation.notify:
+    description: receive moderation notifications
+    default: op
+  eclipse.moderation.admin:
+    description: all moderation permissions
+    default: op

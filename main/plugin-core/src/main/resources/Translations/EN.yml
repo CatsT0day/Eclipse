@@ -376,3 +376,48 @@ messages:
   auctionListFailed: '&cFailed to list item!'
   auctionInvalidPage: '&cInvalid page number!'
   auctionInvalidId: '&cInvalid listing ID!'
+
+  # Moderation System
+  noReason: 'No reason specified'
+  silentPrefix: '&8[Silent] '
+  invalidDuration: '#ff6600✘ &fInvalid duration! Use format like: 1d, 2h, 30m, 1w, perm'
+  banUsage: '#ff6600✘ &fUsage: &e/ban <player> [reason] [-s]'
+  tempBanUsage: '#ff6600✘ &fUsage: &e/tempban <player> <duration> [reason] [-s]'
+  unbanUsage: '#ff6600✘ &fUsage: &e/unban <player>'
+  muteUsage: '#ff6600✘ &fUsage: &e/mute <player> [reason] [-s]'
+  tempMuteUsage: '#ff6600✘ &fUsage: &e/tempmute <player> <duration> [reason] [-s]'
+  unmuteUsage: '#ff6600✘ &fUsage: &e/unmute <player>'
+  kickUsage: '#ff6600✘ &fUsage: &e/kick <player> [reason] [-s]'
+  warnUsage: '#ff6600✘ &fUsage: &e/warn <player> [reason] [-s]'
+  historyUsage: '#ff6600✘ &fUsage: &e/history <player>'
+  clearWarningsUsage: '#ff6600✘ &fUsage: &e/clearwarnings <player>'
+
+  banKickMessage: '#ff6600✘ &lYou have been banned\n\n#ff6600Reason: &f%reason%\n#ff6600Staff: &f%staff%'
+  banExpiresIn: '&7Expires in: &e%time%'
+  banAppealInfo: '&7If you believe this is a mistake, please contact staff.'
+  banBroadcast: '#ff6600⚠ &e%player% &fwas banned by &e%staff%&f. Reason: &f%reason%'
+  tempBanBroadcast: '#ff6600⚠ &e%player% &fwas temporarily banned by &e%staff%&f. Duration: &e%time%&f. Reason: &f%reason%'
+  ipBanBroadcast: '#ff6600⚠ &e%player% &fwas IP-banned by &e%staff%&f. Reason: &f%reason%'
+  unbanSuccess: '#ff6600✔ &e%player% &fhas been unbanned.'
+  notBanned: '#ff6600✘ &e%player% &fis not banned.'
+
+  muteMessage: '#ff6600✘ &lYou are muted!\n#ff6600Reason: &f%reason%\n#ff6600Staff: &f%staff%'
+  muteExpiresIn: '&7Expires in: &e%time%'
+  muteBroadcast: '#ff6600🔇 &e%player% &fwas muted by &e%staff%&f. Reason: &f%reason%'
+  tempMuteBroadcast: '#ff6600🔇 &e%player% &fwas temporarily muted by &e%staff%&f. Duration: &e%time%&f. Reason: &f%reason%'
+  unmuteSuccess: '#ff6600✔ &e%player% &fhas been unmuted.'
+  notMuted: '#ff6600✘ &e%player% &fis not muted.'
+
+  kickMessage: '#ff6600✘ &lYou have been kicked!\n#ff6600Reason: &f%reason%\n#ff6600Staff: &f%staff%'
+  kickBroadcast: '#ff6600👢 &e%player% &fwas kicked by &e%staff%&f. Reason: &f%reason%'
+
+  warnReceived: '#ff6600⚠ &lYou have been warned!\n#ff6600Reason: &f%reason%\n#ff6600Staff: &f%staff%'
+  warnBroadcast: '#ff6600⚠ &e%player% &fwas warned by &e%staff%&f. Reason: &f%reason%'
+  noWarnings: '#ff6600Ⓘ &e%player% &fhas no active warnings.'
+  clearWarningsSuccess: '#ff6600✔ &fCleared &e%count% &fwarnings for &e%player%&f.'
+
+  historyUsage: '#ff6600✘ &fUsage: &e/history <player>'
+  historyTotal: '#ff6600Ⓘ &fTotal punishments: &e%count%'
+  historyEmpty: '#ff6600Ⓘ &fNo punishments found for this player.'
+
+  moderationStatus: '#ff6600✔ &fModeration system is active.'

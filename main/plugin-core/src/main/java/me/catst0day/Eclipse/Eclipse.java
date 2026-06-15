@@ -17,6 +17,8 @@ import me.catst0day.Eclipse.Entity.Player.GuiListener;
 import me.catst0day.Eclipse.Entity.Player.EclipsePlr;
 import me.catst0day.Eclipse.Utils.Schedulers.EclipseScheduler;
 import me.catst0day.Eclipse.Managers.Database.EclipseSQLiteManager;
+import me.catst0day.Eclipse.Moderation.EclipseModerationManager;
+import me.catst0day.Eclipse.Moderation.EclipseModerationListener;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
@@ -69,10 +71,20 @@ public class Eclipse extends JavaPlugin {
     private me.catst0day.Eclipse.Holograms.Animations.AnimationManager animationManager;
     private EclipseMailManager mailManager;
     private EclipseAuctionManager auctionManager;
+    private EclipseModerationManager moderationManager;
 
 
     @Override
     public void onEnable() {
+        if (getServer().getPluginManager().isPluginEnabled("CMI")) {
+            getLogger().warning("Dud, are fkn seriously?");
+            getLogger().warning("Why do you need a powerful asynchronous API if you're using a combine with a tons of legacy code with if-else?");
+            getLogger().warning("Disabling plugin to save your TPS");
+            getLogger().warning("This plugin has ALL that you need for server management, you dont need this legacy combine");
+            getLogger().warning("This plugin is not working with CMI");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         instance = this;
         Util.printStartupBanner(this);
         saveDefaultConfig();
@@ -87,6 +99,7 @@ public class Eclipse extends JavaPlugin {
         this.animationManager = new me.catst0day.Eclipse.Holograms.Animations.AnimationManager(this);
         this.mailManager = new EclipseMailManager(this);
         this.auctionManager = new EclipseAuctionManager(this);
+        this.moderationManager = new EclipseModerationManager(this);
 
         setupVaultEconomy();
 
@@ -131,6 +144,9 @@ public class Eclipse extends JavaPlugin {
         if (animationManager != null) {
             animationManager.shutdown();
         }
+        if (moderationManager != null) {
+            moderationManager.shutdown();
+        }
     }
 
     public static Eclipse getI() {
@@ -154,6 +170,7 @@ public class Eclipse extends JavaPlugin {
         pm.registerEvents(new EclipseHologramClickListener(this), this);
         pm.registerEvents(new EclipseMailListener(this), this);
         pm.registerEvents(new EclipseAuctionListener(this), this);
+        pm.registerEvents(new EclipseModerationListener(this), this);
     }
 
     public void loadTranslations() {
@@ -373,6 +390,7 @@ public class Eclipse extends JavaPlugin {
     public me.catst0day.Eclipse.Holograms.Animations.AnimationManager getAnimationManager() { return animationManager; }
     public EclipseMailManager getMailManager() { return mailManager == null ? (mailManager = new EclipseMailManager(this)) : mailManager; }
     public EclipseAuctionManager getAuctionManager() { return auctionManager == null ? (auctionManager = new EclipseAuctionManager(this)) : auctionManager; }
+    public EclipseModerationManager getModerationManager() { return moderationManager == null ? (moderationManager = new EclipseModerationManager(this)) : moderationManager; }
     public boolean isGodMode(UUID uuid) { return godMode.getOrDefault(uuid, false); }
     public Map<UUID, UUID> getTpaRequests() { return tpaRequests; }
 

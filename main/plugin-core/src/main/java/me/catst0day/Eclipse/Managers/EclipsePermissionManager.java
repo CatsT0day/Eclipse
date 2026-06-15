@@ -210,7 +210,20 @@ public class EclipsePermissionManager {
         KIT_ADMIN("eclipse.kit.admin", "admin kit management"),
         ECONOMY("eclipse.economy", "use economy commands"),
         ECONOMY_ADMIN("eclipse.economy.admin", "admin economy management"),
-        ADMIN("eclipse.admin", "all admin permissions");
+        ADMIN("eclipse.admin", "all admin permissions"),
+        MODERATION_BAN("eclipse.moderation.ban", "ban players"),
+        MODERATION_TEMPBAN("eclipse.moderation.tempban", "temporarily ban players"),
+        MODERATION_UNBAN("eclipse.moderation.unban", "unban players"),
+        MODERATION_MUTE("eclipse.moderation.mute", "mute players"),
+        MODERATION_TEMPMUTE("eclipse.moderation.tempmute", "temporarily mute players"),
+        MODERATION_UNMUTE("eclipse.moderation.unmute", "unmute players"),
+        MODERATION_KICK("eclipse.moderation.kick", "kick players"),
+        MODERATION_WARN("eclipse.moderation.warn", "warn players"),
+        MODERATION_HISTORY("eclipse.moderation.history", "view punishment history"),
+        MODERATION_CLEARWARNINGS("eclipse.moderation.clearwarnings", "clear player warnings"),
+        MODERATION_SILENT("eclipse.moderation.silent", "silent punishments"),
+        MODERATION_NOTIFY("eclipse.moderation.notify", "receive moderation notifications"),
+        MODERATION_ADMIN("eclipse.moderation.admin", "all moderation permissions");
 
         private final String permission;
         private final String description;
