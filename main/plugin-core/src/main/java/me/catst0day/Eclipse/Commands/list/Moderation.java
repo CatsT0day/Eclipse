@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class ModerationCommand extends CommandTemplate {
-    public ModerationCommand(Eclipse plugin) {
+public class Moderation extends CommandTemplate {
+    public Moderation(Eclipse plugin) {
         super(plugin, "moderation", List.of("mod", "mods"),
                 EclipsePermissionManager.EclipsePerm.MODERATION_ADMIN, false, 0, "Moderation system commands");
     }
