@@ -1,158 +1,26 @@
-# EclipseAPI - 40+ Commands, API, GUI System, Home & Warp System, Economy Integration, Chat Management and a lot more!
+# Eclipse - 50+ commands, GUI, players, holograms, and more!
 
-## Some features
+## What is eclipse?
 
-- **40+ Commands** - Essential server commands including teleportation, player management, economy, and more
-- **Modular System** - Enable/disable individual features via configuration
-- **Multi-language Support** - Easy translation system with included EN, DE, RU, TR languages
-- **API for Developers** - Integrate EclipseAPI features into your own plugins
-- **GUI System** - Create inventory-based menus with click handlers
-- **Customizable Messages** - All messages are configurable and translatable
-- **Home & Warp System** - Player homes and server warps
-- **Economy Integration** - Vault-compatible economy support
-- **Chat Management** - Chat formatting, colors, and mute system
-- **Player Management** - God mode, fly mode, vanish, and more
-
-## Commands
-
-### Tp's
-- `/tp <player>` - Teleport to a player
-- `/tphere <player>` - Teleport player to you
-- `/tpa <player>` - Request teleport to player
-- `/tpaaccept` - Accept teleport request
-- `/tpdeny` - Deny teleport request
-- `/home [name]` - Teleport to home
-- `/sethome [name]` - Set a home
-- `/delhome [name]` - Delete a home
-- `/warp <name>` - Teleport to warp
-- `/setwarp <name>` - Set a warp
-- `/spawn` - Teleport to spawn
-- `/setspawn` - Set spawn location
-- `/back` - Return to previous location
-
-### Plr Management
-- `/feed` - Feed yourself or others
-- `/heal` - Heal yourself or others
-- `/gm <mode>` - Change gamemode
-- `/fly` - Toggle fly mode
-- `/god` - Toggle god mode
-- `/vanish` - Toggle vanish mode
-- `/spec` - Enter spectator mode
-- `/suicide` - Kill yourself
-- `/clearinventory` - Clear inventory
-- `/invsee <player>` - View player inventory
-- `/ecsee <player>` - View ender chest
-- `/near` - Find nearby players
-- `/sudo <player> <command>` - Execute command as player
-
-### Economy & Items
-- `/balance` - Check balance
-- `/fix` - Repair held item or all items
-- `/enchant <enchantment> [level]` - Enchant held item
-- `/givetnt` - Give TNT
-
-### Time & Weather
-- `/day` - Set time to day
-- `/night` - Set time to night
-- `/ptime <time>` - Set personal time
-- `/pweather <weather>` - Set personal weather
-
-### Chat & AFK
-- `/afk` - Toggle AFK status
-- `/chat <message>` - Send chat message
-- `/afkcheck <player>` - Check AFK status
-
-### Admin
-- `/reload` - Reload plugin configuration
-- `/help` - Show command help
-
-## Configuration
-
-### config.yml
-```yaml
-lang: EN                    # Language file to use (EN, DE, RU, TR)
-monochromeMode: false       # Disable colored messages
-spawn:                      # Spawn location settings
-  world: spawn
-  x: 0
-  y: 0
-  z: 0
-  yaw: 0
-  pitch: 0
-  join:                     # Join title settings
-    title: "&6&k|||&r &6Server &k|||"
-    subtitle: "&fHave a nice game!"
-    fadeIn: 25
-    stay: 50
-    fadeOut: 25
-```
-
-### modules.yml
-Enable/disable individual features:
-```yaml
-modules:
-  chat: true
-  economy: true
-  teleportation: true
-  playerManagement: true
-  afk: true
-  weatherTime: true
-  itemSystem: true
-  adminCommands: true
-```
-
-## Building
-
-```bash
-# Build the plugin
-./gradlew build
-
-# Build without tests
-./gradlew build -x test
-
-# Clean build
-./gradlew clean build
-```
-
-## Dependencies
-
-- **Paper** (1.17.1-R0.1-SNAPSHOT) - Core Minecraft server API
-- **Adventure MiniMsgs** (4.14.0) - Text formatting
-- **Reflections** (0.10.2) - Reflection utilities
-- **LuckPerms api** (5.4) - Perms (compile-only)
-
-## Translations
-
-The plugin supports multiple languages. Translation files are located in `src/main/resources/Translations/`:
-
-- `EN.yml` - English (default)
-- `DE.yml` - German
-- `RU.yml` - Russian
-- `TR.yml` - Turkish
-
-To add a new language, copy an existing translation file and translate the messages, then set `lang` in `config.yml` to your language code.
-
-## Permissions
-
-All commands use the permission system. Permissions follow the pattern:
-- `eclipse.command.<commandname>` - Base command permission
-- `eclipse.command.<commandname>.others` - Execute on other players
-- `eclipse.teleport.delay.<seconds>` - Override teleport delay
-
-Example:
-```yaml
-permissions:
-  eclipse.command.god: true
-  eclipse.command.god.others: true
-  eclipse.teleport.delay.0: true  # Instant teleport
-```
+Eclipse is a plugin, that provides the essential features for server admins, theres more add-ons, which is... not published yet. but it will be, in the feature.
 
 ## Requirements
+   ### Java 21
+   ### Paper/Folia/puma/spigot
+#### thats all!
 
-- Java 17
-- Paper/Spigot 1.17.1 or higher
-- Vault (optional, for economy features)
-- LuckPerms (optional, for advanced permissions)
+## Buidling the project
+
+```bash
+# basic build
+./gradlew build
+# build with shadow
+./gradlew shadowJar
+# build with..... cats, meow meow
+./gradlew cat
+```
+
+
 ## Add EclipseAPI as a dependency
 
 ### Gradle (Kotlin DSL)

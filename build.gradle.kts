@@ -116,7 +116,12 @@ tasks.shadowJar {
     relocate("org.reflections", "me.catst0day.Eclipse.libs.reflections")
     relocate("org.javassist", "me.catst0day.Eclipse.libs.javassist")
 }
-
+task("cat") {
+    dependsOn(tasks.shadowJar)
+    doLast {
+        println("meow meow meow")
+    }
+}
 configure<PublishingExtension> {
     publications {
         register<MavenPublication>("maven") {
