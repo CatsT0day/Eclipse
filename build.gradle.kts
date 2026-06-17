@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.CatsT0day"
-version = "1.03.14-SNAPSHOT-ENTERp-MCVER"
+version = "1.03.15-SNAPSHOT-ENTERp-MCVER"
 
 val paperVersion by lazy {
     val buildToolsMaven = file("maven")
