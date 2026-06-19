@@ -106,7 +106,14 @@ public class TextUtil {
 
     public static String translateHexAndAlternateColorCodes(String text) {
         if (text == null || text.isEmpty()) return text;
-        return SECTION_SERIALIZER.serialize(translateToComponent(text));
+        text = text.replace("<newline>", "\\n");
+        String legacy = toLegacy(parse(text));
+        legacy = legacy.replace("\\n", "\n");
+        return legacy;
+    }
+
+    public static @NotNull Component toComponent(String text) {
+        return parse(text);
     }
 
     public static String deColorize(String text) {

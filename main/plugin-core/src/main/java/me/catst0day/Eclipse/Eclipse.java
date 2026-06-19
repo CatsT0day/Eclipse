@@ -176,13 +176,12 @@ public class Eclipse extends JavaPlugin {
         return TextUtil.translateHexAndAlternateColorCodes(raw);
     }
 
-    public void sendCFGmessage(CommandSender sender, String key) {
-        String msg = getMessage(key);
+    public void sendCFGmessage(CommandSender sender, String message) {
         if (sender instanceof Player player) {
-            getPlayer(player).sendMsg(msg);
+            getPlayer(player).sendMsg(message);
             return;
         }
-        sender.sendMessage(msg);
+        sender.sendMessage(message);
     }
 
     private void register() {
